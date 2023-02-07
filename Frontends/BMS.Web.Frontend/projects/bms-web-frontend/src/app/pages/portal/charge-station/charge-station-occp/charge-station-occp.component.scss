@@ -1,0 +1,121 @@
+@import '../../../../../styles.scss';
+
+.div-row {
+    background-color: lightgray;
+    color: black;
+}
+.div-col {
+    border: 1px solid white;
+    padding: 10px;
+    color: #585858;
+}
+
+.save-btn-wrapper {
+    display: flex;
+    justify-content: flex-end; 
+    padding: 20px;
+}
+
+.status-wrapper {
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.basic-text {
+    color: $blitz-green;
+    padding-top: 6px;
+    padding-right: 3px;
+}
+
+.charging-stations-overview {
+    margin-top: -35px;
+    // width: 80%;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 15px solid $blitz-green;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 15px solid $blitz-green;
+}
+
+.test {
+    display: flex;
+    flex-direction: row;
+}
+
+.arrow {
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+.cell-td {
+    text-align: center;
+    border: 1px solid $button-gray-background;
+    padding: 10px;
+}
+
+.cell-th {
+    text-align: center;
+}
+
+.non-sortable {
+    cursor: default;
+}
+
+::ng-deep ngb-pagination ul > li:not(.active) > a {
+    background-color: transparent !important;
+    color: $blitz-green !important;
+    border: 1px solid $button-gray-background !important;
+}
+  
+::ng-deep ngb-pagination ul > li.active > a {
+    background-color: transparent !important;
+    color: $blitz-green !important;
+    border: 1px solid $blitz-green !important;
+}
+
+.show-message-data-btn {
+    border-radius: 1em;
+    background-color: #DCDCDC;
+    color: $black;
+}
+
+.no-sort::after { display: none!important; }
+
+.no-sort { pointer-events: none!important; cursor: default!important; }
+
+.message-data-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+ }
+
+.station-control-button {
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.ocpp-message-header {
+    margin: 40px 0px;
+    padding-right: 0.75rem;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between
+}

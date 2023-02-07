@@ -1,0 +1,465 @@
+<div *ngIf="chargeController && chargeController.id" class="charge-station-page">
+  <app-header-navigation
+    (navBtnClicked)="navBtnClicked($event)"
+    [chargeController]="chargeController"
+    [navigationBtns]="navigationBtns">
+  </app-header-navigation>
+
+  <div class="charge-station-body">
+    <div class="station-controls">
+      <button class="basic-button station-control-button" (click)="getConfiguration(chargeController.id)">
+        {{'charge-station.details.configure-station' | translate}}
+      </button>
+      <button class="basic-button station-control-button" (click)="getWhiteList(chargeController.id)">{{'charge-station.details.whitelist' | translate}}</button>
+      <button class="basic-button station-control-button"  (click)="getLoadManagement(chargeController.id)">
+        {{'charge-station.details.load-management' | translate}}
+      </button>
+      <button class="basic-button station-control-button" (click)="getOCCP(chargeController.id)">{{'charge-station.details.ocpp' | translate}}</button>
+      <button class="basic-button station-control-button" (click)="getTransactions(chargeController.id)">{{'charge-station.details.transactions' | translate}}</button>
+      <button class="basic-button station-control-button" (click)="getCommandHistory(chargeController.serialNumber, chargeController.id)">{{'charge-station.details.commands-history' | translate}}</button>
+    </div>
+
+    <div class="station-data-area">
+      <div class="people-data">
+        <div class="station-data">
+          <b class="data-text">{{'charge-station.details.client-name' | translate}}</b>
+          <span class="data-value">{{ chargeController.client?.name || '-'}}</span>
+          <b class="data-text">{{'charge-station.details.location' | translate}}</b>
+          <span class="data-value">{{ chargeController.locationData || '-' }}</span>
+          <b class="data-text">{{'charge-station.details.phone' | translate}}</b>
+          <span class="data-value">{{ chargeController.client?.phone || '-' }}</span>
+          <b class="data-text">{{'auth.login.email' | translate}}: </b>
+          <p class="data-value">{{ chargeController.client?.email || '-' }}</p>
+          <b class="data-text">{{'charge-station.details.last-heartbeat' | translate}}</b>
+          <p class="data-value">{{ getDate(chargeController.heartbeat) || '-' }}</p>
+          <b class="data-text">{{'charge-station.details.network' | translate}}</b>
+          <p class="data-value" style="line-height: 1.2em;">
+            {{ chargeController.networkType || 'ETH0'}}
+            <br> {{chargeController.netWorks![0].ipV4Address || '-'}}
+            <br> <span style="font-style: italic;"> {{'charge-station.details.in' | translate}}: {{ chargeController.netWorks![0].receivedBytes || '-'}}</span>
+            <br> <span style="font-style: italic;"> {{'charge-station.details.out' | translate}}: {{chargeController.netWorks![0].transmittedBytes || '-'}}</span>
+          </p>
+        </div>
+
+        <div class="station-data">
+          <b class="data-text">{{'charge-station.details.installer-name' | translate}}</b>
+          <span *ngIf="!isAdmin" class="data-value">{{ chargeController.installer?.firstName || '-' }} {{chargeController.installer?.lastName || '-'}}</span>
+          <select *ngIf="isAdmin && installers.length > 0"
+            [(ngModel)]="newInstaller"
+            (ngModelChange)="printNewInstaller()"
+            class="installers-dropdown"
+          >
+            <option
+              *ngFor="let installer of installers; index as position" [ngValue]="installer" [selected]="installer.id===chargeController.installer?.id">{{installer.firstName}} {{installer.lastName}}
+            </option>
+          </select>
+          <select *ngIf="isAdmin && installers.length === 0"
+            [(ngModel)]="noOption"
+            (ngModelChange)="true"
+            class="installers-dropdown"
+          >
+            <option
+              *ngFor="let noOptions of noOptionsArray; index as position" [ngValue]="noOptions">{{noOptions}}
+            </option>
+          </select>
+          <b class="data-text">{{'charge-station.details.phone' | translate}}</b>
+          <!-- TODO: Add phone number to Application Users -->
+          <span class="data-value"> - </span>
+          <b class="data-text">{{'auth.login.email' | translate}}: </b>
+          <p class="data-value"> {{ chargeController.installer?.email || '-' }} </p>
+          <b class="data-text">{{'charge-station.details.date-installed' | translate}}</b>
+          <p class="data-value">{{ getDate(chargeController.dateInstalled, true) || '-' }}</p>
+          <b class="data-text">{{'charge-station.details.last-maintenance' | translate}}</b>
+          <div style="display: flex;">
+            <app-date-picker [date]="chargeController.lastMaintenance" [setMaxDate]="true" (datepickerEmitOnChange)="watchLastMaintenance($event)"></app-date-picker>
+            <button style="width: 60px; margin-left: 10px;" class="basic-button" (click)="setLastMaintenance()">{{'charge-station.details.set' | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- <div class="station-map">
+          <agm-map [latitude]="lat" [longitude]="lng">
+            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+          </agm-map>
+        </div> -->
+        <div class="station-data" style="height: 100%;">
+          <b class="data-text">{{'charge-station.details.uptime' | translate}}</b>
+          <span class="data-value"> {{ secondsToDays(chargeController.uptimeInSeconds) || '-' }} </span>
+          <b class="data-text">{{'charge-station.details.system-time' | translate}}</b>
+          <p class="data-value">{{ convertToTimeString(chargeController.systemTime) || '-' }}</p>
+          <b class="data-text">{{'overview.software-version' | translate}}:</b>
+          <p class="data-value">{{ chargeController.osReleaseVersion || '-' }}</p>
+          <b class="data-text">{{'overview.web-app-version' | translate}}:</b>
+          <p class="data-value">{{ chargeController.webAppVersion || '-' }}</p>
+          <b class="data-text">{{'charge-station.details.sim-active' | translate}}</b>
+          <p class="data-value" *ngIf="chargeController.simActive">{{ 'general.yes' | translate }}</p>
+          <p class="data-value" *ngIf="!chargeController.simActive">{{'general.no' | translate}}</p>
+          <b class="data-text">{{'overview.status' | translate}}:</b>
+          <p class="data-value">{{ chargeController.modemConnectionStatus || '-' }}</p>
+          <b class="data-text">{{'charge-station.details.network-connetion' | translate}}</b>
+          <span class="data-value" style="align-self: flex-end;"><i [class]="chargeController.networkConnection ? 'bi bi-check2 icon-green': 'bi bi-check2 icon-red'"></i></span>
+          <b class="data-text">{{'charge-station.details.load-management-active' | translate}}</b>
+          <span class="data-value" style="align-self: flex-end;"><i [class]="chargeController.loadManagementActive ? 'bi bi-check2 icon-green': 'bi bi-check2 icon-red'"></i></span>
+          <b class="data-text">{{'charge-station.details.ocpp-connetion' | translate}}</b>
+          <span class="data-value"><i [class]="chargeController.ocppConnection ? 'bi bi-check2 icon-green': 'bi bi-check2 icon-red'"></i></span>
+        </div>
+      </div>
+
+      <div class="get-data-controls">
+        <button class="basic-button get-data-button">{{'charge-station.details.get-configuration' | translate}}</button>
+        <button
+          mat-raised-button
+          [matTooltip]="commandService.tooltipMessage()"
+          class="basic-button get-data-button"
+          [disabled]="commandService.disableCommandButtons"
+          (click)="rebootCommand()">
+          {{'charge-station.details.reboot' | translate}}
+        </button>
+        <button class="basic-button get-data-button">{{'charge-station.details.get-logfiles' | translate}}</button>
+        <button class="basic-button get-data-button">{{'charge-station.details.update' | translate}}</button>
+        <button class="basic-button get-data-button"  (click)="getEmails(chargeController.id)">{{'charge-station.details.emails' | translate}}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charging Points Table -->
+
+  <div style="width: 85%; padding-top: 10px;">
+    <h3>{{'general.charge-point' | translate}}</h3>
+    <div class="pagination-controlls">
+      <select
+        [(ngModel)]="pageSize"
+        (ngModelChange)="refreshStationData()"
+        class="page-items-number"
+      >
+        <option
+          *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">{{pageSizeOption}} {{'overview.items' | translate}}
+        </option>
+      </select>
+      <p class="basic-text">{{'overview.page' | translate}}</p>
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshStationData()"
+      >
+      </ngb-pagination>
+    </div>
+    <table class="charging-stations-overview">
+      <thead>
+        <tr>
+          <th
+            class="table-header"
+            scope="col"
+            (click)="sortTable('serialNumber')"
+          >
+            <div class="test">
+              {{'overview.serial-number' | translate}}
+              <div class="arrow arrow-up" *ngIf="directionSorting.serialNumber === 'asc'"></div>
+              <div class="arrow arrow-down" *ngIf="directionSorting.serialNumber === 'desc'"></div>
+            </div>
+          </th>
+          <th
+            class="table-header"
+            scope="col"
+            (click)="sortTable('name')"
+          >
+            <div class="test">
+              {{'charge-station.details.cp-name' | translate}}
+              <div class="arrow arrow-up" *ngIf="directionSorting.name === 'asc'"></div>
+              <div class="arrow arrow-down" *ngIf="directionSorting.name === 'desc'"></div>
+            </div>
+          </th>
+          <th
+            class="table-header"
+            scope="col"
+            (click)="sortTable('state')"
+          >
+            <div class="test">
+              {{'charge-station.details.state' | translate}}
+              <div class="arrow arrow-up" *ngIf="directionSorting.state === 'asc'"></div>
+              <div class="arrow arrow-down" *ngIf="directionSorting.state === 'desc'"></div>
+            </div>
+          </th>
+          <th
+            class="table-header"
+            scope="col"
+            (click)="sortTable('chargingTimeInSeconds')"
+          >
+            <div class="test">
+              {{'charge-station.details.charging-time' | translate}}
+              <div class="arrow arrow-up" *ngIf="directionSorting.chargingTimeInSeconds === 'asc'"></div>
+              <div class="arrow arrow-down" *ngIf="directionSorting.chargingTimeInSeconds === 'desc'"></div>
+            </div>
+          </th>
+          <th
+            class="table-header"
+            scope="col"
+            (click)="sortTable('chargingRate')"
+          >
+            <div class="test">
+              {{'charge-station.details.charging-rate' | translate}}
+              <div class="arrow arrow-up" *ngIf="directionSorting.chargingRate === 'asc'"></div>
+              <div class="arrow arrow-down" *ngIf="directionSorting.chargingRate === 'desc'"></div>
+            </div>
+          </th>
+          <th class="table-header non-sortable" scope="col">
+            <div class="test">
+              {{'charge-station.details.software-version' | translate}}
+            </div>
+          </th>
+          <th class="table-header non-sortable" scope="col">
+            <div class="test">
+              {{'charge-station.details.enable-disable' | translate}}
+            </div>
+          </th>
+          <th class="table-header non-sortable" scope="col">
+            <div class="test">
+              {{'charge-station.details.configure' | translate}}
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let station of stationsPointData; index as position">
+          <td class="staion">
+            {{ station.serialNumber || '-'}}
+          </td>
+          <td class="staion"> {{ station.name || '-'}}</td>
+          <td class="staion" [style]="{backgroundColor: getStatusBgColor(station.state)}">
+            {{ station.state || '-' }}
+          </td>
+          <td class="staion">{{ secondsToDays(station.chargingTimeInSeconds) || '-'}}</td>
+          <td class="staion">{{ station.chargingRate || '-'}}</td>
+          <td class="staion">{{ station.softwareVersion || '-'}}</td>
+          <td class="staion">
+            <button
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage(commandType.EnableDisableChargePoint.toString(), station.chargePointUid)"
+              class="basic-button station-button"
+              [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.EnableDisableChargePoint.toString(), station.chargePointUid)"
+              (click)="toggleChargePoint(position)">
+              {{station.externalRelease ? ('general.disable' | translate) : ('general.enable' | translate)}}
+            </button>
+          </td>
+          <td class="staion">
+            <button class="station-button" (click)="editChargePoint(station.id)">
+              {{'general.edit' | translate}}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination-controlls down-controlls">
+      <select
+        [(ngModel)]="pageSize"
+        (ngModelChange)="refreshStationData()"
+        class="page-items-number"
+      >
+      <option *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">
+        {{ pageSizeOption }} {{'overview.items' | translate}}
+      </option>
+      </select>
+
+      <p class="basic-text"> {{'overview.page' | translate}}</p>
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshStationData()"
+      >
+      </ngb-pagination>
+    </div>
+  </div>
+
+  <!-- Sysyem -->
+  <div class="row gx-5" style="margin-bottom: 50px;">
+    <h3>{{'general.system' | translate}}</h3>
+
+    <div class="col">
+        <div class="row div-row grid-title" style="display: block;">
+            {{'general.cpu' | translate}}
+        </div>
+        <div class="row div-row">
+            <div class="col div-col">{{'charge-station.details.temperature' | translate}}</div>
+            <div class="col div-col">{{chargeController.cpuTemperatureCelsius || '-'}} &#8451;</div>
+        </div>
+        <div class="row div-row">
+          <div class="col div-col">{{'charge-station.details.utilization' | translate}}</div>
+          <div class="col div-col">{{chargeController.cpuUtilizationPercentage || '-'}}%</div>
+        </div>
+        <div class="row div-row grid-title" style="display: block;">
+          {{'general.ram' | translate}}
+        </div>
+        <div class="row div-row">
+          <div class="col div-col">{{'charge-station.details.available' | translate}}</div>
+          <div class="col div-col">{{chargeController.ramAvailableBytes || '-'}}&nbsp;MB</div>
+        </div>
+        <div class="row div-row">
+          <div class="col div-col">{{'charge-station.details.total' | translate}}</div>
+          <div class="col div-col">{{chargeController.ramTotalBytes || '-'}}&nbsp;MB</div>
+        </div>
+        <div class="row div-row">
+          <div class="col div-col">{{'charge-station.details.used' | translate}}</div>
+          <div class="col div-col">{{chargeController.ramUsedBytes || '-'}}&nbsp;MB</div>
+        </div>
+        <div class="row div-row grid-title" style="display: block;">
+          {{'general.disk-usage' | translate}}
+        </div>
+        <div class="row div-row">
+          <div class="col div-col">/data</div>
+          <div class="col div-col">{{chargeController.dataUtilizationPercentage || '-'}}% of {{chargeController.dataTotalBytes || '-'}}&nbsp;MB</div>
+        </div>
+        <div class="row div-row">
+          <div class="col div-col">/log</div>
+          <div class="col div-col">{{chargeController.logUtilizationPercentage || '-'}}% of {{chargeController.logTotalBytes || '-'}}&nbsp;MB</div>
+        </div>
+        <div class="row div-row">
+          <div class="col div-col">/var/volatile</div>
+          <div class="col div-col">{{chargeController.varVolatileUtilizationPercentage || '-'}}% of {{chargeController.varVolatileTotalBytes || '-'}}&nbsp;MB</div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row div-row grid-title" style="display: block;">
+            {{'charge-station.details.applications' | translate}}
+        </div>
+        <div class="row div-row">
+          <div class="application-col" style="width: 35%;">{{'general.name' | translate}}</div>
+          <div class="application-col" style="width: 33%;">{{'general.version' | translate}}</div>
+          <div class="application-col" style="width: 16%;">{{'general.status' | translate}}</div>
+          <div class="application-col" style="width: 16%;">{{'general.reboot' | translate}}</div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%;">{{'charge-station.details.system-monitor' | translate}}</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.systemMonitorVersion || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartSM)"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%; ">{{'charge-station.details.controller-agent' | translate}}</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.controllerAgentVersion || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartCA)"
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+            >
+            </div>
+          </div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%; ">OCPP 16</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.ocpp16_Version || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartOCPP)"
+            >
+            </div>
+          </div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%; ">{{'charge-station.details.modbus-client' | translate}}</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.modbusClientVersion || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartMB)"
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+            >
+            </div>
+          </div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%; ">{{'charge-station.details.modbus-server' | translate}}</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.modbusServerVersion || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartMS)"
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+            >
+            </div>
+          </div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%; ">{{'charge-station.details.jupicore' | translate}}</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.jupicoreVersion || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartJC)"
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+            >
+            </div>
+          </div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%; ">{{'charge-station.details.load-managment' | translate}}</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.loadManagementVersion || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartLM)"
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+            >
+            </div>
+          </div>
+        </div>
+        <div class="row div-row">
+          <div class="application-col div-col" style="width: 35%; ">{{'charge-station.details.webserver' | translate}}</div>
+          <div class="application-col div-col" style="width: 33%;">{{chargeController.webserverVersion || '-'}}</div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div class="status-green"></div>
+          </div>
+          <div class="application-col div-col" style="width: 16%;">
+            <div
+              [class]="commandService.disableCommandButtons ? 'reboot-btn-disabled' : 'reboot-btn'"
+              (click)="restartApp(commandType.RestartWEB)"
+              mat-raised-button
+              [matTooltip]="commandService.tooltipMessage()"
+            >
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

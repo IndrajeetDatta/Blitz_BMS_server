@@ -1,0 +1,104 @@
+@import '../../../../../styles.scss';
+
+#check-circle {
+    color: $blitz-green;
+    align-self: center;
+}
+
+.station-control-button {
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.input-text {
+    width: 200px;
+    display: inline;
+    margin-left: 10px;
+}
+
+.staion {
+    text-align: center;
+    border: 1px solid $button-gray-background;
+    padding: 10px;
+}
+
+.charging-stations-overview {
+    margin-top: -35px;
+    // width: 80%;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 15px solid $blitz-green;
+}
+  
+.arrow-down {
+width: 0;
+height: 0;
+border-left: 7px solid transparent;
+border-right: 7px solid transparent;
+border-top: 15px solid $blitz-green;
+}
+
+.test {
+display: flex;
+flex-direction: row;
+}
+
+.arrow {
+position: relative;
+top: 5px;
+left: 5px;
+}
+
+.non-sortable {
+    cursor: default;
+}
+
+.down-controlls {
+    margin-top: 60px;
+}
+
+.basic-text {
+    color: $blitz-green;
+    padding-top: 6px;
+    padding-right: 3px;
+}
+
+::ng-deep ngb-pagination ul > li:not(.active) > a {
+    background-color: transparent !important;
+    color: $blitz-green !important;
+    border: 1px solid $button-gray-background !important;
+  }
+  
+::ng-deep ngb-pagination ul > li.active > a {
+    background-color: transparent !important;
+    color: $blitz-green !important;
+    border: 1px solid $blitz-green !important;
+}
+
+.whitelistElem-button {
+    height: 30px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 200;
+
+    color: $black;
+    box-shadow: inset 0px -4px 5px $gray-shadow;
+    background-color: $basic-white;
+    border: 1px solid $black;
+    border-radius: 1em;
+
+    margin: 0px 2px;
+    padding: 0px 15px;
+}
+
+.whitelistElem-button:disabled {
+    background-color: gray;
+    color: whitesmoke;
+    cursor: default;
+}

@@ -1,0 +1,42 @@
+<div class="charge-station-header">
+    <div>
+        <button 
+            *ngFor="let navBtn of navigationBtns; index as position"
+            class="bredcrumb-greentext-button"
+            [style]="!position ? 'border: 2px solid white; color: white;' : ''"
+            (click)="clickNavBtn(navBtn)" >
+            {{ navBtn.text }}
+        </button>
+    </div>
+    <div class="info-section">
+        <b class="basic-white-text"> {{ chargeController.companyName }} </b>
+        <b class="basic-white-text"> {{ chargeController.ocpp16_Version }} </b>
+        <span *ngIf="chargeController.networkConnection; else elseBlock">
+            <i class="bi bi-check2 icon-green"></i>
+        </span>
+        <ng-template #elseBlock>
+          <span>
+            <i class="bi bi-check2 icon-red"></i>
+          </span>
+        </ng-template>
+    </div>
+</div>
+<div class="commands-subheader" *ngIf="commands.length">
+    <table class="commands-table">
+        <tr>
+            <th>{{'commands-history.timestamp' | translate}}</th>
+            <th>{{'commands-history.command-id' | translate}}</th>
+            <th>{{'commands-history.status' | translate}}</th>
+            <th>{{'commands-history.name' | translate}}</th>
+        </tr>
+        <tr class="commands-tr" *ngFor="let command of commands; index as position">
+            <td class="commands-td">{{getDate(command.createdDate)}}</td>
+            <td class="commands-td">{{command.commandId}}</td>
+            <td class="commands-td">{{command.status}}</td>
+            <td class="commands-td">{{command.name}}</td>
+        </tr>
+    </table> 
+    <!-- <h2 style="text-align: center;" *ngIf="!commands.length">
+        {{'commands-history.fetching-message' | translate}}
+    </h2> -->
+</div>

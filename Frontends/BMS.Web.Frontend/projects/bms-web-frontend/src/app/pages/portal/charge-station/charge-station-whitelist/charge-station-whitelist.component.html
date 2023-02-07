@@ -1,0 +1,202 @@
+<div *ngIf="chargeController && chargeController.id" style="padding-bottom: 20px;">
+    <app-header-navigation 
+      (navBtnClicked)="navBtnClicked($event)"
+      [chargeController]="chargeController"
+      [navigationBtns]="navigationBtns">
+    </app-header-navigation>
+
+    <div style="padding: 10px;">
+        <h3 style="margin: 25px 0px;">{{'whitelist.whitelist-rfids' | translate}}</h3>
+        <div class="row">
+            <div class="col">
+                <button 
+                  style="margin-left: 0px;" 
+                  class="basic-button station-control-button black-color" 
+                  [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.ImportRFIDs.toString())" 
+                  (click)="importRFIDs()"
+                  mat-raised-button
+                  [matTooltip]="commandService.tooltipMessage(commandType.ImportRFIDs.toString())"
+                >
+                  {{'whitelist.import-rfids' | translate}}
+                </button>
+                <button class="basic-button station-control-button black-color" (click)="exportList()">{{'whitelist.export-list' | translate}}</button>
+                <button 
+                  class="basic-button station-control-button black-color"
+                  [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.DeleteAllRFIDs.toString())" 
+                  (click)="deleteAll()"
+                  mat-raised-button
+                  [matTooltip]="commandService.tooltipMessage(commandType.DeleteAllRFIDs.toString())"
+                >
+                  {{'whitelist.delete-all' | translate}}
+                </button>
+            </div>
+            <div class="col d-flex justify-content-end align-items-center">
+                <span>{{'general.search' | translate}}:</span>
+                <input class="form-control input-text" [formControl]="searchContol">
+            </div>
+        </div>
+        <div class="pagination-controlls" style="margin-top: 70px;">
+            <select
+            [(ngModel)]="pageSize"
+            (ngModelChange)="refreshStationData()"
+            class="page-items-number"
+            >
+            <option
+                *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">{{pageSizeOption}} {{'overview.items' | translate}}
+            </option>
+            </select>
+            <p class="basic-text">{{'overview.page' | translate}}</p>
+            <ngb-pagination
+            [collectionSize]="collectionSize"
+            [(page)]="page"
+            [pageSize]="pageSize"
+            (pageChange)="refreshStationData()"
+            >
+            </ngb-pagination>
+        </div>
+        <table class="charging-stations-overview">
+            <thead>
+            <tr>
+                <th
+                class="table-header"
+                scope="col"
+                (click)="sortTable('name')"
+                >
+                    <div class="test">
+                        {{'general.name' | translate}}
+                        <div class="arrow arrow-up" *ngIf="directionSorting.name === 'asc'"></div>
+                        <div class="arrow arrow-down" *ngIf="directionSorting.name === 'desc'"></div>
+                    </div>
+                </th>
+                <th
+                class="table-header"
+                scope="col"
+                (click)="sortTable('serialNumber')"
+                >
+                    <div class="test">
+                        {{'general.id' | translate}}
+                        <div class="arrow arrow-up" *ngIf="directionSorting.serialNumber === 'asc'"></div>
+                        <div class="arrow arrow-down" *ngIf="directionSorting.serialNumber === 'desc'"></div>
+                    </div>
+                </th>
+                <th
+                class="table-header"
+                scope="col"
+                (click)="sortTable('type')"
+                >
+                    <div class="test">
+                        {{'whitelist.type' | translate}}
+                        <div class="arrow arrow-up" *ngIf="directionSorting.type === 'asc'"></div>
+                        <div class="arrow arrow-down" *ngIf="directionSorting.type === 'desc'"></div>
+                    </div>
+                </th>
+                <th
+                    class="table-header"
+                    scope="col"
+                    (click)="sortTable('expiryDate')"
+                >
+                    <div class="test">
+                        {{'whitelist.expiry-date' | translate}}
+                        <div class="arrow arrow-up" *ngIf="directionSorting.expiryDate === 'asc'"></div>
+                        <div class="arrow arrow-down" *ngIf="directionSorting.expiryDate === 'desc'"></div>
+                    </div>
+                </th>
+                <th
+                    class="table-header"
+                    scope="col"
+                    (click)="sortTable('evConsumptionRateKWhPer100KM')"
+                >
+                    <div class="test">
+                        {{'whitelist.Ev-consumption-rate' | translate}}
+                        <div class="arrow arrow-up" *ngIf="directionSorting.evConsumptionRateKWhPer100KM === 'asc'"></div>
+                        <div class="arrow arrow-down" *ngIf="directionSorting.evConsumptionRateKWhPer100KM === 'desc'"></div>
+                    </div>
+                </th>
+                <th class="table-header non-sortable" scope="col">
+                    <div class="test">
+                        {{'whitelist.allow-charging' | translate}}
+                    </div>
+                </th>
+                <th class="table-header non-sortable" scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let whitelistElem of whiteListData; index as position">
+                <td class="staion" *ngIf="!isInEditMode;">
+                  {{ whitelistElem.name || '-'}}
+                </td>
+                <td class="staion" *ngIf="isInEditMode;">
+                  <input [(ngModel)]="whitelistElem.name">
+                </td>
+                <td class="staion">
+                  {{ whitelistElem.serialNumber || '-'}}
+                </td>
+                <td class="staion">
+                  {{ whitelistElem.type || '-'}}
+                </td>
+                <td class="staion" *ngIf="!isInEditMode;">
+                  {{ getDate(whitelistElem.expiryDate)}}
+                </td>
+                <td class="staion" *ngIf="isInEditMode;">
+                  <app-date-picker [date]="whitelistElem.expiryDate" [withTimePicker]="true" (datepickerEmitOnChange)="watchLastMaintenance(position, $event)"></app-date-picker>
+                </td>
+                <td class="staion" *ngIf="!isInEditMode;">
+                  {{ whitelistElem.evConsumptionRateKWhPer100KM || '-'}}
+                </td>
+                <td class="staion" *ngIf="isInEditMode;">
+                  <input [(ngModel)]="whitelistElem.evConsumptionRateKWhPer100KM">
+                </td>
+                <td class="staion" *ngIf="!isInEditMode;">
+                  <mat-checkbox disabled="true" [(ngModel)]="whitelistElem.allowCharging" color="accent"></mat-checkbox>
+                </td>
+                <td class="staion" *ngIf="isInEditMode;">
+                  <mat-checkbox [(ngModel)]="whitelistElem.allowCharging" color="accent"></mat-checkbox>
+                </td>
+                <td class="staion" *ngIf="isInEditMode;">
+                  <button 
+                    class="whitelistElem-button"
+                    [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.EditRFID.toString(), whitelistElem.serialNumber)" 
+                    (click)="saveEditChanges(position)"
+                    mat-raised-button
+                    [matTooltip]="commandService.tooltipMessage(commandType.EditRFID.toString(), whitelistElem.serialNumber)"
+                  >
+                    {{'general.save' | translate}}
+                  </button>
+                  <button class="whitelistElem-button" (click)="cancelEdit()">{{'general.cancel' | translate}}</button>
+                </td>
+                <td class="staion" *ngIf="!isInEditMode;">
+                  <button class="whitelistElem-button" (click)="startEditMode()"> {{'general.edit' | translate}}</button>
+                  <button 
+                    class="whitelistElem-button" 
+                    [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.DeleteRFID.toString(), whitelistElem.serialNumber)" 
+                    (click)="deleteRFID(position)"
+                    mat-raised-button
+                    [matTooltip]="commandService.tooltipMessage(commandType.DeleteRFID.toString(), whitelistElem.serialNumber)"
+                  >
+                    {{'general.delete' | translate}}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <div class="pagination-controlls down-controlls">
+            <select
+            [(ngModel)]="pageSize"
+            (ngModelChange)="refreshStationData()"
+            class="page-items-number"
+            >
+            <option
+            *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">{{pageSizeOption}} {{'overview.items' | translate}}
+            </option>
+            </select>
+            <p class="basic-text">{{'overview.page' | translate}}</p>
+            <ngb-pagination
+            [collectionSize]="collectionSize"
+            [(page)]="page"
+            [pageSize]="pageSize"
+            (pageChange)="refreshStationData()"
+            >
+            </ngb-pagination>
+        </div>
+    </div>
+</div>

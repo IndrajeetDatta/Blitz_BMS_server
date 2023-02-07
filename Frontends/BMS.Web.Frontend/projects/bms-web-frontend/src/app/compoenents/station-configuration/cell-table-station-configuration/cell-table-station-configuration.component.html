@@ -1,0 +1,5 @@
+<div class="row div-row">
+    <div class="col div-col">{{ label }}</div>
+    <div *ngIf="!edit" class="col div-col">{{passwordTypeActive ? "********" : value}}</div>
+    <div *ngIf="edit" class="col div-col" ><input class="form-control" [formControl]="textContol" [type]="passwordTypeActive ? 'password' : 'text'"></div>
+</div>

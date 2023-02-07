@@ -1,0 +1,28 @@
+<form class="row" [style]="withTimePicker ? 'width: 240px;' : 'width: 160px'">
+	<div class="col-12">
+		<div class="input-group">
+			<div style="width: 0px;">
+				<input
+					readonly
+					class="form-control"
+					name="dp"
+					[(ngModel)]="datePickerModel"
+					[maxDate]="maxDateModel"
+					ngbDatepicker
+					#d="ngbDatepicker"
+				/>
+			</div>
+            <input
+                readonly
+                class="form-control"
+                [placeholder]="displayDate()"
+			/>
+			<button class="btn btn-outline-secondary datepicker" (click)="d.toggle()" type="button"></button>
+            <button *ngIf="withTimePicker" class="btn btn-outline-secondary timepicker" (click)="toggleTimePicker($event)"></button>
+            <div *ngIf="withTimePicker && openTimePicker" class="time-picker" (click)="$event.stopPropagation()">
+                <ngb-timepicker [(ngModel)]="timePickerModel" [seconds]="true" name="timePickerModel"></ngb-timepicker> 
+            </div>
+		</div>
+	</div>
+</form>
+  

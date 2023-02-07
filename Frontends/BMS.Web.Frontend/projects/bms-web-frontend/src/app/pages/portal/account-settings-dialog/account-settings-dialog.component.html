@@ -1,0 +1,52 @@
+<div style="min-width: 500px; max-width: 1000px;">
+    <div style="background-color: #410DA9; color: white; text-align: center;">
+        <h1 style="padding: 20px;">{{'account-settings.title' | translate}}</h1>
+    </div>
+
+    <div class="container" style="width: 75%; margin-top: 20px;">
+        <div class="row divRow" style="margin-bottom: 10px;">
+            <span class="col" style="width: 50%;">{{'account-settings.user-role' | translate}}</span> 
+            <span class="col" style="width: 20%; font-size: 20px; font-weight: bold; padding-left: 0;">Admin</span>
+        </div>
+        <div class="row divRow">
+            <span class="col" style="width: 50%;">{{'account-settings.email' | translate}}</span> 
+            <span class="col" style="width: 20%; font-size: 20px; font-weight: bold; padding-left: 0;">Admin@yahoo.com</span>
+        </div>
+        <div class="row divRow">
+            <span class="col">{{'account-settings.first-name' | translate}}</span>
+            <input class="col regularInput" matInput [formControl]="firstNameControl">
+        </div>
+        <div class="row divRow">
+            <span class="col">{{'account-settings.last-name' | translate}}</span>
+            <input class="col regularInput" matInput [formControl]="lastNameControl">
+        </div>
+
+        <ngb-accordion  #acc="ngbAccordion" activeIds="ngb-panel-0">
+            <ngb-panel [title]="'account-settings.subtitle' | translate">
+              <ng-template ngbPanelContent>
+                <div class="row divRow" >
+                    <span class="col">{{'account-settings.current-password' | translate}}</span> 
+                    <input class="col regularInput" matInput [formControl]="currentPasswordControl" type="password">
+                </div>
+                <div class="row divRow">
+                    <span class="col">{{'account-settings.new-password' | translate}}</span> 
+                    <input class="col regularInput" matInput [formControl]="newPasswordControl" type="password">
+                </div>
+                <div class="row divRow">
+                    <span class="col">{{'account-settings.confirm-password' | translate}}</span> 
+                    <input class="col regularInput" matInput [formControl]="confirmPasswordControl" type="password" >
+                </div>
+              </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+
+        <div class="row">
+            <p [ngStyle]="toggleErrorLabel()" style="color: red; margin: 20px 0; padding: 0; text-align: center;">{{error.message}}</p>
+        </div>
+        <div class="row divRow">
+            <button class="cancelregularBtn btn col" style="margin: 0 40px;" mat-dialog-close>{{'general.cancel' | translate}}</button>
+            <button [disabled]="!isEdited"  [ngClass]="!isEdited ? 'regularBtnDisabled' : 'regularBtn'" class="btn col" style="margin: 0 40px;" (click)="saveChanges()">{{ 'general.save' | translate}}</button>
+        </div>
+    </div>
+        
+</div>

@@ -1,0 +1,66 @@
+<div style="width: 800px; height: 500px; padding: 20px;" class="no-scroll-x">
+  <button style="margin-left: 95%;" type="button" class="btn-close" aria-label="Close" mat-dialog-close></button>
+  <table  class="pure-table pure-table-horizontal">
+      <tbody>
+          <tr>
+              <td class="header-table">{{'transactions.transaction-id' | translate}}:</td>
+              <td class="value-table">{{ transaction.transactionId }}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.charge-point-id' | translate}}:</td>
+              <td class="value-table">{{ transaction.chargePointId || '-'}}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.charge-point-name' | translate}}:</td>
+              <td class="value-table">{{ transaction.chargePointName || '-'}}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.rfid-tag' | translate}}:</td>
+              <td class="value-table">{{ transaction.rfidTag || '-'}}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.rfid-name' | translate}}:</td>
+              <td class="value-table">{{ transaction.rfidName || '-' }}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.connection-date-time-started' | translate}}:</td>
+              <td class="value-table">{{ (startDate | date:'EEE') || ''}}&nbsp;{{ (startDate | date) || '-'}}&nbsp;{{transaction.startTime}}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.connection-date-time-ended' | translate}}:</td>
+              <td class="value-table">{{ (endDate | date:'EEE') || ''}}&nbsp;{{ (endDate | date) || '-'}}&nbsp;{{transaction.endTime}}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.average-power' | translate}}:</td>
+              <td class="value-table">{{ transaction.averagePower || '-'}} W</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.connected-time-sec' | translate}}:</td>
+              <td class="value-table">{{ timeConnected || '-'}}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.charged-distance' | translate}}:</td>
+              <td class="value-table">{{ transaction.chargedDistance || '-' }} km</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.charge-time-sec' | translate}}:</td>
+              <td class="value-table">{{ timeCharged || '-'}}</td>
+          </tr>
+          <tr class="empty-tr"></tr>
+          <tr>
+              <td class="header-table">{{'transactions.charged-energy' | translate}}:</td>
+              <td class="value-table">{{ transaction.chargedEnergy || '-'}} W</td>
+          </tr>
+      </tbody>
+  </table>
+</div>

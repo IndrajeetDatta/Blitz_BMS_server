@@ -1,0 +1,63 @@
+@import '../../../../../styles.scss';
+
+.div-row {
+    background-color: lightgray;
+    color: black;
+    display: flex;
+}
+
+.div-col {
+    border: 1px solid white;
+    padding: 5px 0px 15px 5px;
+    color: #585858;
+}
+
+.lg-col {
+    min-width: 200px;
+}
+
+.col-padding {
+    padding: 5px 0px 2.4px 0px;
+}
+
+.grid-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0px;
+}
+
+.alignCheckBox {
+    margin-left: 10px;
+}
+
+.configuration-station-subheader {
+    display: inline;
+    width: 350px;
+    background-color: $header-background;
+    color: white;
+    padding: 10px;
+    margin-left: 50%;
+    // margin: 20px 0 20px auto;
+}
+
+#check-circle {
+    color: $blitz-green;
+    align-self: center;
+}
+
+.green-blitz {
+    color: $blitz-green;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-design {
+    background-color: lightgray; 
+    border: 1px solid white;
+}

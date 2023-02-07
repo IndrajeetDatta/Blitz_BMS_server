@@ -1,0 +1,61 @@
+@import '../../../../../styles.scss';
+
+.json-data {
+    text-align: center;
+    width: 80%;
+    margin: 30px auto;
+    line-height: 2em
+}
+
+.created-timestamp {
+    text-align: center;
+    margin: 30px auto;
+}
+
+.cell-td {
+  text-align: center;
+  border: 1px solid $button-gray-background;
+  padding: 10px;
+}
+
+.cell-th {
+  text-align: center;
+}
+
+.show-message-data-btn {
+  border-radius: 1em;
+  background-color: #DCDCDC;
+  color: $black;
+}
+
+.no-sort::after { display: none!important; }
+
+.no-sort { pointer-events: none!important; cursor: default!important; }
+
+.message-data-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.station-control-button {
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: 200;
+}
+
+.transactions-header {
+  margin: 40px 0px;
+  padding-right: 0.75rem;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between
+}
+
+.buttons-container {
+  display:flex;
+  flex-direction: row;
+}

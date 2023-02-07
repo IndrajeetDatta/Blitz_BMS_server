@@ -1,0 +1,71 @@
+<div style="width: 800px; height: 500px; padding: 20px;" class="no-scroll-x">
+    <button style="margin-left: 95%;" type="button" class="btn-close" aria-label="Close" mat-dialog-close></button>
+    <table  class="pure-table pure-table-horizontal">
+        <tbody>
+            <tr>
+                <td class="header-table">{{'commands-history.timestamp' | translate}}:</td>
+                <td class="value-table">{{ getDate(command.createdDate) }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.command-id' | translate}}:</td>
+                <td class="value-table">{{ command.commandId || '-'}}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.name' | translate}}:</td>
+                <td class="value-table">{{ command.name || '-'}}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.status' | translate}}:</td>
+                <td class="value-table">{{ command.status || '-'}}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.processed-date' | translate}}:</td>
+                <td class="value-table">{{ getDate(command.processedDate) }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.charge-point-uid' | translate}}:</td>
+                <td class="value-table">{{ command.chargePointUid || '-'}}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.charge-controller-uid' | translate}}:</td>
+                <td class="value-table">{{ command.chargeControllerUid || '-'}}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.master-url' | translate}}:</td>
+                <td class="value-table">{{ command.masterUrl || '-'}}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.method' | translate}}:</td>
+                <td class="value-table">{{ command.method || '-'}}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.payload' | translate}}:</td>
+                <td class="value-table">{{ command.payload || '-' }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.port' | translate}}:</td>
+                <td class="value-table">{{ command.port || '-' }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'commands-history.token_required' | translate}}:</td>
+                <td class="value-table">{{ command.tokenRequired }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table" style="align-self:flex-start;">{{'commands-history.error-message' | translate}}:</td>
+                <td class="value-table">{{ command.errorMessage || '-'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

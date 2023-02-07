@@ -1,0 +1,60 @@
+<div *ngIf="chargeController && chargeController.serialNumber">
+    <app-header-navigation
+        (navBtnClicked)="navBtnClicked($event)"
+        [chargeController]="chargeController"
+        [navigationBtns]="navigationBtns">
+    </app-header-navigation>
+
+    <h4 class="created-timestamp">
+        Timestamp: {{getDate(userData.created)}}
+    </h4>
+    <div class="transactions-header">
+        <h4 >{{'transactions.transactions' | translate}}</h4>
+        <div class="buttons-container">
+          <button class="basic-button station-control-button black-color large-button" (click)="downloadTransactionsJson()">{{'transactions.download-transactions' | translate}}</button>
+          <button class="basic-button station-control-button black-color large-button" (click)="exportTransactions()">{{'transactions.export-transactions' | translate}}</button>
+        </div>
+    </div>
+    <div class="container mb-4">
+      <div class="card">
+          <div class="card-body">
+          <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions">
+              <thead>
+                  <tr >
+                      <th class="cell-th">{{'transactions.id' | translate}}</th>
+                      <th class="cell-th">{{'transactions.charge-point-name' | translate}}</th>
+                      <th class="cell-th">{{'transactions.rfid-tag' | translate}}</th>
+                      <th class="cell-th">{{'transactions.connection-date-time-started' | translate}}</th>
+                      <th class="cell-th">{{'transactions.connection-date-time-ended' | translate}}</th>
+                      <th class="cell-th">{{'transactions.charge-time-sec' | translate}}</th>
+                      <th class="cell-th">{{'transactions.charged-distance' | translate}}</th>
+                      <th class="cell-th no-sort"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let transaction of chargeController.transactions; let position = index">
+                      <td class="cell-td" style="width: 5%;">{{ transaction.transactionId }}</td>
+                      <td class="cell-td" style="width: 14%;">{{ transaction.chargePointName || '-'}}</td>
+                      <td class="cell-td" style="width: 11%;">{{ transaction.rfidTag || '-'}}</td>
+                      <td class="cell-td" style="width: 15%;">
+                        <p *ngIf="transaction.startDay != undefined; else noDataTemplate ">{{ startDate[position] | date }} {{transaction.startTime}}</p>
+                        <ng-template #noDataTemplate>
+                          -
+                        </ng-template>
+                      </td>
+                      <td class="cell-td" style="width: 15%;">
+                        <p *ngIf="transaction.startDay != undefined && transaction.durationDays != undefined; else noDataTemplate ">{{ endDate[position] | date }} {{transaction.endTime}}</p>
+                        <ng-template #noDataTemplate>
+                          -
+                        </ng-template>
+                      </td>
+                      <td class="cell-td" style="width: 9%;">{{ timeChargedList[position] || '-'}}</td>
+                      <td class="cell-td" style="width: 14%;">{{ transaction.chargedDistance || '-'}} km</td>
+                      <td class="cell-td" style="width: 5%;"><button class="show-message-data-btn" (click)="showTransaction(transaction)">{{ 'general.show' | translate }}</button></td>
+                  </tr>
+              </tbody>
+          </table>
+          </div>
+      </div>
+  </div>
+</div>

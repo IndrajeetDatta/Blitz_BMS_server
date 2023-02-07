@@ -1,0 +1,126 @@
+@import "../../../../../styles.scss";
+
+.charging-stations-overview {
+  margin-top: -35px;
+}
+
+.non-sortable {
+  cursor: default;
+}
+
+.staion {
+  text-align: center;
+  border: 1px solid $button-gray-background;
+  padding: 10px;
+}
+
+.serial-number {
+  color: $blitz-green;
+}
+
+.red-serial-number {
+  color: $energy-red;
+}
+
+.serial-number:hover {
+  transition: 0.4s;
+}
+
+.red-serial-number:hover {
+  transition: 0.4s;
+}
+
+.status-read {
+  margin-top: 15px;
+}
+
+::ng-deep ngb-pagination ul > li:not(.active) > a {
+  background-color: transparent !important;
+  color: $blitz-green !important;
+  border: 1px solid $button-gray-background !important;
+}
+
+::ng-deep ngb-pagination ul > li.active > a {
+  background-color: transparent !important;
+  color: $blitz-green !important;
+  border: 1px solid $blitz-green !important;
+}
+
+.basic-text {
+  color: $blitz-green;
+  padding-top: 6px;
+  padding-right: 3px;
+}
+
+.down-controlls {
+  margin-top: 60px;
+}
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 15px solid $blitz-green;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 15px solid $blitz-green;
+}
+
+.test {
+  display: flex;
+  flex-direction: row;
+}
+
+.arrow {
+  position: relative;
+  top: 5px;
+  left: 5px;
+}
+
+.data-filter {
+  display: flex;
+  float: left;
+  width: 100%;
+  align-items: center;
+  align-content: center;
+}
+
+.filter-input {
+  height: 40px;
+}
+
+.filter-text {
+  margin-bottom: 6px;
+}
+
+.small-col-table {
+  min-width: 5%;
+}
+
+.normal-col-table {
+  min-width: 130px;
+}
+
+.big-col-table {
+  min-width: 200px;
+}
+
+.letter-icon {
+  color: $energy-green;
+  border-radius: 50px;
+  border: 1px solid $energy-green;
+  margin: 5px;
+  width: 25px;
+}
+
+.two-columns-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 20px;
+}

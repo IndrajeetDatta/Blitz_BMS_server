@@ -1,0 +1,256 @@
+<div *ngIf="configuration && configuration.serialNumber">
+    <app-header-navigation 
+        (navBtnClicked)="navBtnClicked($event)"
+        [chargeController]="configuration"
+        [navigationBtns]="navigationBtns">
+    </app-header-navigation>
+
+    <div class="save-btn-wrapper">
+        <button 
+            class="basic-button"
+            [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.ModemConfig.toString()) || commandService.isDisabledCommand(commandType.NetworkConfig.toString())"
+            (click)="saveConfiguration()"
+            mat-raised-button
+            [matTooltip]="commandService.tooltipMessage(commandType.ModemConfig.toString())">
+            {{'general.save' | translate}}
+        </button>
+    </div>
+
+    <div class="row gx-5" style="margin-bottom: 50px;">
+        <div class="col">
+            <div class="row div-row grid-title" style="display: block;">
+                {{'station-configuration.configure' | translate}} ETH0
+            </div>
+            <div class="row div-row">
+                <div class="col div-col">DHCP</div>
+                <div class="col div-col" style="display: flex; justify-content: center;">
+                    <mat-checkbox [(ngModel)]="configuration.eth0DHCP" [color]="'primary'"></mat-checkbox>
+                </div>
+            </div>
+
+           <app-cell-table-station-configuration
+                [label]="'station-configuration.ip-address' | translate"
+                [textContol]="eth0IPAddress"
+                [value]="eth0IPAddress.value"
+                [edit]="true">
+            </app-cell-table-station-configuration>
+
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.subnet-mask' | translate"
+                [textContol]="eth0SubnetMask"
+                [value]="eth0SubnetMask.value"
+                [edit]="true">
+            </app-cell-table-station-configuration>
+
+            <div class="row div-row">
+                <div class="col div-col">{{'station-configuration.no-gateway' | translate}}</div>
+                <div class="col div-col" style="display: flex; justify-content: center;">
+                    <mat-checkbox [(ngModel)]="configuration.eth0NoGateway" [color]="'primary'"></mat-checkbox>
+                </div>
+            </div>
+
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.gateway' | translate"
+                [textContol]="eth0Gateway"
+                value="eth0Gateway.value"
+                [edit]="true">
+            </app-cell-table-station-configuration>
+        </div>
+
+        <div class="col">
+            <div class="row div-row grid-title" style="display: block;">
+                {{ configuration.netWorks![0].name || "ETH0" }}
+            </div>
+
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.ipv4' | translate" 
+                [value]="configuration.netWorks![0].ipV4Address">
+            </app-cell-table-station-configuration>
+
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.ipv6' | translate" 
+                [value]="configuration.netWorks![0].ipV6Address">
+            </app-cell-table-station-configuration>
+
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.received-rx' | translate" 
+                [value]="configuration.netWorks![0].receivedBytes">
+            </app-cell-table-station-configuration>
+
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.transmitted-tx' | translate" 
+                [value]="configuration.netWorks![0].transmittedBytes">
+            </app-cell-table-station-configuration>
+            
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.mac-addr' | translate" 
+                [value]="configuration.netWorks![0].macAddress">
+            </app-cell-table-station-configuration>
+        </div>
+        <div class="col">
+            <div class="row div-row grid-title" style="display: block;">
+                {{ configuration.netWorks![1].name || "ETH1" }}
+            </div>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.ipv4' | translate" 
+                [value]="configuration.netWorks![1].ipV4Address">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.ipv6' | translate" 
+                [value]="configuration.netWorks![1].ipV6Address">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.received-rx' | translate" 
+                [value]="configuration.netWorks![1].receivedBytes">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.transmitted-tx' | translate" 
+                [value]="configuration.netWorks![1].transmittedBytes">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.mac-addr' | translate" 
+                [value]="configuration.netWorks![1].macAddress">
+            </app-cell-table-station-configuration>
+        </div>
+    </div>
+
+    <div class="row gx-5">
+        <div class="col">
+            <div class="row div-row grid-title" style="display: block;">
+                {{'station-configuration.general' | translate}}
+            </div>
+            <div class="row div-row">
+                <div class="col div-col">{{'station-configuration.service-active' | translate}}</div>
+                <div class="col div-col" style="display: flex; justify-content: center;">
+                    <mat-checkbox [(ngModel)]="configuration.modemServiceActive" [color]="'primary'"></mat-checkbox>
+                </div>
+            </div>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.sim-pin' | translate" 
+                [textContol]="modemSimPin"
+                [value]="modemSimPin.value"
+                [edit]="true">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'APN'"
+                [textContol]="modemAPN"
+                [value]="modemAPN.value"
+                [edit]="true">
+            </app-cell-table-station-configuration>
+            <div class="row div-row">
+                <div class="col div-col">{{'station-configuration.use-access-credentials' | translate}}</div>
+                <div class="col div-col" style="display: flex; justify-content: center;">
+                    <mat-checkbox [(ngModel)]="configuration.useAccessCredentials" [color]="'primary'"></mat-checkbox>
+                </div>
+            </div>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.username' | translate" 
+                [value]="modemUsername.value"
+                [textContol]="modemUsername"
+                [edit]="true">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.user-password' | translate"
+                [value]="modemPassword.value"
+                [textContol]="modemPassword"
+                [edit]="true"
+                [passwordTypeActive]="true">
+            </app-cell-table-station-configuration>
+
+            <div class="row div-row grid-title" style="display: block;">
+                {{'station-configuration.advanced-settings' | translate}}
+            </div>
+            <div class="row div-row">
+                <div class="col div-col">{{'station-configuration.default-route' | translate}}</div>
+                <div class="col div-col" style="display: flex; justify-content: center;">
+                    <mat-checkbox [(ngModel)]="configuration.modemDefaultRoute" [color]="'primary'" class="alignCheckBox"></mat-checkbox>
+                </div>
+            </div>
+            <div class="row div-row">
+                <div class="col div-col">{{'station-configuration.modem-pref' | translate}} ETH0</div>
+                <div class="col div-col" style="display: flex; justify-content: center;">
+                    <mat-checkbox [(ngModel)]="configuration.modemPreferOverETH0" [color]="'primary'" class="alignCheckBox"></mat-checkbox>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col">
+            <div class="row div-row grid-title" style="display: block;">
+                {{'station-configuration.cellular-connection' | translate}}
+            </div>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.connetion-status' | translate" 
+                [value]="configuration.modemConnectionStatus">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.ip-address' | translate" 
+                [value]="configuration.modemIPAddress">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.primary-DNS' | translate" 
+                [value]="configuration.modemPrimaryDNSServer">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.secondary-DNS' | translate" 
+                [value]="configuration.modemSecondaryDNSServer">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'Rx ' + ('station-configuration.bytes' | translate)" 
+                [value]="configuration.modemReceivedBytes + ' ' + ('station-configuration.bytes' | translate)">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'Tx ' + ('station-configuration.bytes' | translate)" 
+                [value]="configuration.modemTransmittedBytes + ' ' + ('station-configuration.bytes' | translate)">
+            </app-cell-table-station-configuration>
+        </div>
+        <div class="col">
+            <div class="row div-row grid-title" style="display: block;">
+                {{'station-configuration.radio-status' | translate}}
+            </div>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.provider' | translate" 
+                [value]="configuration.modemProvider">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.registration-status' | translate" 
+                [value]="configuration.modemRegistrationStatus">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'station-configuration.roaming-status' | translate" 
+                [value]="configuration.modemRoamingStatus">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="('station-configuration.signal' | translate) + ' ' + ('station-configuration.quality' | translate)" 
+                [value]="configuration.modemSignalQuality">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="('station-configuration.signal' | translate) + ' (RSSI)'" 
+                [value]="configuration.modemSignalRSSI">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="('station-configuration.signal' | translate) + ' (CQI)'" 
+                [value]="configuration.modemSignalCQI">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="('station-configuration.radio-technology' | translate)" 
+                [value]="configuration.modemRadioTechnology">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'IMSI'" 
+                [value]="configuration.modemIMSI">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'ICCID'" 
+                [value]="configuration.modemICCID">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="'SIM'" 
+                [value]="configuration.modemSimStatus">
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+                [label]="('station-configuration.error-report' | translate)" 
+                [value]="configuration.modemExtendedReport">
+            </app-cell-table-station-configuration>
+        </div>
+    </div>
+</div>

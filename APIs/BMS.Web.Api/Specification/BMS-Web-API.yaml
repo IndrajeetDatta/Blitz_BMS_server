@@ -1,0 +1,1697 @@
+openapi: 3.1.0
+info:
+  title: BMS Web API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /users:
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationUser'
+    parameters: []
+    post:
+      summary: ''
+      operationId: create-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationUser'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationUser'
+    put:
+      summary: ''
+      operationId: update-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationUser'
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationUserUpdateRequest'
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+  '/charge-station/configuration/{id}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeController'
+      operationId: get-charge-station-configuration
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+        description: Id of "ChargingStation" model from database
+    put:
+      summary: ''
+      operationId: update-charge-station-configuration-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeController'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeController'
+            examples:
+              example-1:
+                value:
+                  id: 0
+                  networkConnection: true
+                  ocppConnection: string
+                  SimActive: true
+                  uptimeInSeconds: 0
+                  serialNumber: string
+                  address: string
+                  locationData: string
+                  dateInstalled: '2019-08-24T14:15:22Z'
+                  lastMaintenance: '2019-08-24T14:15:22Z'
+                  systemTime: '2019-08-24T14:15:22Z'
+                  networkType: string
+                  eth0DHCP: true
+                  eth0IPAddress: string
+                  eth0SubnetMask: string
+                  eth0Gateway: string
+                  modemServiceActive: true
+                  modemPreferOverETH0: true
+                  modemDefaultRoute: true
+                  modemSignalRSSI: 0
+                  modemSignalCQI: 0
+                  modemReceivedBytes: 0
+                  modemTransmittedBytes: 0
+                  modemAPN: string
+                  modemSimPin: string
+                  modemUsername: string
+                  modemPassword: string
+                  modemIPAddress: string
+                  modemPrimaryDNSServer: string
+                  modemSecondaryDNSServer: string
+                  modemIMSI: string
+                  modemICCID: string
+                  modemExtendedReport: string
+                  modemConnectionStatus: string
+                  modemProvider: string
+                  modemRegistrationStatus: string
+                  modemRoamingStatus: string
+                  modemSignalQuality: string
+                  modemRadioTechnology: string
+                  modemSimStatus: string
+                  netWorks:
+                    - id: 0
+                      chargingStationId: 0
+                      name: string
+                      ipV4Address: string
+                      ipV6Address: string
+                      macAddress: string
+                      receivedBytes: 0
+                      transmittedBytes: 0
+                  client:
+                    id: 0
+                    name: string
+                    location: string
+                    phone: string
+                    email: string
+                  installer:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+                  chargePoints:
+                    - id: 0
+                      enabled: true
+                      chargingTimeInSeconds: 0
+                      chargeCurrentMinimumInAmpers: 0
+                      chargeCurrentMaximumInAmpers: 0
+                      fallbackCurrentInAmpers: 0
+                      fallbackTimeInSeconds: 0
+                      rfidTimeoutInSeconds: 0
+                      ocppConnectorId: 0
+                      chargePointUid: string
+                      chargeControllerUid: string
+                      chargingRate: 0
+                      name: string
+                      softwareVersion: string
+                      location: string
+                      state: string
+                      energyType: string
+                      phaseRotation: string
+                      releaseChargingMode: string
+                      rfidReader: string
+                      rfidReaderType: string
+                      highLevelCommunication: string
+                      chargeController: {}
+                      slaveSerialNumber: string
+                      serialNumber: string
+                      externalRelease: true
+                      names:
+                        - string
+                      releaseChargingModes:
+                        - string
+                      states:
+                        - string
+                  cpuTemperatureCelsius: 0
+                  cpuUtilizationPercentage: 0
+                  ramAvailableBytes: 0
+                  ramTotalBytes: 0
+                  ramUsedBytes: 0
+                  dataUtilizationPercentage: 0
+                  dataTotalBytes: 0
+                  logUtilizationPercentage: 0
+                  logTotalBytes: 0
+                  varVolatileUtilizationPercentage: 0
+                  varVolatileTotalBytes: 0
+                  systemMonitorVersion: string
+                  systemMonitorStatus: string
+                  controllerAgentVersion: string
+                  controllerAgent_Status: string
+                  ocpp16_Version: string
+                  ocpp16Status: string
+                  modbusClientVersion: string
+                  modbusClientStatus: string
+                  modbusServerVersion: string
+                  modbusServerStatus: string
+                  jupicoreVersion: string
+                  jupicoreStatus: string
+                  loadManagementVersion: string
+                  loadManagementStatus: string
+                  webserverVersion: string
+                  webserverStatus: string
+                  loadManagementActive: true
+                  whitelistRFIDs:
+                    - id: 0
+                      allowCharging: true
+                      evConsumptionRateKWhPer100KM: 0
+                      name: string
+                      serialNumber: string
+                      expiryDate: '2019-08-24T14:15:22Z'
+                      type: string
+                  heartbeat: '2019-08-24T14:15:22Z'
+                  ocppConfig:
+                    id: 0
+                    chargeController: {}
+                    ocppProtocolVersion: string
+                    networkInterface: string
+                    backendURL: string
+                    serviceRFID: string
+                    freeModeRFID: string
+                    chargeStationModel: string
+                    chargeStationVendor: string
+                    chargeStationSerialNumber: string
+                    chargeControllerId: 0
+                    serviceRestart: true
+                    meterType: string
+                    meterSerialNumber: string
+                    imsi: string
+                    iccid: string
+                    chargeBoxSerialNumber: string
+                    chargeBoxID: string
+                    freeMode: true
+                  ocppStatus:
+                    - id: 0
+                      status: string
+                      occpStatusSentDate: '2019-08-24T14:15:22Z'
+                      occpStatus: string
+                      operative: true
+                      chargeController: {}
+                      device_uid: string
+                  ocppMessages:
+                    - id: 0
+                      ocpp: {}
+                      timestamp: '2019-08-24T14:15:22Z'
+                      type: 0
+                      action: string
+                      messageData: string
+                      fromLastHeartbeat: true
+                  chargingParkName: string
+                  loadCircuitFuse: string
+                  highLevelMeasuringDeviceControllerId: string
+                  highLevelMeasuringDeviceModbus: string
+                  measuringDeviceType: string
+                  loadStrategy: string
+                  currentI1: string
+                  currentI2: string
+                  currentI3: string
+                  plannedCurrentI1: string
+                  plannedCurrentI2: string
+                  plannedCurrentI3: string
+                  monitoredCps: string
+                  companyName: string
+                  userData:
+                    id: 0
+                    jsonData: string
+                    created: '2019-08-24T14:15:22Z'
+                  webAppVersion: string
+                  osReleaseVersion: string
+                  allowTestModeCommands: true
+                  useAccessCredentials: true
+                  eth0NoGateway: true
+                  supervisionMeterCurrentI1: string
+                  supervisionMeterCurrentI2: string
+                  supervisionMeterCurrentI3: string
+                  transactions:
+                    - chargeControllerId: 0
+                      chargePointId: 0
+                      chargePointName: string
+                      rfidTag: string
+                      rfidName: string
+                      startDay: string
+                      startMonth: string
+                      startYear: string
+                      startDayOfWeek: string
+                      startTime: string
+                      endTime: string
+                      durationDays: string
+                      connectedTimeSec: 0
+                      chargeTimeSec: 0
+                      averagePower: 0
+                      chargedEnergy: 0
+                      chargedDistance: 0
+                      id: 0
+                      transactionId: 0
+                      createdDate: '2019-08-24T14:15:22Z'
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+  '/charge-station/installers/{chargeControllerId}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationUser'
+      operationId: get-installers-for-charge-station
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+      description: ''
+    parameters:
+      - schema:
+          type: integer
+        name: chargeControllerId
+        in: path
+        required: true
+  '':
+    parameters: []
+  '/charge-station/configuration/whitelist/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+        description: Id of "ChargingStation" model from database
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeController'
+      operationId: get-charge-station-whitelist
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+  '/charge-station/configuration/transaction/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+        description: Id of "ChargingStation" model from database
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeController'
+      operationId: get-charge-station-transaction
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: boolean
+          in: header
+          required: true
+          name: getAllTransactions
+          description: get  transactions from last time or not
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+  '/charge-station/charge-point/{id}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargePoint'
+      operationId: get-charge-station-charge-point
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        description: chargePoint id
+        required: true
+    put:
+      summary: ''
+      operationId: update-charge-station-charge-point-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargePoint'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargePoint'
+      parameters: []
+  /charge-station/overview:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChargePoint'
+      operationId: get-charge-stations-overview
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+  '/charge-station/ocpp/{chargeControllerId}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ocppConfig:
+                    $ref: '#/components/schemas/OcppConfig'
+                  ocppStatus:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OcppStatus'
+                  ocppMessages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OcppMessage'
+              examples: {}
+      operationId: get-charge-station-ocpp
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+    parameters:
+      - schema:
+          type: integer
+        name: chargeControllerId
+        in: path
+        required: true
+        description: chageControllerID
+    put:
+      summary: ''
+      operationId: update-charge-station-ocpp-config
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcppConfig'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OcppConfig'
+  '/charge-station/ocpp/ocpp-messages/{chargeControllerId}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OcppMessage'
+      operationId: get-ocpp-messages
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+    parameters:
+      - schema:
+          type: integer
+        name: chargeControllerId
+        in: path
+        required: true
+        description: this is charge controller Id
+  '/charge-station/command-history/{masterId}/{chargeControllerId}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      operationId: get-charge-station-command-history
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  commandsHistoryList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommandHistory'
+                  chargeController:
+                    $ref: '#/components/schemas/ChargeController'
+              examples:
+                example-1:
+                  value:
+                    commandsHistoryList:
+                      - commandId: 0
+                        chargePointUid: string
+                        chargeControllerUid: string
+                        status: string
+                        createdDate: '2019-08-24T14:15:22Z'
+                        processedDate: '2019-08-24T14:15:22Z'
+                        masterUrl: string
+                        method: string
+                        payload: string
+                        name: string
+                        errorMessage: string
+                        commandType: string
+                        rfidSerialNumber: string
+                        port: 0
+                        tokenRequired: true
+                    chargeController:
+                      id: 0
+                      networkConnection: true
+                      ocppConnection: string
+                      SimActive: true
+                      uptimeInSeconds: 0
+                      serialNumber: string
+                      address: string
+                      locationData: string
+                      dateInstalled: '2019-08-24T14:15:22Z'
+                      lastMaintenance: '2019-08-24T14:15:22Z'
+                      systemTime: '2019-08-24T14:15:22Z'
+                      networkType: string
+                      eth0DHCP: true
+                      eth0IPAddress: string
+                      eth0SubnetMask: string
+                      eth0Gateway: string
+                      modemServiceActive: true
+                      modemPreferOverETH0: true
+                      modemDefaultRoute: true
+                      modemSignalRSSI: 0
+                      modemSignalCQI: 0
+                      modemReceivedBytes: 0
+                      modemTransmittedBytes: 0
+                      modemAPN: string
+                      modemSimPin: string
+                      modemUsername: string
+                      modemPassword: string
+                      modemIPAddress: string
+                      modemPrimaryDNSServer: string
+                      modemSecondaryDNSServer: string
+                      modemIMSI: string
+                      modemICCID: string
+                      modemExtendedReport: string
+                      modemConnectionStatus: string
+                      modemProvider: string
+                      modemRegistrationStatus: string
+                      modemRoamingStatus: string
+                      modemSignalQuality: string
+                      modemRadioTechnology: string
+                      modemSimStatus: string
+                      netWorks:
+                        - id: 0
+                          chargingStationId: 0
+                          name: string
+                          ipV4Address: string
+                          ipV6Address: string
+                          macAddress: string
+                          receivedBytes: 0
+                          transmittedBytes: 0
+                      client:
+                        id: 0
+                        name: string
+                        location: string
+                        phone: string
+                        email: string
+                      installer:
+                        id: 0
+                        name: string
+                        phone: string
+                        email: string
+                      chargePoints:
+                        - id: 0
+                          enabled: true
+                          chargingTimeInSeconds: 0
+                          chargeCurrentMinimumInAmpers: 0
+                          chargeCurrentMaximumInAmpers: 0
+                          fallbackCurrentInAmpers: 0
+                          fallbackTimeInSeconds: 0
+                          rfidTimeoutInSeconds: 0
+                          ocppConnectorId: 0
+                          chargePointUid: string
+                          chargeControllerUid: string
+                          chargingRate: 0
+                          name: string
+                          softwareVersion: string
+                          location: string
+                          state: string
+                          energyType: string
+                          phaseRotation: string
+                          releaseChargingMode: string
+                          rfidReader: string
+                          rfidReaderType: string
+                          highLevelCommunication: string
+                          chargeController: {}
+                          slaveSerialNumber: string
+                          serialNumber: string
+                          externalRelease: true
+                          names:
+                            - string
+                          releaseChargingModes:
+                            - string
+                          states:
+                            - string
+                      cpuTemperatureCelsius: 0
+                      cpuUtilizationPercentage: 0
+                      ramAvailableBytes: 0
+                      ramTotalBytes: 0
+                      ramUsedBytes: 0
+                      dataUtilizationPercentage: 0
+                      dataTotalBytes: 0
+                      logUtilizationPercentage: 0
+                      logTotalBytes: 0
+                      varVolatileUtilizationPercentage: 0
+                      varVolatileTotalBytes: 0
+                      systemMonitorVersion: string
+                      systemMonitorStatus: string
+                      controllerAgentVersion: string
+                      controllerAgent_Status: string
+                      ocpp16_Version: string
+                      ocpp16Status: string
+                      modbusClientVersion: string
+                      modbusClientStatus: string
+                      modbusServerVersion: string
+                      modbusServerStatus: string
+                      jupicoreVersion: string
+                      jupicoreStatus: string
+                      loadManagementVersion: string
+                      loadManagementStatus: string
+                      webserverVersion: string
+                      webserverStatus: string
+                      loadManagementActive: true
+                      whitelistRFIDs:
+                        - id: 0
+                          allowCharging: true
+                          evConsumptionRateKWhPer100KM: 0
+                          name: string
+                          serialNumber: string
+                          expiryDate: '2019-08-24T14:15:22Z'
+                          type: string
+                      heartbeat: '2019-08-24T14:15:22Z'
+                      ocppConfig:
+                        id: 0
+                        chargeController: {}
+                        ocppProtocolVersion: string
+                        networkInterface: string
+                        backendURL: string
+                        serviceRFID: string
+                        freeModeRFID: string
+                        chargeStationModel: string
+                        chargeStationVendor: string
+                        chargeStationSerialNumber: string
+                        chargeControllerId: 0
+                        serviceRestart: true
+                        meterType: string
+                        meterSerialNumber: string
+                        imsi: string
+                        iccid: string
+                        chargeBoxSerialNumber: string
+                        chargeBoxID: string
+                        freeMode: true
+                      ocppStatus:
+                        - id: 0
+                          status: string
+                          occpStatusSentDate: '2019-08-24T14:15:22Z'
+                          occpStatus: string
+                          operative: true
+                          chargeController: {}
+                          device_uid: string
+                      ocppMessages:
+                        - id: 0
+                          ocpp: {}
+                          timestamp: '2019-08-24T14:15:22Z'
+                          type: 0
+                          action: string
+                          messageData: string
+                          fromLastHeartbeat: true
+                      chargingParkName: string
+                      loadCircuitFuse: string
+                      highLevelMeasuringDeviceControllerId: string
+                      highLevelMeasuringDeviceModbus: string
+                      measuringDeviceType: string
+                      loadStrategy: string
+                      currentI1: string
+                      currentI2: string
+                      currentI3: string
+                      plannedCurrentI1: string
+                      plannedCurrentI2: string
+                      plannedCurrentI3: string
+                      monitoredCps: string
+                      companyName: string
+                      userData:
+                        id: 0
+                        jsonData: string
+                        created: '2019-08-24T14:15:22Z'
+                      webAppVersion: string
+                      osReleaseVersion: string
+                      allowTestModeCommands: true
+                      useAccessCredentials: true
+                      eth0NoGateway: true
+                      supervisionMeterCurrentI1: string
+                      supervisionMeterCurrentI2: string
+                      supervisionMeterCurrentI3: string
+                      transactions:
+                        - chargeControllerId: 0
+                          chargePointId: 0
+                          chargePointName: string
+                          rfidTag: string
+                          rfidName: string
+                          startDay: string
+                          startMonth: string
+                          startYear: string
+                          startDayOfWeek: string
+                          startTime: string
+                          endTime: string
+                          durationDays: string
+                          connectedTimeSec: 0
+                          chargeTimeSec: 0
+                          averagePower: 0
+                          chargedEnergy: 0
+                          chargedDistance: 0
+                          id: 0
+                          transactionId: 0
+                          createdDate: '2019-08-24T14:15:22Z'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+    parameters:
+      - schema:
+          type: string
+        name: masterId
+        in: path
+        required: true
+        description: chargeController's serialNumber
+      - schema:
+          type: integer
+        name: chargeControllerId
+        in: path
+        required: true
+        description: chargeController's id
+  /command:
+    post:
+      summary: ''
+      operationId: post-command
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Command'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+    get:
+      summary: ''
+      operationId: get-commands
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommandHistory'
+              examples: {}
+      parameters:
+        - schema:
+            type: boolean
+          in: query
+          name: inPendingOrProcessingCommands
+          description: get commands in pending or processing.
+        - schema:
+            type: string
+          in: query
+          description: chargeControler's serialNumber
+          name: masterId
+  /authentication/basic:
+    post:
+      summary: ''
+      operationId: authentication-basic
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationBasicRequest'
+  '/charge-station/emails/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Email'
+      operationId: get-charge-station-emails
+      description: 'Get the emails list saved from the heartbeat '
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+components:
+  schemas:
+    ApplicationUser:
+      title: ApplicationUser
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+    ApplicationUserUpdateRequest:
+      title: ApplicationUserUpdateRequest
+      x-stoplight:
+        id: vbbvh50885rke
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        newPassword:
+          type: string
+        currentPassword:
+          type: string
+        newMasterUid:
+          type: string
+    ChargeController:
+      title: ChargingStation
+      x-stoplight:
+        id: 8cex9usumo9hm
+      type: object
+      description: ''
+      properties:
+        id:
+          type: integer
+        networkConnection:
+          type: boolean
+        ocppConnection:
+          type: string
+        SimActive:
+          type: boolean
+        uptimeInSeconds:
+          type: number
+        serialNumber:
+          type: string
+        address:
+          type: string
+        locationData:
+          type: string
+        dateInstalled:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        lastMaintenance:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        systemTime:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        networkType:
+          type: string
+        eth0DHCP:
+          type: boolean
+        eth0IPAddress:
+          type: string
+        eth0SubnetMask:
+          type: string
+        eth0Gateway:
+          type: string
+        modemServiceActive:
+          type: boolean
+        modemPreferOverETH0:
+          type: boolean
+        modemDefaultRoute:
+          type: boolean
+        modemSignalRSSI:
+          type: integer
+        modemSignalCQI:
+          type: integer
+        modemReceivedBytes:
+          type: number
+        modemTransmittedBytes:
+          type: number
+        modemAPN:
+          type: string
+        modemSimPin:
+          type: string
+        modemUsername:
+          type: string
+        modemPassword:
+          type: string
+        modemIPAddress:
+          type: string
+        modemPrimaryDNSServer:
+          type: string
+        modemSecondaryDNSServer:
+          type: string
+        modemIMSI:
+          type: string
+        modemICCID:
+          type: string
+        modemExtendedReport:
+          type: string
+        modemConnectionStatus:
+          type: string
+        modemProvider:
+          type: string
+        modemRegistrationStatus:
+          type: string
+        modemRoamingStatus:
+          type: string
+        modemSignalQuality:
+          type: string
+        modemRadioTechnology:
+          type: string
+        modemSimStatus:
+          type: string
+        netWorks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Network'
+        client:
+          $ref: '#/components/schemas/Client'
+        installer:
+          $ref: '#/components/schemas/ApplicationUser'
+        chargePoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChargePoint'
+        cpuTemperatureCelsius:
+          type: integer
+        cpuUtilizationPercentage:
+          type: integer
+        ramAvailableBytes:
+          type: number
+        ramTotalBytes:
+          type: number
+        ramUsedBytes:
+          type: number
+        dataUtilizationPercentage:
+          type: integer
+        dataTotalBytes:
+          type: number
+        logUtilizationPercentage:
+          type: integer
+        logTotalBytes:
+          type: number
+        varVolatileUtilizationPercentage:
+          type: integer
+        varVolatileTotalBytes:
+          type: number
+        systemMonitorVersion:
+          type: string
+        systemMonitorStatus:
+          type: string
+        controllerAgentVersion:
+          type: string
+        controllerAgent_Status:
+          type: string
+        ocpp16_Version:
+          type: string
+        ocpp16Status:
+          type: string
+        modbusClientVersion:
+          type: string
+        modbusClientStatus:
+          type: string
+        modbusServerVersion:
+          type: string
+        modbusServerStatus:
+          type: string
+        jupicoreVersion:
+          type: string
+        jupicoreStatus:
+          type: string
+        loadManagementVersion:
+          type: string
+        loadManagementStatus:
+          type: string
+        webserverVersion:
+          type: string
+        webserverStatus:
+          type: string
+        loadManagementActive:
+          type: boolean
+        whitelistRFIDs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rfid'
+        heartbeat:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        ocppConfig:
+          $ref: '#/components/schemas/OcppConfig'
+        ocppStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcppStatus'
+        ocppMessages:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcppMessage'
+        chargingParkName:
+          type: string
+        loadCircuitFuse:
+          type: string
+        highLevelMeasuringDeviceControllerId:
+          type: string
+        highLevelMeasuringDeviceModbus:
+          type: string
+        measuringDeviceType:
+          type: string
+        loadStrategy:
+          type: string
+        currentI1:
+          type: string
+        currentI2:
+          type: string
+        currentI3:
+          type: string
+        plannedCurrentI1:
+          type: string
+        plannedCurrentI2:
+          type: string
+        plannedCurrentI3:
+          type: string
+        monitoredCps:
+          type: string
+        companyName:
+          type: string
+        userData:
+          $ref: '#/components/schemas/UserData'
+        webAppVersion:
+          type: string
+        osReleaseVersion:
+          type: string
+        allowTestModeCommands:
+          type: boolean
+        useAccessCredentials:
+          type: boolean
+        eth0NoGateway:
+          type: boolean
+        supervisionMeterCurrentI1:
+          type: string
+        supervisionMeterCurrentI2:
+          type: string
+        supervisionMeterCurrentI3:
+          type: string
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+    ChargePoint:
+      title: ChargePoint
+      x-stoplight:
+        id: 1c97w0f7w9s7h
+      type: object
+      properties:
+        id:
+          type: integer
+        enabled:
+          type: boolean
+        chargingTimeInSeconds:
+          type: integer
+        chargeCurrentMinimumInAmpers:
+          type: integer
+        chargeCurrentMaximumInAmpers:
+          type: integer
+        fallbackCurrentInAmpers:
+          type: integer
+        fallbackTimeInSeconds:
+          type: integer
+        rfidTimeoutInSeconds:
+          type: integer
+        ocppConnectorId:
+          type: integer
+        chargePointUid:
+          type: string
+        chargeControllerUid:
+          type: string
+        chargingRate:
+          type: number
+          format: float
+        name:
+          type: string
+        softwareVersion:
+          type: string
+        location:
+          type: string
+        state:
+          type: string
+        energyType:
+          type: string
+        phaseRotation:
+          type: string
+        releaseChargingMode:
+          type: string
+        rfidReader:
+          type: string
+        rfidReaderType:
+          type: string
+        highLevelCommunication:
+          type: string
+        chargeController:
+          $ref: '#/components/schemas/ChargeController'
+        slaveSerialNumber:
+          type: string
+        serialNumber:
+          type: string
+        externalRelease:
+          type: boolean
+        names:
+          type: array
+          items:
+            type: string
+        releaseChargingModes:
+          type: array
+          items:
+            type: string
+        states:
+          type: array
+          items:
+            type: string
+    Network:
+      title: NetWork
+      x-stoplight:
+        id: 3ms17yssk6vaf
+      type: object
+      properties:
+        id:
+          type: integer
+        chargingStationId:
+          type: integer
+        name:
+          type: string
+        ipV4Address:
+          type: string
+        ipV6Address:
+          type: string
+        macAddress:
+          type: string
+        receivedBytes:
+          type: number
+        transmittedBytes:
+          type: number
+    Client:
+      title: Client
+      x-stoplight:
+        id: 1dxtyt67cw3we
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        location:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+    Rfid:
+      title: Rfid
+      x-stoplight:
+        id: mrrg1sck7c58e
+      type: object
+      properties:
+        id:
+          type: integer
+        allowCharging:
+          type: boolean
+        evConsumptionRateKWhPer100KM:
+          type: integer
+        name:
+          type: string
+        serialNumber:
+          type: string
+        expiryDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        type:
+          type: string
+    OcppStatus:
+      title: OCCPStatus
+      x-stoplight:
+        id: y299sstmgh05a
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        occpStatusSentDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        occpStatus:
+          type: string
+        operative:
+          type: boolean
+        chargeController:
+          $ref: '#/components/schemas/ChargeController'
+        device_uid:
+          type: string
+    OcppMessage:
+      title: OcppMessage
+      x-stoplight:
+        id: 4fa00w1d6u8vr
+      type: object
+      properties:
+        id:
+          type: number
+        ocpp:
+          $ref: '#/components/schemas/ChargeController'
+        timestamp:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        type:
+          type: integer
+        action:
+          type: string
+        messageData:
+          type: string
+        fromLastHeartbeat:
+          type: boolean
+    OcppConfig:
+      title: OcppConfig
+      x-stoplight:
+        id: 95fwe1pln2nfl
+      type: object
+      properties:
+        id:
+          type: number
+        chargeController:
+          $ref: '#/components/schemas/ChargeController'
+        ocppProtocolVersion:
+          type: string
+        networkInterface:
+          type: string
+        backendURL:
+          type: string
+        serviceRFID:
+          type: string
+        freeModeRFID:
+          type: string
+        chargeStationModel:
+          type: string
+        chargeStationVendor:
+          type: string
+        chargeStationSerialNumber:
+          type: string
+        chargeControllerId:
+          type: integer
+        serviceRestart:
+          type: boolean
+        meterType:
+          type: string
+        meterSerialNumber:
+          type: string
+        imsi:
+          type: string
+        iccid:
+          type: string
+        chargeBoxSerialNumber:
+          type: string
+        chargeBoxID:
+          type: string
+        freeMode:
+          type: boolean
+    UserData:
+      title: UserData
+      x-stoplight:
+        id: zniqw98zlet69
+      type: object
+      properties:
+        id:
+          type: number
+        jsonData:
+          type: string
+        created:
+          type:
+            - string
+            - 'null'
+          format: date-time
+    Command:
+      title: Command
+      x-stoplight:
+        id: nxpjjbq7opw1w
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - SaveChargingPoint
+            - EnableDisableChargePoint
+            - RestartLM
+            - RestartJC
+            - RestartMS
+            - RestartMB
+            - RestartOCPP
+            - RestartCA
+            - RestartSM
+            - RestartWEB
+            - ImportRFIDs
+            - EditRFID
+            - OcppConfig
+            - ModemConfig
+            - NetworkConfig
+            - RestartApp
+            - DeleteRFID
+            - DeleteAllRFIDs
+            - SaveLoadManagement
+        payload:
+          type: string
+        chargeControllerId:
+          type:
+            - integer
+            - 'null'
+        chargePointId:
+          type:
+            - integer
+            - 'null'
+        additionalValue: {}
+    CommandHistory:
+      title: CommandHistory
+      x-stoplight:
+        id: 8hswkfm57awpc
+      type: object
+      examples: []
+      description: ''
+      properties:
+        commandId:
+          type: integer
+        chargePointUid:
+          type: string
+        chargeControllerUid:
+          type: string
+        status:
+          type: string
+        createdDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        processedDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        masterUrl:
+          type: string
+        method:
+          type: string
+        payload:
+          type: string
+        name:
+          type: string
+        errorMessage:
+          type: string
+        commandType:
+          type: string
+        rfidSerialNumber:
+          type: string
+        port:
+          type: integer
+        tokenRequired:
+          type: boolean
+    AuthenticationResponse:
+      title: AuthenticationResponse
+      x-stoplight:
+        id: gsufkz52hjplo
+      type: object
+      properties:
+        success:
+          type: boolean
+        token:
+          type: string
+    AuthenticationBasicRequest:
+      title: AuthenticationBasicRequest
+      x-stoplight:
+        id: qs8i1inddg587
+      type: object
+      properties:
+        email:
+          type: string
+        externalId:
+          type: string
+        role:
+          type: string
+        nickname:
+          type: string
+    Transaction:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          charge_point_id: '65554'
+          charge_point_name: 2021BPSW1C32A130010-1
+          rfid_tag: 042B1FFAA27385
+          rfid_name: Kodesk Card
+          start_day: '22'
+          start_month: '09'
+          start_year: '2022'
+          start_day_of_week: '4'
+          start_time: '17:52'
+          end_time: '17:52'
+          duration_days: '0'
+          connected_time_sec: '27824'
+          charge_time_sec: '10391'
+          average_power: 2942.259
+          charged_energy: 8375
+          charged_distance: 41.667
+      properties:
+        chargeControllerId:
+          type: integer
+        chargePointId:
+          type: integer
+        chargePointName:
+          type: string
+        rfidTag:
+          type: string
+        rfidName:
+          type: string
+        startDay:
+          type: string
+        startMonth:
+          type: string
+        startYear:
+          type: string
+        startDayOfWeek:
+          type: string
+        startTime:
+          type: string
+        endTime:
+          type: string
+        durationDays:
+          type: string
+        connectedTimeSec:
+          type: number
+        chargeTimeSec:
+          type: number
+        averagePower:
+          type: number
+        chargedEnergy:
+          type: number
+        chargedDistance:
+          type: number
+        id:
+          type: integer
+        transactionId:
+          type: integer
+        createdDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+    Email:
+      title: Email
+      type: object
+      properties:
+        id:
+          type: integer
+        ftype:
+          type: string
+        emailReceiver:
+          type: string
+        receiverName:
+          type: string
+        rfid:
+          type: string

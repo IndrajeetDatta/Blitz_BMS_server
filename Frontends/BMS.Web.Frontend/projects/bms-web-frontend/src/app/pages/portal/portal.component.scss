@@ -1,0 +1,42 @@
+@import '../../../styles.scss';
+
+.provisory-title {
+  font-size: 72px;
+}
+
+.header-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-button {
+  margin-top: 30px;
+  margin-left: 10px;
+}
+
+.filter-input {
+  height: 40px;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.logout-button {
+  width: 80px;
+  height: 30px;
+  font-size: 12px;
+  margin-top: 35px;
+  color: $basic-white;
+  background-color: $energy-red;
+}
+
+.nickname {
+  padding-top: 5px; 
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+.picture {
+  width: 40px;
+}

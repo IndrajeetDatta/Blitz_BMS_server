@@ -1,0 +1,123 @@
+<div *ngIf="chargePoint && chargePoint.id" style="padding-bottom: 20px;">
+    <app-header-navigation
+        (navBtnClicked)="navBtnClicked($event)"
+        [chargeController]="chargePoint.chargeController!"
+        [navigationBtns]="navigationBtns">
+    </app-header-navigation>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0px 20px;">
+        <h4 style="margin: 20px 0px;"> {{ 'general.charge-point' | translate }}: {{chargePoint.name}}</h4>
+        <button 
+            class="basic-button header-button overview_button"
+            [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.SaveChargingPoint.toString(), chargePoint.chargePointUid)"
+            style="margin-left: 10px"
+            (click)="saveConfiguration()"
+            mat-raised-button
+            [matTooltip]="commandService.tooltipMessage(commandType.SaveChargingPoint.toString(), chargePoint.chargePointUid)"
+        >
+            {{'general.save' | translate}}
+        </button>
+    </div>
+    <div style="max-width: 500px;">
+        <div class="row div-row ">
+            <div class="col div-col"></div>
+            <div class="col div-col grid-title">{{'general.general' | translate}}</div>
+        </div>
+         <app-cell-table-station-configuration
+            [label]="'CP ' + ('general.name' | translate)" 
+            [textContol]="formName"
+            [value]="chargePoint.name!"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <app-cell-table-station-configuration
+            [label]="'general.location' | translate" 
+            [textContol]="formLocation"
+            [value]="chargePoint.location!"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <div class="row div-row ">
+            <div class="col div-col"></div>
+            <div class="col div-col grid-title">{{'charge-station.details.energy' | translate}}</div>
+        </div>
+        <div class="row div-row ">
+            <div class="col div-col">{{'charge-station.details.type' | translate }}</div>
+            <div class="col div-col">
+                <select style="margin: 0px;" id="selectEnergyType" class="form-select" aria-label="Default select example"></select>
+            </div>
+        </div>
+        <div class="row div-row ">
+            <div class="col div-col">{{'charge-station.details.phase-roration' | translate }}</div>
+            <div class="col div-col">
+                <select id="selectPhaseRotation" class="form-select" aria-label="Default select example"></select>
+            </div>
+        </div>
+        <app-cell-table-station-configuration
+            [label]="'charge-station.details.min-current' | translate" 
+            [textContol]="formCurrentMinimumInAmpers"
+            [value]="chargePoint.chargeCurrentMinimumInAmpers"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <app-cell-table-station-configuration
+            [label]="'charge-station.details.max-current' | translate" 
+            [textContol]="formCurrentMaximumInAmpers"
+            [value]="chargePoint.chargeCurrentMaximumInAmpers"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <app-cell-table-station-configuration
+            [label]="'charge-station.details.fallback-current' | translate" 
+            [textContol]="formFallbackCurrentInAmpers"
+            [value]="chargePoint.fallbackCurrentInAmpers"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <app-cell-table-station-configuration
+            [label]="'charge-station.details.fallback-current-time' | translate" 
+            [textContol]="formFallbackTimeInSeconds"
+            [value]="chargePoint.fallbackTimeInSeconds"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <div class="row div-row ">
+            <div class="col div-col"></div>
+            <div class="col div-col grid-title">{{'charge-station.details.release-charging' | translate}}</div>
+        </div>
+        <div class="row div-row ">
+            <div class="col div-col">{{'charge-station.details.charging-mode' | translate }}</div>
+            <div class="col div-col">
+                <select id="selectChargingMode" class="form-select" aria-label="Default select example"></select>
+            </div>
+        </div>
+        <app-cell-table-station-configuration
+            [label]="'charge-station.details.rfid-reader' | translate" 
+            [textContol]="formRfidReader"
+            [value]="chargePoint.rfidReader"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <div class="row div-row ">
+            <div class="col div-col">{{'charge-station.details.rfid-reader-type' | translate }}</div>
+            <div class="col div-col">
+                <select id="selectRfidReaderType" class="form-select" aria-label="Default select example"></select>
+            </div>
+        </div>
+        <app-cell-table-station-configuration
+            [label]="'charge-station.details.rfid-timeout' | translate" 
+            [textContol]="formRfidTimeoutInSeconds"
+            [value]="chargePoint.rfidTimeoutInSeconds"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <app-cell-table-station-configuration
+            [label]="'charge-station.details.occp-connector-id' | translate" 
+            [textContol]="formOcppConnectorId"
+            [value]="chargePoint.ocppConnectorId"
+            [edit]="true">
+        </app-cell-table-station-configuration>
+        <div class="row div-row ">
+            <div class="col div-col"></div>
+            <div class="col div-col grid-title">ISO 15118</div>
+        </div>
+        <div class="row div-row ">
+            <div class="col div-col">{{'charge-station.details.high-level-communication' | translate }}</div>
+            <div class="col div-col">
+                <select id="selectHighLevelCommunication" class="form-select" aria-label="Default select example"></select>
+            </div>
+        </div>
+    </div>
+</div>

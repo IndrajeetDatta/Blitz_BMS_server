@@ -1,0 +1,26 @@
+<div style="width: 800px; height: 500px; padding: 20px;">
+    <button style="margin-left: 95%;" type="button" class="btn-close" aria-label="Close" mat-dialog-close></button>
+    <table class="pure-table pure-table-horizontal">
+        <tbody>
+            <tr>
+                <td class="header-table">{{'occp.timestamp' | translate}}:</td>
+                <td class="value-table">{{ getDate(message.timestamp) }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'occp.type' | translate}}:</td>
+                <td class="value-table">{{ message.type }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table">{{'occp.action' | translate}}:</td>
+                <td class="value-table">{{ message.action }}</td>
+            </tr>
+            <tr class="empty-tr"></tr>
+            <tr>
+                <td class="header-table" style="align-self:flex-start;">{{'occp.message' | translate}}:</td>
+                <td class="value-table">{{ message.messageData }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

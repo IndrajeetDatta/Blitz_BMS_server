@@ -1,0 +1,37 @@
+<div *ngIf="chargeController && chargeController.serialNumber">
+  <app-header-navigation
+      (navBtnClicked)="navBtnClicked($event)"
+      [chargeController]="chargeController"
+      [navigationBtns]="navigationBtns">
+  </app-header-navigation>
+
+  <div class="emails-header">
+      <h4 >{{'charge-station.details.emails' | translate}}</h4>
+  </div>
+  <div class="container mb-4">
+    <div class="card">
+        <div class="card-body">
+        <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions">
+            <thead>
+                <tr >
+                    <th class="cell-th">{{'email.id' | translate}}</th>
+                    <th class="cell-th">{{'email.ftype' | translate}}</th>
+                    <th class="cell-th">{{'email.email-receiver' | translate}}</th>
+                    <th class="cell-th">{{'email.receiver-name' | translate}}</th>
+                    <th class="cell-th">{{'email.rfid' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let email of emails">
+                    <td class="cell-td" style="width: 5%;">{{ email.id }}</td>
+                    <td class="cell-td" style="width: 14%;">{{ email.ftype || '-'}}</td>
+                    <td class="cell-td" style="width: 11%;">{{ email.emailReceiver || '-'}}</td>
+                    <td class="cell-td" style="width: 9%;">{{ email.receiverName || '-'}}</td>
+                    <td class="cell-td" style="width: 14%;">{{ email.rfid || '-'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+</div>

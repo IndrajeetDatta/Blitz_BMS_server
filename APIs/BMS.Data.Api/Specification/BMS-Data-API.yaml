@@ -1,0 +1,176 @@
+openapi: 3.0.0
+info:
+  title: BMS Data API
+  version: '1.0'
+  description: ''
+servers:
+  - url: ''
+paths:
+  /data/push:
+    post:
+      summary: Data Push
+      operationId: data-push
+      responses:
+        '200':
+          description: OK
+      description: Push data to the central server.
+    parameters: []
+  /commands:
+    parameters: []
+    post:
+      summary: ''
+      operationId: command-processed
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommandProcessedResponse'
+              examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommandProcessedResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CommandProcessedRequest'
+            examples: {}
+    get:
+      summary: ''
+      operationId: get-commands
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                x-examples:
+                  example-1:
+                    - url: string
+                      name: string
+                      method: string
+                      payload: {}
+                      controller-id: string
+                      created-date: '2019-08-24T14:15:22Z'
+                      command-id: 0
+                      tokenRequired: true
+                      port: 0
+                items:
+                  $ref: '#/components/schemas/CommandPush'
+              examples:
+                example-1:
+                  value:
+                    - url: string
+                      name: string
+                      method: string
+                      payload: {}
+                      controller-id: string
+                      created-date: '2019-08-24T14:15:22Z'
+                      command-id: 0
+                      tokenRequired: true
+                      port: 0
+components:
+  schemas:
+    ControllerCommand:
+      type: object
+      title: ControllerCommand
+      x-stoplight:
+        id: 9q9hl6fygql1z
+      additionalProperties: false
+      properties:
+        deviceUid:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        command:
+          type: string
+        parameters:
+          type: object
+      description: An object representing a command.
+    CommandsGetRequest:
+      type: object
+      title: CommandsGetRequest
+      x-stoplight:
+        id: utg0je0q77rd3
+      additionalProperties: false
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        deviceUids:
+          type: array
+          items:
+            type: string
+    CommandPush:
+      title: CommandPush
+      x-stoplight:
+        id: t4n1ckdasa1cv
+      additionalProperties: false
+      type: object
+      x-examples: {}
+      properties:
+        url:
+          type: string
+        name:
+          type: string
+        method:
+          type: string
+        payload:
+          type: object
+        controller-id:
+          type: string
+        created-date:
+          type: string
+          format: date-time
+          nullable: true
+        command-id:
+          type: integer
+        tokenRequired:
+          type: boolean
+        port:
+          type: integer
+    CommandProcessedRequest:
+      title: SimpleId
+      x-stoplight:
+        id: lzylt16rdms7d
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        statusMessage:
+          type: string
+          nullable: true
+    CommandProcessedResponse:
+      title: CommandProcessedReponse
+      x-stoplight:
+        id: 8ji7cmi9gnrhm
+      additionalProperties: false
+      type: object
+      properties:
+        id:
+          type: number
+        messageError:
+          type: string
+  requestBodies: {}
+  responses: {}

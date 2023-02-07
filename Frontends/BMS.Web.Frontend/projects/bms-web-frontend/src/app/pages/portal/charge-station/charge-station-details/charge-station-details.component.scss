@@ -1,0 +1,273 @@
+@import '../../../../../styles.scss';
+
+.station-button {
+  width: 120px;
+  height: 30px;
+  justify-content: center;
+
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 15px;
+
+  color: $basic-white;
+  -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
+  box-shadow:         inset -3px -5px 10px $gray-shadow;
+  background-color: $blitz-green;
+  border: none;
+  border-radius: 15em;
+  cursor: pointer;
+}
+
+.charge-station-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.charge-station-body {
+  border: 1px solid $border-color;
+  border-top: transparent;
+  padding-left: 40px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.station-control-button {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.station-data-area {
+  display: grid;
+  grid-template-areas: 'people-data station-data data-controls';
+}
+
+.station-data {
+  grid-area: 'station-data';
+  justify-self: center;
+}
+
+.people-data {
+  display: flex;
+  flex-direction: column;
+  grid-area: 'people-data';
+}
+
+.get-data-controls {
+  display: flex;
+  flex-direction: column;
+  grid-area: 'data-controls';
+  justify-self: right;
+}
+.get-data-button {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.data-text {
+  grid-area: 'text';
+  margin-left: 10px;
+  width: 150px;
+}
+
+.data-value {
+  grid-area: 'value';
+  width: 190px;
+}
+
+.data-value button {
+  float: right;
+  border-radius: 15px;
+  color: $blitz-green;
+  width: 50px;
+  height: 30px;
+  font-size: 16px;
+  margin-top: -4px;
+}
+
+.station-data p{
+  color: $header-background;
+}
+
+.station-data {
+  border: 1px solid $header-background;
+  background-color: transparent;
+  display: grid;
+  grid-template-areas: 'text value';
+  margin-right: 100px;
+  padding: 10px 0px;
+}
+
+.station-map {
+  margin-bottom: 15px;
+}
+
+agm-map{
+  height: 150px;
+}
+
+.charging-stations-overview {
+  margin-top: -35px;
+  // width: 80%;
+}
+
+.non-sortable {
+  cursor: default;
+}
+
+.staion {
+  text-align: center;
+  border: 1px solid $button-gray-background;
+  padding: 10px;
+}
+
+.serial-number {
+  color: $blitz-green;
+}
+
+.serial-number:hover {
+  transition: 0.4s;
+}
+
+.status-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.status-read {
+  margin-top: 15px;
+}
+
+::ng-deep ngb-pagination ul > li:not(.active) > a {
+  background-color: transparent !important;
+  color: $blitz-green !important;
+  border: 1px solid $button-gray-background !important;
+}
+
+::ng-deep ngb-pagination ul > li.active > a {
+  background-color: transparent !important;
+  color: $blitz-green !important;
+  border: 1px solid $blitz-green !important;
+}
+
+.basic-text {
+  color: $blitz-green;
+  padding-top: 6px;
+  padding-right: 3px;
+}
+
+.down-controlls {
+  margin-top: 60px;
+}
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 15px solid $blitz-green;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 15px solid $blitz-green;
+}
+
+.test {
+  display: flex;
+  flex-direction: row;
+}
+
+.arrow {
+  position: relative;
+  top: 5px;
+  left: 5px;
+}
+
+.div-row {
+  background-color: lightgray;
+  color: $black;
+}
+
+.grid-title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px 0px;
+}
+
+.application-col {
+  border: 1px solid white;
+  color: $black;
+  font-size: 0.8em;
+  flex: 0 0 auto;
+  text-align: left;
+  padding: 5px;
+  font-weight: bold;
+  overflow: hidden;
+  // text-overflow: ellipsis;
+}
+.div-col {
+  border: 1px solid white;
+  padding: 5px 0px 15px 5px;
+  color: #585858;
+  font-weight: normal;
+  font-size: 1em;
+}
+
+.status-green {
+  margin: auto;
+  background-color: $blitz-green;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+}
+
+.reboot-btn {
+  margin: auto;
+  background-color: white;
+  -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
+  box-shadow:         inset -3px -5px 10px $gray-shadow;
+  border: 1.5px solid $black;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.reboot-btn-disabled {
+  margin: auto;
+  background-color: black;
+  -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
+  box-shadow:         inset -3px -5px 10px $gray-shadow;
+  border: 1.5px solid $black;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+}
+
+.datepicker-last-maintenance{
+  width: 130px;
+}
+
+.installers-dropdown {
+  height: 4vh;
+  width: 10vw;
+  background-color: $basic-white;
+  border: 1px solid $blitz-green;
+  color: $blitz-green;
+  border-radius: 10px;
+  top: 50px;
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+}
