@@ -35,7 +35,7 @@
     border-right: 7px solid transparent;
     border-bottom: 15px solid $blitz-green;
 }
-  
+
 .arrow-down {
 width: 0;
 height: 0;
@@ -74,7 +74,7 @@ left: 5px;
     color: $blitz-green !important;
     border: 1px solid $button-gray-background !important;
   }
-  
+
 ::ng-deep ngb-pagination ul > li.active > a {
     background-color: transparent !important;
     color: $blitz-green !important;
@@ -93,8 +93,8 @@ left: 5px;
     border: 1px solid $black;
     border-radius: 1em;
 
-    margin: 0px 2px;
-    padding: 0px 15px;
+    margin: 0 2px;
+    padding: 0 15px;
 }
 
 .whitelistElem-button:disabled {

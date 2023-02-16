@@ -28,7 +28,7 @@ export class AccountSettingsDialogComponent implements OnInit {
     private applicationUserService: ApplicationUserService
   ) { }
 
-  changeText = (val: string | null) => {
+  changeText = () => {
     if (!this.isEdited) this.isEdited = true;
     if (this.error.active) this.error.active = false;
   }
@@ -42,27 +42,27 @@ export class AccountSettingsDialogComponent implements OnInit {
   }
 
   async saveChanges() {
-    if (this.firstNameControl.value === "") { 
-      this.error = {active: true, message: this.translate.instant("account-settings.error.first-name")}; 
+    if (this.firstNameControl.value === "") {
+      this.error = {active: true, message: this.translate.instant("account-settings.error.first-name")};
       return;
-    } 
-    else if (this.lastNameControl.value === ""){ 
-      this.error = {active: true, message: this.translate.instant("account-settings.error.last-name")}; 
+    }
+    else if (this.lastNameControl.value === ""){
+      this.error = {active: true, message: this.translate.instant("account-settings.error.last-name")};
       return;
-    } 
+    }
     else if (this.currentPasswordControl.value !== "" || this.newPasswordControl.value !== "" || this.confirmPasswordControl.value !== "") {
       if (!this.newPasswordControl.value || this.newPasswordControl.value.length < 8) {
         this.error = {active: true, message: this.translate.instant("account-settings.error.short-password")};
         return;
-      } 
+      }
       else if (!/\d/.test(this.newPasswordControl.value)) {
         this.error = {active: true, message: this.translate.instant("account-settings.error.digit-password")};
         return;
-      } 
+      }
       else if (!/[A-Z]/.test(this.newPasswordControl.value)) {
         this.error = {active: true, message: this.translate.instant("account-settings.error.upper-letter-password")};
         return;
-      } 
+      }
       else if (!/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(this.newPasswordControl.value)) {
         this.error = {active: true, message: this.translate.instant("account-settings.error.special-character-password")};
         return;
@@ -76,12 +76,12 @@ export class AccountSettingsDialogComponent implements OnInit {
     //send to backend
     const request = new BMSWebApiClientModule.ApplicationUserUpdateRequest({
       id: 1,
-      firstName: this.firstNameControl.value!, 
+      firstName: this.firstNameControl.value!,
       lastName: this.lastNameControl.value!,
       newPassword: this.newPasswordControl.value!,
       currentPassword: this.currentPasswordControl.value!
     });
-    try {  
+    try {
       const updatedApplicationUser = await this.applicationUserService.update(request);
       //this.accountSettingsDialog.closeAll();
       if (updatedApplicationUser) {

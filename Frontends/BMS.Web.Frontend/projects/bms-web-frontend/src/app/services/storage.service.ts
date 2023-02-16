@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { AuthModel } from '../models/authModel';
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {AuthModel} from '../models/authModel';
 import jwt_decode from "jwt-decode";
 
 @Injectable({
@@ -21,8 +21,7 @@ export class StorageService {
   }
   public getAuth(): string {
     try {
-      const authData = localStorage.getItem(this.authLocalStorageToken)!;
-      return authData;
+      return localStorage.getItem(this.authLocalStorageToken)!;
     } catch (error) {
       console.error(error);
       return "undefined";
@@ -31,8 +30,7 @@ export class StorageService {
   public getAuthModel(): AuthModel | null {
     const authToken = this.getAuth();
     if (authToken) {
-      const parsedToken: AuthModel = jwt_decode(authToken);
-      return parsedToken;
+      return jwt_decode(authToken);
     }
     return null;
   }

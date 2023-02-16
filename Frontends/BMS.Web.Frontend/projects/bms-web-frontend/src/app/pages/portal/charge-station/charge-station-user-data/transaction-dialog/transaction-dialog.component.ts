@@ -41,12 +41,12 @@ export class TransactionDialogComponent implements OnInit {
   }
 
 	convertSecondsToHours(seconds: number) {
-		var h = Math.floor(seconds / 3600);
-		var m = Math.floor(seconds % 3600 / 60);
-		var s = Math.floor(seconds % 3600 % 60);
-		var hDisplay = h > 9 ? h + ":" : "0" + h + ":";
-		var mDisplay = m > 9 ? m + ":" : "0" + m + ":";
-		var sDisplay = s > 9 ? s + "" : "0" + s;
+    let h = Math.floor(seconds / 3600);
+    let m = Math.floor(seconds % 3600 / 60);
+    let s = Math.floor(seconds % 3600 % 60);
+    let hDisplay = h > 9 ? h + ":" : "0" + h + ":";
+    let mDisplay = m > 9 ? m + ":" : "0" + m + ":";
+    let sDisplay = s > 9 ? s + "" : "0" + s;
     if (hDisplay + mDisplay + sDisplay === "00:00:00") {
       return '-';
     }

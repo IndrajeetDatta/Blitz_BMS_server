@@ -49,19 +49,19 @@ export class ChargeStationUserDataComponent implements OnInit {
     }
 
     try {
-      var timeConnected = '';
-      var timeCharged = '';
+      let timeConnected = '';
+      let timeCharged = '';
       this.chargeController = await this.chargeStationService.getChargeControllerWithTransaction(this.id, false);
 
       this.userData = this.chargeController.userData || new BMSWebApiClientModule.UserData();
       this.chargeController.transactions?.forEach(transaction => {
-        if (transaction.connectedTimeSec != undefined && transaction.connectedTimeSec != null) {
+        if (transaction.connectedTimeSec != undefined) {
           timeConnected += this.convertSecondsToHours(transaction.connectedTimeSec) + " ";
         }
         else {
           timeConnected += "-" + " ";
         }
-        if (transaction.chargeTimeSec != undefined && transaction.chargeTimeSec != null) {
+        if (transaction.chargeTimeSec != undefined) {
           timeCharged += this.convertSecondsToHours(transaction.chargeTimeSec) + " ";
         }
         else {
@@ -89,7 +89,7 @@ export class ChargeStationUserDataComponent implements OnInit {
       });
       this.timeConnectedList = timeConnected.split(" ");
       this.timeChargedList = timeCharged.split(" ");
-      
+
       this.navigationBtns = [{text: this.chargeController.serialNumber!}, {text: this.translate.instant("charge-station.details.user-data")}]
 
     } catch (error) {
@@ -98,12 +98,12 @@ export class ChargeStationUserDataComponent implements OnInit {
   }
 
 	convertSecondsToHours(seconds: number) {
-		var h = Math.floor(seconds / 3600);
-		var m = Math.floor(seconds % 3600 / 60);
-		var s = Math.floor(seconds % 3600 % 60);
-		var hDisplay = h > 9 ? h + ":" : "0" + h + ":";
-		var mDisplay = m > 9 ? m + ":" : "0" + m + ":";
-		var sDisplay = s > 9 ? s + "" : "0" + s;
+    let h = Math.floor(seconds / 3600);
+    let m = Math.floor(seconds % 3600 / 60);
+    let s = Math.floor(seconds % 3600 % 60);
+    let hDisplay = h > 9 ? h + ":" : "0" + h + ":";
+    let mDisplay = m > 9 ? m + ":" : "0" + m + ":";
+    let sDisplay = s > 9 ? s + "" : "0" + s;
     if (hDisplay + mDisplay + sDisplay === "00:00:00") {
       return '-';
     }
@@ -137,7 +137,6 @@ export class ChargeStationUserDataComponent implements OnInit {
     //define the heading for each row of the data
     let csv = 'Id, Charge Point Id, Charge Point Name, Rfid Tag, Rfid Name, Start Day, Start Month, Start Year, Start Day Of Week, StartTime,  End Time, Duration Days, Connected Time Sec, Charge Time Sec, Average Power, Charged Energy, Charged Distance\n';
     //merge the data with CSV
-    const that = this;
     const chargeController = await this.chargeStationService.getChargeControllerWithTransaction(this.id, true);
     const transactions = chargeController.transactions || []
     transactions.forEach(function(transactionToCSV) {

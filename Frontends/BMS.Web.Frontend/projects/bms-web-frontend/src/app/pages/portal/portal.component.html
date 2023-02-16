@@ -8,7 +8,7 @@
     <input *ngIf="!isAdmin" class="filter-input header-button" [placeholder]="'overview.master-uid' | translate" type="text" [formControl]="masterUidControl">
     <button *ngIf="!isAdmin" class="basic-button header-button" style="margin-right: 55px;" (click)="addChargeController()">{{'portal.add-charge-controller' | translate}}</button>
     <span class="header-button nickname">{{ nickname || "-" }}</span>
-    <img class="basic-button header-button picture" [src]="imgUser">
+    <img class="basic-button header-button picture" [src]="imgUser" alt="">
     <button class="basic-button logout-button header-button" (click)="logout()">{{'general.logout' | translate}}</button>
   </div>
   </div>

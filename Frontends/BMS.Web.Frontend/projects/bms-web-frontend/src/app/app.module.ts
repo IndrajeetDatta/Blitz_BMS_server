@@ -162,7 +162,7 @@ export function ApplicationInitializerFactory(translate: TranslateService, injec
 
       translate.use(selectedLanguage).subscribe(() => {
         console.info(`Successfully initialized '${selectedLanguage}' language.'`);
-      }, err => {
+      }, () => {
         console.error(`There was a problem with '${selectedLanguage}' language initialization.'`);
       }, () => {
         resolve(null);

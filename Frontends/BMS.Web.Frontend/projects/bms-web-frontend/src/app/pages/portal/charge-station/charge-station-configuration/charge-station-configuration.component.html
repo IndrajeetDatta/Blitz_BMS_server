@@ -1,12 +1,12 @@
 <div *ngIf="configuration && configuration.serialNumber">
-    <app-header-navigation 
+    <app-header-navigation
         (navBtnClicked)="navBtnClicked($event)"
         [chargeController]="configuration"
         [navigationBtns]="navigationBtns">
     </app-header-navigation>
 
     <div class="save-btn-wrapper">
-        <button 
+        <button
             class="basic-button"
             [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.ModemConfig.toString()) || commandService.isDisabledCommand(commandType.NetworkConfig.toString())"
             (click)="saveConfiguration()"
@@ -63,27 +63,27 @@
             </div>
 
             <app-cell-table-station-configuration
-                [label]="'station-configuration.ipv4' | translate" 
+                [label]="'station-configuration.ipv4' | translate"
                 [value]="configuration.netWorks![0].ipV4Address">
             </app-cell-table-station-configuration>
 
             <app-cell-table-station-configuration
-                [label]="'station-configuration.ipv6' | translate" 
+                [label]="'station-configuration.ipv6' | translate"
                 [value]="configuration.netWorks![0].ipV6Address">
             </app-cell-table-station-configuration>
 
             <app-cell-table-station-configuration
-                [label]="'station-configuration.received-rx' | translate" 
+                [label]="'station-configuration.received-rx' | translate"
                 [value]="configuration.netWorks![0].receivedBytes">
             </app-cell-table-station-configuration>
 
             <app-cell-table-station-configuration
-                [label]="'station-configuration.transmitted-tx' | translate" 
+                [label]="'station-configuration.transmitted-tx' | translate"
                 [value]="configuration.netWorks![0].transmittedBytes">
             </app-cell-table-station-configuration>
-            
+
             <app-cell-table-station-configuration
-                [label]="'station-configuration.mac-addr' | translate" 
+                [label]="'station-configuration.mac-addr' | translate"
                 [value]="configuration.netWorks![0].macAddress">
             </app-cell-table-station-configuration>
         </div>
@@ -92,23 +92,23 @@
                 {{ configuration.netWorks![1].name || "ETH1" }}
             </div>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.ipv4' | translate" 
+                [label]="'station-configuration.ipv4' | translate"
                 [value]="configuration.netWorks![1].ipV4Address">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.ipv6' | translate" 
+                [label]="'station-configuration.ipv6' | translate"
                 [value]="configuration.netWorks![1].ipV6Address">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.received-rx' | translate" 
+                [label]="'station-configuration.received-rx' | translate"
                 [value]="configuration.netWorks![1].receivedBytes">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.transmitted-tx' | translate" 
+                [label]="'station-configuration.transmitted-tx' | translate"
                 [value]="configuration.netWorks![1].transmittedBytes">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.mac-addr' | translate" 
+                [label]="'station-configuration.mac-addr' | translate"
                 [value]="configuration.netWorks![1].macAddress">
             </app-cell-table-station-configuration>
         </div>
@@ -126,7 +126,7 @@
                 </div>
             </div>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.sim-pin' | translate" 
+                [label]="'station-configuration.sim-pin' | translate"
                 [textContol]="modemSimPin"
                 [value]="modemSimPin.value"
                 [edit]="true">
@@ -144,7 +144,7 @@
                 </div>
             </div>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.username' | translate" 
+                [label]="'station-configuration.username' | translate"
                 [value]="modemUsername.value"
                 [textContol]="modemUsername"
                 [edit]="true">
@@ -172,34 +172,34 @@
                     <mat-checkbox [(ngModel)]="configuration.modemPreferOverETH0" [color]="'primary'" class="alignCheckBox"></mat-checkbox>
                 </div>
             </div>
-            
+
         </div>
         <div class="col">
             <div class="row div-row grid-title" style="display: block;">
                 {{'station-configuration.cellular-connection' | translate}}
             </div>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.connetion-status' | translate" 
+                [label]="'station-configuration.connetion-status' | translate"
                 [value]="configuration.modemConnectionStatus">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.ip-address' | translate" 
+                [label]="'station-configuration.ip-address' | translate"
                 [value]="configuration.modemIPAddress">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.primary-DNS' | translate" 
+                [label]="'station-configuration.primary-DNS' | translate"
                 [value]="configuration.modemPrimaryDNSServer">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.secondary-DNS' | translate" 
+                [label]="'station-configuration.secondary-DNS' | translate"
                 [value]="configuration.modemSecondaryDNSServer">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'Rx ' + ('station-configuration.bytes' | translate)" 
+                [label]="'Rx ' + ('station-configuration.bytes' | translate)"
                 [value]="configuration.modemReceivedBytes + ' ' + ('station-configuration.bytes' | translate)">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'Tx ' + ('station-configuration.bytes' | translate)" 
+                [label]="'Tx ' + ('station-configuration.bytes' | translate)"
                 [value]="configuration.modemTransmittedBytes + ' ' + ('station-configuration.bytes' | translate)">
             </app-cell-table-station-configuration>
         </div>
@@ -208,47 +208,47 @@
                 {{'station-configuration.radio-status' | translate}}
             </div>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.provider' | translate" 
+                [label]="'station-configuration.provider' | translate"
                 [value]="configuration.modemProvider">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.registration-status' | translate" 
+                [label]="'station-configuration.registration-status' | translate"
                 [value]="configuration.modemRegistrationStatus">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'station-configuration.roaming-status' | translate" 
+                [label]="'station-configuration.roaming-status' | translate"
                 [value]="configuration.modemRoamingStatus">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="('station-configuration.signal' | translate) + ' ' + ('station-configuration.quality' | translate)" 
+                [label]="('station-configuration.signal' | translate) + ' ' + ('station-configuration.quality' | translate)"
                 [value]="configuration.modemSignalQuality">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="('station-configuration.signal' | translate) + ' (RSSI)'" 
+                [label]="('station-configuration.signal' | translate) + ' (RSSI)'"
                 [value]="configuration.modemSignalRSSI">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="('station-configuration.signal' | translate) + ' (CQI)'" 
+                [label]="('station-configuration.signal' | translate) + ' (CQI)'"
                 [value]="configuration.modemSignalCQI">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="('station-configuration.radio-technology' | translate)" 
+                [label]="('station-configuration.radio-technology' | translate)"
                 [value]="configuration.modemRadioTechnology">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'IMSI'" 
+                [label]="'IMSI'"
                 [value]="configuration.modemIMSI">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'ICCID'" 
+                [label]="'ICCID'"
                 [value]="configuration.modemICCID">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="'SIM'" 
+                [label]="'SIM'"
                 [value]="configuration.modemSimStatus">
             </app-cell-table-station-configuration>
             <app-cell-table-station-configuration
-                [label]="('station-configuration.error-report' | translate)" 
+                [label]="('station-configuration.error-report' | translate)"
                 [value]="configuration.modemExtendedReport">
             </app-cell-table-station-configuration>
         </div>

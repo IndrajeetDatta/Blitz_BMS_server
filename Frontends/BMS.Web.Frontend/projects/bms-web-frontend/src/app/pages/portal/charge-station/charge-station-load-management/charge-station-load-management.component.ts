@@ -52,7 +52,7 @@ export class ChargeStationLoadManagementComponent implements OnInit {
   selectedLoadStrategy: string
 
   navigationBtns: NavBtnType[];
-  
+
   async saveConfiguration(): Promise<void> {
     try {
       this.configuration.loadManagementActive = this.loadManagementActive.value;
@@ -79,7 +79,7 @@ export class ChargeStationLoadManagementComponent implements OnInit {
   }
 
   selectAllCPsFunction() {
-    this.configuration.chargePoints?.forEach((value, index) => {
+    this.configuration.chargePoints?.forEach((value) => {
       value.enabled = !this.selectAllCPs;
     });
   }
@@ -89,7 +89,7 @@ export class ChargeStationLoadManagementComponent implements OnInit {
       this.selectAllCPs = false
       return;
     }
-  
+
     let flagSelectAllCPs = true;
     this.configuration.chargePoints?.forEach((value, nestedIndex) => {
       if (index !== nestedIndex && !value.enabled) flagSelectAllCPs = false;
@@ -113,7 +113,7 @@ export class ChargeStationLoadManagementComponent implements OnInit {
       this.current = new FormControl([new FormControl(this.configuration.currentI1), new FormControl(this.configuration.currentI2), new FormControl(this.configuration.currentI3)]);
       this.plannedCurrent = new FormControl([new FormControl(this.configuration.plannedCurrentI1), new FormControl(this.configuration.plannedCurrentI2), new FormControl(this.configuration.plannedCurrentI3)]);
       this.supervisionMeterCurrent = new FormControl([new FormControl(this.configuration.supervisionMeterCurrentI1), new FormControl(this.configuration.supervisionMeterCurrentI2), new FormControl(this.configuration.supervisionMeterCurrentI3)]);
-      
+
       this.loadStrategy = new FormControl("Equal Distribution");
       this.highLevelMeasuringDevice = new FormControl([new FormControl("None"), this.eth0IPAddress, new FormControl("RS 485 Modbus")]);
       this.measuringDeviceType = new FormControl([new FormControl("Phoenix Contact EEM377"), new FormControl("Phoenix Contact MA370")]);
@@ -132,6 +132,6 @@ export class ChargeStationLoadManagementComponent implements OnInit {
         this.router.navigate(['/portal/charge-station/details'], {queryParams: {id: this.id}});
     } else if (valueEmitted.text === this.translate.instant("charge-station.details.load-management")) {
       window.location.reload();
-    } 
+    }
   }
 }

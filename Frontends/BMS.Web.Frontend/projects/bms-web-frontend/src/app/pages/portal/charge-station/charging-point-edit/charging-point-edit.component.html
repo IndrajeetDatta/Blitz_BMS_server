@@ -5,9 +5,9 @@
         [navigationBtns]="navigationBtns">
     </app-header-navigation>
 
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0px 20px;">
-        <h4 style="margin: 20px 0px;"> {{ 'general.charge-point' | translate }}: {{chargePoint.name}}</h4>
-        <button 
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
+        <h4 style="margin: 20px 0;"> {{ 'general.charge-point' | translate }}: {{chargePoint.name}}</h4>
+        <button
             class="basic-button header-button overview_button"
             [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.SaveChargingPoint.toString(), chargePoint.chargePointUid)"
             style="margin-left: 10px"
@@ -24,13 +24,13 @@
             <div class="col div-col grid-title">{{'general.general' | translate}}</div>
         </div>
          <app-cell-table-station-configuration
-            [label]="'CP ' + ('general.name' | translate)" 
+            [label]="'CP ' + ('general.name' | translate)"
             [textContol]="formName"
             [value]="chargePoint.name!"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'general.location' | translate" 
+            [label]="'general.location' | translate"
             [textContol]="formLocation"
             [value]="chargePoint.location!"
             [edit]="true">
@@ -42,7 +42,7 @@
         <div class="row div-row ">
             <div class="col div-col">{{'charge-station.details.type' | translate }}</div>
             <div class="col div-col">
-                <select style="margin: 0px;" id="selectEnergyType" class="form-select" aria-label="Default select example"></select>
+                <select style="margin: 0;" id="selectEnergyType" class="form-select" aria-label="Default select example"></select>
             </div>
         </div>
         <div class="row div-row ">
@@ -52,25 +52,25 @@
             </div>
         </div>
         <app-cell-table-station-configuration
-            [label]="'charge-station.details.min-current' | translate" 
+            [label]="'charge-station.details.min-current' | translate"
             [textContol]="formCurrentMinimumInAmpers"
             [value]="chargePoint.chargeCurrentMinimumInAmpers"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'charge-station.details.max-current' | translate" 
+            [label]="'charge-station.details.max-current' | translate"
             [textContol]="formCurrentMaximumInAmpers"
             [value]="chargePoint.chargeCurrentMaximumInAmpers"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'charge-station.details.fallback-current' | translate" 
+            [label]="'charge-station.details.fallback-current' | translate"
             [textContol]="formFallbackCurrentInAmpers"
             [value]="chargePoint.fallbackCurrentInAmpers"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'charge-station.details.fallback-current-time' | translate" 
+            [label]="'charge-station.details.fallback-current-time' | translate"
             [textContol]="formFallbackTimeInSeconds"
             [value]="chargePoint.fallbackTimeInSeconds"
             [edit]="true">
@@ -86,7 +86,7 @@
             </div>
         </div>
         <app-cell-table-station-configuration
-            [label]="'charge-station.details.rfid-reader' | translate" 
+            [label]="'charge-station.details.rfid-reader' | translate"
             [textContol]="formRfidReader"
             [value]="chargePoint.rfidReader"
             [edit]="true">
@@ -98,13 +98,13 @@
             </div>
         </div>
         <app-cell-table-station-configuration
-            [label]="'charge-station.details.rfid-timeout' | translate" 
+            [label]="'charge-station.details.rfid-timeout' | translate"
             [textContol]="formRfidTimeoutInSeconds"
             [value]="chargePoint.rfidTimeoutInSeconds"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'charge-station.details.occp-connector-id' | translate" 
+            [label]="'charge-station.details.occp-connector-id' | translate"
             [textContol]="formOcppConnectorId"
             [value]="chargePoint.ocppConnectorId"
             [edit]="true">

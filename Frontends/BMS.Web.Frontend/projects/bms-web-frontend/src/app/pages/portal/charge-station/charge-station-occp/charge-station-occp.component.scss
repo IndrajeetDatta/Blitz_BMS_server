@@ -12,7 +12,7 @@
 
 .save-btn-wrapper {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: flex-end;
     padding: 20px;
 }
 
@@ -80,7 +80,7 @@
     color: $blitz-green !important;
     border: 1px solid $button-gray-background !important;
 }
-  
+
 ::ng-deep ngb-pagination ul > li.active > a {
     background-color: transparent !important;
     color: $blitz-green !important;
@@ -112,7 +112,7 @@
 }
 
 .ocpp-message-header {
-    margin: 40px 0px;
+    margin: 40px 0;
     padding-right: 0.75rem;
     display:flex;
     flex-direction: row;

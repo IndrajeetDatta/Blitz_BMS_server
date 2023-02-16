@@ -1,14 +1,14 @@
 <div *ngIf="chargeController && chargeController.id" class="charge-station-page">
-    <app-header-navigation 
+    <app-header-navigation
       (navBtnClicked)="navBtnClicked($event)"
       [chargeController]="chargeController"
       [navigationBtns]="navigationBtns">
     </app-header-navigation>
-    
+
     <div class="save-btn-wrapper">
         <button
-          class="basic-button header-button" 
-          [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.OcppConfig.toString())" 
+          class="basic-button header-button"
+          [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.OcppConfig.toString())"
           (click)="saveConfiguration()"
           mat-raised-button
           [matTooltip]="commandService.tooltipMessage(commandType.OcppConfig.toString())"
@@ -27,7 +27,7 @@
           </div>
         </ng-template>
     </div>
-    
+
     <!-- OCPP Table -->
     <div style="width: 85%; padding-top: 10px;">
         <div class="pagination-controlls">
@@ -131,82 +131,82 @@
             (pageChange)="refreshStationData()"
           >
           </ngb-pagination>
-        </div>    
+        </div>
     </div>
 
     <!-- Configuration -->
-    <h4 style="margin: 20px 0px;">{{'general.configuration' | translate}}</h4>
+    <h4 style="margin: 20px 0;">{{'general.configuration' | translate}}</h4>
     <div style="display: flex; justify-content: space-evenly">
       <div style="max-width: 500px;">
           <app-cell-table-station-configuration
-              [label]="'occp.ocpp-protocol-version' | translate" 
+              [label]="'occp.ocpp-protocol-version' | translate"
               [textContol]="formOCPPVersion"
               [edit]="true">
           </app-cell-table-station-configuration>
           <app-cell-table-station-configuration
-              [label]="'occp.network-interface' | translate" 
+              [label]="'occp.network-interface' | translate"
               [textContol]="formNetworkInterface"
               [edit]="true">
           </app-cell-table-station-configuration>
           <app-cell-table-station-configuration
-              [label]="'occp.backend-url' | translate" 
+              [label]="'occp.backend-url' | translate"
               [textContol]="formBackendURL"
               [edit]="true">
           </app-cell-table-station-configuration>
           <app-cell-table-station-configuration
-              [label]="'occp.service-rfid' | translate" 
+              [label]="'occp.service-rfid' | translate"
               [textContol]="formServiceRFID"
               [edit]="true">
           </app-cell-table-station-configuration>
           <app-cell-table-station-configuration
-              [label]="'occp.freemode-rfid' | translate" 
+              [label]="'occp.freemode-rfid' | translate"
               [textContol]="formFreeModeRfid"
               [edit]="true">
           </app-cell-table-station-configuration>
           <app-cell-table-station-configuration
-              [label]="'occp.chargestation-model' | translate" 
+              [label]="'occp.chargestation-model' | translate"
               [textContol]="formModel"
               [edit]="true">
           </app-cell-table-station-configuration>
           <app-cell-table-station-configuration
-              [label]="'occp.chargestation-vendor' | translate" 
+              [label]="'occp.chargestation-vendor' | translate"
               [textContol]="formVendor"
               [edit]="true">
           </app-cell-table-station-configuration>
           <app-cell-table-station-configuration
-              [label]="'occp.chargestation-serial-number' | translate" 
+              [label]="'occp.chargestation-serial-number' | translate"
               [textContol]="formSerialNumber"
               [edit]="true">
           </app-cell-table-station-configuration>
       </div>
       <div style="max-width: 500px;">
         <app-cell-table-station-configuration
-            [label]="'occp.charge-box-id' | translate" 
+            [label]="'occp.charge-box-id' | translate"
             [textContol]="formChargeBoxId"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'occp.charge-box-serial-number' | translate" 
+            [label]="'occp.charge-box-serial-number' | translate"
             [textContol]="formChargeBoxSerialNumber"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'occp.iccid' | translate" 
+            [label]="'occp.iccid' | translate"
             [textContol]="formIccid"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'occp.imsi' | translate" 
+            [label]="'occp.imsi' | translate"
             [textContol]="formImsi"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'occp.meter-type' | translate" 
+            [label]="'occp.meter-type' | translate"
             [textContol]="formMeterType"
             [edit]="true">
         </app-cell-table-station-configuration>
         <app-cell-table-station-configuration
-            [label]="'occp.meter-serial-number' | translate" 
+            [label]="'occp.meter-serial-number' | translate"
             [textContol]="formMeterSerialNumber"
             [edit]="true">
         </app-cell-table-station-configuration>
@@ -224,7 +224,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Messages -->
     <div class="ocpp-message-header">
       <h4 >{{'occp.messages' | translate}}</h4>
@@ -254,7 +254,7 @@
                     </tbody>
                 </table>
             </div>
-    
+
         </div>
     </div>
 </div>

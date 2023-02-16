@@ -1,18 +1,18 @@
 <div *ngIf="chargeController && chargeController.id" style="padding-bottom: 20px;">
-    <app-header-navigation 
+    <app-header-navigation
       (navBtnClicked)="navBtnClicked($event)"
       [chargeController]="chargeController"
       [navigationBtns]="navigationBtns">
     </app-header-navigation>
 
     <div style="padding: 10px;">
-        <h3 style="margin: 25px 0px;">{{'whitelist.whitelist-rfids' | translate}}</h3>
+        <h3 style="margin: 25px 0;">{{'whitelist.whitelist-rfids' | translate}}</h3>
         <div class="row">
             <div class="col">
-                <button 
-                  style="margin-left: 0px;" 
-                  class="basic-button station-control-button black-color" 
-                  [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.ImportRFIDs.toString())" 
+                <button
+                  style="margin-left: 0;"
+                  class="basic-button station-control-button black-color"
+                  [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.ImportRFIDs.toString())"
                   (click)="importRFIDs()"
                   mat-raised-button
                   [matTooltip]="commandService.tooltipMessage(commandType.ImportRFIDs.toString())"
@@ -20,9 +20,9 @@
                   {{'whitelist.import-rfids' | translate}}
                 </button>
                 <button class="basic-button station-control-button black-color" (click)="exportList()">{{'whitelist.export-list' | translate}}</button>
-                <button 
+                <button
                   class="basic-button station-control-button black-color"
-                  [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.DeleteAllRFIDs.toString())" 
+                  [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.DeleteAllRFIDs.toString())"
                   (click)="deleteAll()"
                   mat-raised-button
                   [matTooltip]="commandService.tooltipMessage(commandType.DeleteAllRFIDs.toString())"
@@ -153,9 +153,9 @@
                   <mat-checkbox [(ngModel)]="whitelistElem.allowCharging" color="accent"></mat-checkbox>
                 </td>
                 <td class="staion" *ngIf="isInEditMode;">
-                  <button 
+                  <button
                     class="whitelistElem-button"
-                    [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.EditRFID.toString(), whitelistElem.serialNumber)" 
+                    [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.EditRFID.toString(), whitelistElem.serialNumber)"
                     (click)="saveEditChanges(position)"
                     mat-raised-button
                     [matTooltip]="commandService.tooltipMessage(commandType.EditRFID.toString(), whitelistElem.serialNumber)"
@@ -166,9 +166,9 @@
                 </td>
                 <td class="staion" *ngIf="!isInEditMode;">
                   <button class="whitelistElem-button" (click)="startEditMode()"> {{'general.edit' | translate}}</button>
-                  <button 
-                    class="whitelistElem-button" 
-                    [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.DeleteRFID.toString(), whitelistElem.serialNumber)" 
+                  <button
+                    class="whitelistElem-button"
+                    [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.DeleteRFID.toString(), whitelistElem.serialNumber)"
                     (click)="deleteRFID(position)"
                     mat-raised-button
                     [matTooltip]="commandService.tooltipMessage(commandType.DeleteRFID.toString(), whitelistElem.serialNumber)"
