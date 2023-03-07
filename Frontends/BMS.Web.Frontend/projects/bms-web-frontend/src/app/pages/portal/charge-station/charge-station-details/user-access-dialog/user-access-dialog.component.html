@@ -1,0 +1,37 @@
+<div class="no-scroll-x modal-container">
+  <div class="button-close-container">
+    <button type="button" class="btn-close" aria-label="Close" mat-dialog-close></button>
+  </div>
+  <div class="pagination-container">
+    <input class="filter-input" placeholder="Filter value" type="text" [(ngModel)]="filteredValue" (ngModelChange)="filterData()">
+    <ngb-pagination
+        style="margin-bottom:-16px"
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="filterData()"
+      >
+    </ngb-pagination>
+  </div>
+  <table  class="pure-table pure-table-horizontal">
+      <tbody class="style-table">
+          <tr>
+            <td><b>{{'general.email' | translate}}</b></td>
+            <td><b>{{'general.name' | translate}}</b></td>
+            <td><b>{{'general.has-access' | translate}}</b></td>
+          </tr>
+          <tr *ngFor="let installer of filteredInstallers; let installerIndex = index;">
+              <td class="value-table">{{ installer.email }}</td>
+              <td class="value-table">{{ installer.firstName + " " + installer.lastName || '-'}}</td>
+              <td class="value-table center-checkbox">
+                <mat-checkbox [ngModel]="installersAccess[installerIndex]" (change)="changeAccessForInstaller($event, installerIndex)">
+                </mat-checkbox>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+  <div class="inputs-container footer">
+    <button class="close-button" mat-dialog-close>Close</button>
+    <button class="save-button" mat-dialog-close (click)="saveAccessModifications()">Save</button>
+  </div>
+</div>

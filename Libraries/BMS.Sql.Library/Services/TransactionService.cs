@@ -29,10 +29,10 @@ namespace BMS.Sql.Library.Services
                 BMSDbContext.SaveChanges();
             }
         }
-        public Tuple<List<Transaction>, List<int>> GetAllTransactionsIdsForChargeControler(int chargeControllerId)
+        public Tuple<List<Transaction>, List<string>> GetAllTransactionsIdsForChargeControler(int chargeControllerId)
         {
             List<Transaction> transactionsFroChargeController = BMSDbContext.Transactions.Where(x => x.ChargeControllerId == chargeControllerId).ToList();
-            List<int> transactionsIds = new List<int>();
+            List<string> transactionsIds = new List<string>();
             if (transactionsFroChargeController.Count > 0)
             {
                 foreach (Transaction transaction in transactionsFroChargeController)

@@ -117,13 +117,39 @@ export class ChargeStationWhitelistComponent implements OnInit {
   }
 
   async importRFIDs(): Promise<void> {
-    try {
-      await this.commandService.postCommand(this.chargeController.id, undefined, undefined, BMSWebApiClientModule.CommandType.ImportRFIDs)
-      this.snackBar.open(this.translate.instant("general.command-submitted"), this.translate.instant("general.ok"), {duration: 3000});
-    } catch (e) {
-      this.snackBar.open(this.translate.instant("general.wrong"), this.translate.instant("general.ok"), {duration: 3000});
-    }
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".csv"; // Set the file type that can be loaded
+    fileInput.onchange = (e: any) => {
+      if (!e || !e.target || !e.target.files) return;
 
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = async (event: any) => {
+        const rfids: BMSWebApiClientModule.Rfid[] = []
+        const contents = event.target.result as string;
+        const lines = contents.split("\n")
+        for (let i = 1; i < lines.length; i++) {
+          const cells = lines[i].split(",");
+          if (cells.length < 5) continue;
+
+          const rfid: BMSWebApiClientModule.Rfid = new BMSWebApiClientModule.Rfid(
+            {allowCharging: cells[5].toLowerCase() === 'true' ? true : false, name: cells[0], expiryDate: new Date(cells[3]), type: cells[2], serialNumber: cells[1]}
+          )
+          rfids.push(rfid);
+        }
+        
+        try {
+          await this.commandService.postCommand(this.chargeController.id, undefined, JSON.stringify(rfids), BMSWebApiClientModule.CommandType.ImportRFIDs)
+          this.snackBar.open(this.translate.instant("general.command-submitted"), this.translate.instant("general.ok"), {duration: 3000});
+        } catch (e) {
+          this.snackBar.open(this.translate.instant("general.wrong"), this.translate.instant("general.ok"), {duration: 3000});
+        }
+      };
+      reader.readAsText(file);
+    };
+    fileInput.click();
   }
 
   refreshStationData() {

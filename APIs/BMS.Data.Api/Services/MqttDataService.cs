@@ -132,7 +132,14 @@ namespace BMS.Data.Api.Utilities
                 newController.DateInstalled = AssignValue(newUserInfo, "datetime", typeof(DateTimeOffset), newController.DateInstalled);
                 newController.CompanyName = AssignValue(newUserInfo, "company-name", typeof(string), newController.CompanyName);
                 newController.SystemTime = AssignValue(newMaster, $"{id}.system.datetime.status._v_.current_time", typeof(DateTimeOffset), newController.SystemTime);
-                newController.Heartbeat = parseTimeNow;
+                if (jData != null && jData.PayloadType == "full-heartbeat")
+                {
+                    newController.FullHeartbeat = parseTimeNow;
+                }
+                else
+                {
+                    newController.Heartbeat = parseTimeNow;
+                }
                 newController.NetworkType = AssignValue(newMaster, $"{id}.modem.status._v_.network_type", typeof(string), newController.NetworkType);
                 newController.ETH0DHCP = AssignValue(newMaster, $"{id}.network.config.dhcp", typeof(bool), newController.ETH0DHCP);
                 newController.ETH0IPAddress = AssignValue(newMaster, $"{id}.network.config.addresses", typeof(string), newController.ETH0IPAddress);
@@ -219,10 +226,11 @@ namespace BMS.Data.Api.Utilities
                 // Load Management fields
 
                 newController.ChargingParkName = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.load_circuits[0].name", typeof(string), newController.ChargingParkName);
-                newController.LoadCircuitFuse = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.fuse._v_", typeof(string), newController.LoadCircuitFuse);
+                newController.LoadCircuitFuse = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.load_circuits[0].fuse", typeof(string), newController.LoadCircuitFuse);
                 newController.HighLevelMeasuringDeviceModbus = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.measuring_total_current.modbus_id", typeof(string), newController.HighLevelMeasuringDeviceModbus);
                 newController.HighLevelMeasuringDeviceControllerId = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.measuring_total_current.controller_id", typeof(string), newController.HighLevelMeasuringDeviceControllerId);
                 newController.MeasuringDeviceType = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.ipdevice.Type", typeof(string), newController.MeasuringDeviceType);
+                newController.LoadManagementIpAddress = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.ipdevice.IP-Address", typeof(string), newController.MeasuringDeviceType);
                 newController.LoadStrategy = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.load_circuits.charging_rule", typeof(string), newController.LoadStrategy);
                 newController.CurrentI1 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current._v_.i1", typeof(string), newController.CurrentI1);
                 newController.CurrentI2 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current._v_.i2", typeof(string), newController.CurrentI2);
@@ -275,13 +283,13 @@ namespace BMS.Data.Api.Utilities
                     newController.oCPPMessages.Add(ParseOCPPMessage(newOcppMessage));
 
                 JObject transactionArray = AssignValue(transactions, "transactions", typeof(JObject), new JObject());
-                (newController.Transactions, List<int> transactionsIds) = TransactionService.GetAllTransactionsIdsForChargeControler(newController.Id);
+                (newController.Transactions, List<string> transactionsIds) = TransactionService.GetAllTransactionsIdsForChargeControler(newController.Id);
                 foreach (JProperty transaction in transactionArray.Children())
                 {
                     JObject transactionObject = new JObject(transaction);
                     string transactionDataString = AssignValue(transactionObject, "", typeof(string), "");
 
-                    int transactionsId = Int32.Parse(transactionDataString.Split('"').ToList()[1]);
+                    string transactionsId = transactionDataString.Split('"').ToList()[1];
                     if (!transactionsIds.Contains(transactionsId))
                     {
                         JObject transactionData = AssignValue(transactionObject, $"{transactionsId}", typeof(JObject), new JObject());
@@ -290,7 +298,11 @@ namespace BMS.Data.Api.Utilities
                 }
 
                 JObject emailsArray = AssignValue(emails, "email-list", typeof(JObject), new JObject());
-                newController.Emails = new List<Email>();
+                if (newController.Emails == null)
+                {
+                    newController.Emails = new List<Email>();
+                }
+                List<string> emailsAlreadySaved = ChargeControllerService.GetAllEmailsForChargeController(newController.Id);
                 foreach (JProperty email in emailsArray.Children())
                 {
                     JObject emailObject = new JObject(email);
@@ -298,7 +310,11 @@ namespace BMS.Data.Api.Utilities
 
                     int emailId = Int32.Parse(emailDataString.Split('"').ToList()[1]);
                     JObject emailData = AssignValue(emailObject, $"{emailId}", typeof(JObject), new JObject());
-                    newController.Emails.Add(ParseEmails(emailId, emailData, newController.Id));
+                    Email newEmail = ParseEmails(emailData, newController.Id);
+                    if (newEmail != null && !emailsAlreadySaved.Contains(newEmail.EmailReceiver))
+                    {
+                        newController.Emails.Add(newEmail);
+                    }
                 }
 
                 string userData = AssignValue(transactions, "transactions", typeof(string), "");
@@ -319,6 +335,7 @@ namespace BMS.Data.Api.Utilities
 
         private string? ParseChargePoint(JObject jObjectMaster, JObject jObjectChargePoint, List<ChargePoint> actualChargePoints, string slaveSerialNumber, string masterSerialNumber)
         {
+            //TODO: Rename JObject jObjectChargePoint to jObjectChargeController
             string chargeControllerUid = AssignValue(jObjectChargePoint, "uid", typeof(string), null);
             if (chargeControllerUid == null)
                 return null;
@@ -440,11 +457,9 @@ namespace BMS.Data.Api.Utilities
 
             return newOcppMessage;
         }
-        private Email ParseEmails(int emailId, JObject jObjectEmail, int controllerId)
+        private Email ParseEmails(JObject jObjectEmail, int controllerId)
         {
             Email newEmail = new Email();
-
-            newEmail.Id = emailId;
             newEmail.ChargeControllerId = controllerId;
             newEmail.EmailReceiver = AssignValue(jObjectEmail, "receiver_email", typeof(string), newEmail.EmailReceiver);
             newEmail.ReceiverName = AssignValue(jObjectEmail, "receiver_name", typeof(string), newEmail.ReceiverName);
@@ -452,7 +467,7 @@ namespace BMS.Data.Api.Utilities
             newEmail.Rfid = AssignValue(jObjectEmail, "rfid", typeof(string), newEmail.Rfid);
             return newEmail;
         }
-        private Transaction ParseTransaction(int transactionId, JObject jObjectTrasaction, int controllerId)
+        private Transaction ParseTransaction(string transactionId, JObject jObjectTrasaction, int controllerId)
         {
             Transaction newTransaction = new Transaction();
 

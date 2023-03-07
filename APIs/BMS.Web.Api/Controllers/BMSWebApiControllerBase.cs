@@ -62,6 +62,21 @@ namespace BMS.Web.Api.Controllers
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("charge-station/installers/{chargeControllerId}", Name = "get-installers-for-charge-station")]
         public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<ApplicationUser>>> GetInstallersForChargeStation([Microsoft.AspNetCore.Mvc.FromHeader] string userEmail, [Microsoft.AspNetCore.Mvc.FromHeader] string externalId, int chargeControllerId);
 
+        /// <param name="userEmail">for login</param>
+        /// <param name="externalId">for login</param>
+        /// <returns>OK</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("charge-station/installers/{chargeControllerId}", Name = "add-and-remove-access-for-installers")]
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AddAndRemoveAccessForInstallers([Microsoft.AspNetCore.Mvc.FromHeader] string userEmail, [Microsoft.AspNetCore.Mvc.FromHeader] string externalId, [Microsoft.AspNetCore.Mvc.FromBody] System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<ApplicationUser>> body, int chargeControllerId);
+
+        /// <summary>
+        /// Your GET endpoint
+        /// </summary>
+        /// <param name="userEmail">for login</param>
+        /// <param name="externalId">for login</param>
+        /// <returns>OK</returns>
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("charge-station/installers/", Name = "get-all-installers")]
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<ApplicationUser>>> GetAllInstallers([Microsoft.AspNetCore.Mvc.FromHeader] string userEmail, [Microsoft.AspNetCore.Mvc.FromHeader] string externalId);
+
         /// <summary>
         /// Your GET endpoint
         /// </summary>
@@ -167,6 +182,16 @@ namespace BMS.Web.Api.Controllers
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("charge-station/emails/{id}", Name = "get-charge-station-emails")]
         public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<Email>>> GetChargeStationEmails([Microsoft.AspNetCore.Mvc.FromHeader] string userEmail, [Microsoft.AspNetCore.Mvc.FromHeader] string externalId, int id);
+
+        /// <summary>
+        /// Your GET endpoint
+        /// </summary>
+        /// <param name="userEmail">for login</param>
+        /// <param name="externalId">for login</param>
+        /// <param name="id">chargePoint id</param>
+        /// <returns>OK</returns>
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("charge-station/get-log-files/{id}", Name = "get-charge-station-log-files")]
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Response3>> GetChargeStationLogFiles([Microsoft.AspNetCore.Mvc.FromHeader] string userEmail, [Microsoft.AspNetCore.Mvc.FromHeader] string externalId, int id);
 
     }
 
@@ -533,6 +558,12 @@ namespace BMS.Web.Api.Controllers
 
         [Newtonsoft.Json.JsonProperty("transactions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.List<Transaction> Transactions { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("fullHeartbeat", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? FullHeartbeat { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("loadManagementIpAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LoadManagementIpAddress { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
 
@@ -1036,6 +1067,9 @@ namespace BMS.Web.Api.Controllers
         [Newtonsoft.Json.JsonProperty("nickname", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Nickname { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("firstname", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Firstname { get; set; }
+
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
 
         [Newtonsoft.Json.JsonExtensionData]
@@ -1105,7 +1139,7 @@ namespace BMS.Web.Api.Controllers
         public int Id { get; set; }
 
         [Newtonsoft.Json.JsonProperty("transactionId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int TransactionId { get; set; }
+        public string TransactionId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("createdDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset? CreatedDate { get; set; }
@@ -1194,6 +1228,26 @@ namespace BMS.Web.Api.Controllers
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Response3
+    {
+        [Newtonsoft.Json.JsonProperty("chargeController", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ChargeController ChargeController { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("json", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Json { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public enum CommandType
     {
 
@@ -1253,6 +1307,9 @@ namespace BMS.Web.Api.Controllers
 
         [System.Runtime.Serialization.EnumMember(Value = @"SaveLoadManagement")]
         SaveLoadManagement = 18,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"GetLogFiles")]
+        GetLogFiles = 19,
 
     }
 

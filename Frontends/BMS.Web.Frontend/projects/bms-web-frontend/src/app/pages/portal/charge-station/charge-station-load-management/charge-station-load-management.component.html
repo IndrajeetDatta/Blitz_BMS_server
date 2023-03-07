@@ -1,15 +1,15 @@
 <div *ngIf="configuration && configuration.id">
-  <app-header-navigation 
+  <app-header-navigation
     (navBtnClicked)="navBtnClicked($event)"
     [chargeController]="configuration"
     [navigationBtns]="navigationBtns">
   </app-header-navigation>
 
   <div style="padding: 20px;" class="align-right-side">
-      <button 
-        class="basic-button" 
-        style="margin-left: 10px" 
-        [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.SaveLoadManagement.toString())" 
+      <button
+        class="basic-button"
+        style="margin-left: 10px"
+        [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.SaveLoadManagement.toString())"
         (click)="saveConfiguration()"
         mat-raised-button
         [matTooltip]="commandService.tooltipMessage(commandType.SaveLoadManagement.toString())"
@@ -91,24 +91,34 @@
         <div class="row div-row">
           <div class="col div-col" style="padding-top: 12px;">{{'load-management.high-level-measuring-device' | translate}}</div>
             <div class="col div-col">
-            <mat-select [(ngModel)]="selectedHighDeviceType" style="background-color:white; margin-bottom: -10px; padding-left: 10px; height: 40px; justify-content: center; align-items: center; align-content: center; justify-items: center; padding-top: 10px;" >
+            <mat-select (ngModelChange)="preselectOption($event)" [(ngModel)]="selectedHighDeviceType" style="background-color:white; margin-bottom: -10px; padding-left: 10px; height: 40px; justify-content: center; align-items: center; align-content: center; justify-items: center; padding-top: 10px;" >
               <mat-option *ngFor="let highLevelDevice of highLevelMeasuringDevice.value" [value]="highLevelDevice.value">
                 {{ highLevelDevice.value }}
               </mat-option>
             </mat-select>
           </div>
         </div>
-        <app-cell-table-station-configuration
+        <app-cell-table-station-configuration *ngIf="selectedHighDeviceType === 'Ip Address'"
             [label]="'station-configuration.ip-address' | translate"
             [textContol]="eth0IPAddress"
             [value]="eth0IPAddress.value"
             [edit]="true">
         </app-cell-table-station-configuration>
-        <div class="row div-row">
+        <div class="row div-row" *ngIf="selectedHighDeviceType === 'Ip Address'">
           <div class="col div-col" style="padding-top: 12px;">{{'load-management.measuring-device-type' | translate}} </div>
             <div class="col div-col">
             <mat-select [(ngModel)]="selectedDeviceType" style="background-color:white; height: 40px; padding-left: 10px; padding-top: 10px; margin-bottom: -10px;">
-              <mat-option *ngFor="let deviceType of measuringDeviceType.value" [value]="deviceType.value">
+              <mat-option *ngFor="let deviceType of measuringDeviceTypeForIp.value" [value]="deviceType.value">
+                {{ deviceType.value }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+        <div class="row div-row" *ngIf="selectedHighDeviceType === 'RS 485 Modbus'">
+          <div class="col div-col" style="padding-top: 12px;">{{'load-management.configured-RS485-controller' | translate}} </div>
+            <div class="col div-col">
+            <mat-select [(ngModel)]="selectedDeviceType" style="background-color:white; height: 40px; padding-left: 10px; padding-top: 10px; margin-bottom: -10px;">
+              <mat-option *ngFor="let deviceType of measuringDeviceTypeForModbus.value" [value]="deviceType.value">
                 {{ deviceType.value }}
               </mat-option>
             </mat-select>
@@ -117,12 +127,12 @@
         <div class="row div-row">
           <div class="col div-col" style="padding-top: 12px;">{{'load-management.load-strategy' | translate}}</div>
             <div class="col div-col">
-            <mat-select [(ngModel)]="selectedLoadStrategy" style="background-color:white; margin-bottom: -10px; height: 40px; padding-left: 10px; padding-top: 10px;">
-              <mat-option [value]="loadStrategy.value">
-                {{ loadStrategy.value }}
-              </mat-option>
-            </mat-select>
-          </div>
+              <mat-select [(ngModel)]="selectedLoadStrategy" style="background-color:white; margin-bottom: -10px; height: 40px; padding-left: 10px; padding-top: 10px;">
+                <mat-option [value]="loadStrategy.value">
+                  {{ loadStrategy.value }}
+                </mat-option>
+              </mat-select>
+            </div>
         </div>
     </div>
 

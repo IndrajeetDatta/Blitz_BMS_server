@@ -6,6 +6,9 @@ using BMS.Web.Api.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using BMS.Sql.Library.Models;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Blobs;
+using Newtonsoft.Json.Linq;
 
 namespace BMS.Web.Api.Controllers
 {
@@ -93,9 +96,31 @@ namespace BMS.Web.Api.Controllers
                 }
                 if (body.NewMasterUid != null && body.NewMasterUid != string.Empty)
                 {
-                    Sql.Library.Models.ChargeController? chargeController = ChargeControllerService.GetBySerialNumber(body.NewMasterUid);
-                    if (chargeController == null) return new StatusCodeResult(403);
-                    ApplicationUserService.AddChargeController(chargeController, user);
+                    if (body.NewMasterUid.Contains(',') || body.NewMasterUid.Contains(';'))
+                    {
+                        string errorUids = "";
+                        foreach (string uid in body.NewMasterUid.Split(',', ';'))
+                        {
+                            string serialNumber = uid.Trim();
+                            BMS.Sql.Library.Models.ChargeController? chargeController = ChargeControllerService.GetBySerialNumber(serialNumber);
+                            if (chargeController == null)
+                            {
+                                errorUids += uid.Trim() + ", ";
+                            }
+                            else
+                            {
+                                ApplicationUserService.AddChargeController(chargeController, user);
+                            }
+                        }
+                        if(errorUids != string.Empty)
+                            return new StatusCodeResult(403);
+                    }
+                    else
+                    {
+                        BMS.Sql.Library.Models.ChargeController? chargeController = ChargeControllerService.GetBySerialNumber(body.NewMasterUid);
+                        if (chargeController == null) return new StatusCodeResult(403);
+                        ApplicationUserService.AddChargeController(chargeController, user);
+                    }
                 }
 
 
@@ -210,6 +235,8 @@ namespace BMS.Web.Api.Controllers
                 chargeController.ModemPassword = body.ModemPassword;
                 chargeController.ModemDefaultRoute = body.ModemDefaultRoute;
                 chargeController.ModemPreferOverETH0 = body.ModemPreferOverETH0;
+                if (user.Role == UserRoleEnum.Admin)
+                    chargeController.AllowTestModeCommands = body.AllowTestModeCommands;
                 chargeController.Installer = installer;
                 if (body.LastMaintenance != null && DateTime.UtcNow > body.LastMaintenance)
                     chargeController.LastMaintenance = body.LastMaintenance;
@@ -458,10 +485,10 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "edit-cp",
-                            "put",
+                            "PUT",
                             $"/api/v1.0/charging-points/{chargePoint.ChargePointUid}/config",
                             body.Payload,
-                            0,
+                            5555,
                             false
                         );
 
@@ -480,8 +507,8 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "enable-disable-cp",
-                            "put",
-                            $"/api/v1.0/charging-controllers/{chargePoint.ChargePointUid}/control",
+                            "PUT",
+                            $"/api/v1.0/charging-controllers/{chargePoint.ChargeControllerUid}/control",
                             body.Payload,
                             5555,
                             true
@@ -516,7 +543,7 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "restart-sys",
-                            "post",
+                            "POST",
                             "/api/v1.0/web/restart-app",
                             body.Payload,
                             5000,
@@ -537,7 +564,7 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             name,
-                            "post",
+                            "POST",
                             $"/api/v1.0/web/restart-app",
                             body.Payload,
                             5000,
@@ -548,7 +575,8 @@ namespace BMS.Web.Api.Controllers
                     }
                     else if (body.Type == CommandType.ImportRFIDs)
                     {
-                        List<RFID> whitelist = RfidService.GetByChargeControllerId(chargeController.Id);
+                        List<BMS.Sql.Library.Models.RFID>? whitelist = JsonConvert.DeserializeObject<List<BMS.Sql.Library.Models.RFID>>(body.Payload);
+                        if (whitelist == null) return new StatusCodeResult(404);
 
                         body.Payload = "{";
                         foreach (RFID rfid in whitelist)
@@ -568,7 +596,7 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "import-rfids",
-                            "post",
+                            "POST",
                             $"/api/v1.0/rfid-whitelist",
                             body.Payload,
                             5555,
@@ -588,8 +616,8 @@ namespace BMS.Web.Api.Controllers
                             body.AdditionalValue.ToString(),
                             body.Type.ToString(),
                             "edit-rfid",
-                            "put",
-                            $"/api/v1.0/rfid-whitelist",
+                            "PUT",
+                            $"/api/v1.0/rfid-whitelist/{body.AdditionalValue.ToString()}",
                             body.Payload,
                             5555,
                             true
@@ -608,7 +636,7 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "ocpp-config",
-                            "post",
+                            "PUT",
                             "/api/v1.0/ocpp16/config/set-section-parameter",
                             body.Payload,
                             2106,
@@ -639,7 +667,7 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "modem-config",
-                            "post",
+                            "POST",
                             "/api/v1.0/web/modem",
                             body.Payload,
                             5000,
@@ -664,7 +692,7 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "network-config",
-                            "post",
+                            "POST",
                             "/api/v1.0/web/network",
                             body.Payload,
                             5000,
@@ -684,7 +712,7 @@ namespace BMS.Web.Api.Controllers
                             body.AdditionalValue.ToString(),
                             body.Type.ToString(),
                             "delete-rfid",
-                            "post",
+                            "POST",
                             $"/api/v1.0/rfid-whitelist",
                             body.Payload,
                             5555,
@@ -704,7 +732,7 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "delete-all",
-                            "post",
+                            "POST",
                             $"/api/v1.0/rfid-whitelist",
                             body.Payload,
                             5555,
@@ -716,13 +744,9 @@ namespace BMS.Web.Api.Controllers
                     else if (body.Type == CommandType.SaveLoadManagement)
                     {
                         string[] fieldsToModify = {
-                            nameof(chargeController.ChargingParkName).ToLower(),
-                            nameof(chargeController.LoadCircuitFuse).ToLower(),
-                            nameof(chargeController.HighLevelMeasuringDeviceModbus).ToLower(),
-                            nameof(chargeController.ETH0IPAddress).ToLower(),
-                            nameof(chargeController.MeasuringDeviceType).ToLower(),
-                            nameof(chargeController.LoadStrategy).ToLower(),
-                            nameof(chargeController.ChargePoints).ToLower()
+                            nameof(chargeController.ChargingParkName).ToLower(), nameof(chargeController.LoadCircuitFuse).ToLower(), nameof(chargeController.HighLevelMeasuringDeviceModbus).ToLower(),
+                            nameof(chargeController.ETH0IPAddress).ToLower(), nameof(chargeController.MeasuringDeviceType).ToLower(), nameof(chargeController.LoadStrategy).ToLower(),
+                            nameof(chargeController.ChargePoints).ToLower(), nameof(chargeController.HighLevelMeasuringDeviceControllerId).ToLower(), nameof(chargeController.LoadManagementIpAddress).ToLower()
                         };
 
                         body.Payload = JSONParse.ConvertToHeartbeatField(typeof(Sql.Library.Models.ChargeController), body.Payload, fieldsToModify.ToList());
@@ -734,10 +758,30 @@ namespace BMS.Web.Api.Controllers
                             null,
                             body.Type.ToString(),
                             "edit-lm",
-                            "put",
+                            "PUT",
                             "/api/v1.0/load-management/config",
                             body.Payload,
                             5000,
+                            false
+                        );
+
+                        CommandService.Save(command);
+                    }
+                    else if (body.Type == CommandType.GetLogFiles)
+                    {
+                        body.Payload = "{}";
+
+                        BMS.Sql.Library.Models.Command command = new Sql.Library.Models.Command(
+                            chargeController.SerialNumber,
+                            null,
+                            null,
+                            null,
+                            body.Type.ToString(),
+                            "get-log",
+                            "POST",
+                            $"/api/v1.0/get-log",
+                            body.Payload,
+                            0,
                             false
                         );
 
@@ -807,6 +851,93 @@ namespace BMS.Web.Api.Controllers
                 return installersToSend;
             }
             catch 
+            {
+                return new StatusCodeResult(500);
+            }
+        }
+
+	public async override Task<ActionResult<Response3>> GetChargeStationLogFiles([FromHeader] string userEmail, [FromHeader] string externalId, int id)
+        {
+            BMS.Sql.Library.Models.ApplicationUser? user = ApplicationUserService.Get(userEmail, externalId);
+            if (user == null || user.Id < 1) return new StatusCodeResult(401);
+            try
+            {
+                string connectionString = Configuration["BlobConnectionString"];
+                string containerPrefix = Configuration["BlobContainerPrefix"];
+
+                BMS.Sql.Library.Models.ChargeController? chargeController = ChargeControllerService.Get(id, user);
+                BlobContainerClient container = new BlobContainerClient(connectionString, containerPrefix + chargeController.SerialNumber);
+                List<BlobData> blobs = new List<BlobData>();
+                foreach (BlobItem blob in container.GetBlobs())
+                {
+                    BlobClient blobClient = new BlobClient(connectionString, containerPrefix + chargeController.SerialNumber, blob.Name);
+
+                    using (var stream = new MemoryStream())
+                    {
+                        BlobData blobData = new BlobData();
+                        await blobClient.DownloadToAsync(stream);
+                        stream.Position = 0;
+                        var contentType = (await blobClient.GetPropertiesAsync()).Value.ContentType;
+                        blobData.Name = blob.Name;
+                        blobData.CreatedOn = blob.Properties.CreatedOn.ToString();
+                        blobData.ContentType = contentType.ToString();
+                        blobs.Add(blobData);
+                        blobData.Url = blobClient.Uri.ToString();
+                    }
+                }
+
+
+                string json = JsonConvert.SerializeObject(blobs, Formatting.Indented);
+                Response3 response3 = new Response3();
+                response3.ChargeController = new ChargeController(chargeController);
+                response3.Json = json;
+                return response3;
+            } catch (Exception ex)
+            {
+                BMS.Sql.Library.Models.ChargeController? chargeController = ChargeControllerService.Get(id, user);
+                Response3 response3 = new Response3();
+                response3.ChargeController = new ChargeController(chargeController);
+                response3.Json = "";
+                return response3;
+            }
+        }
+
+	public async override Task<ActionResult<ICollection<ApplicationUser>>> GetAllInstallers([FromHeader] string userEmail, [FromHeader] string externalId)
+        {
+            try
+            {
+                BMS.Sql.Library.Models.ApplicationUser? user = ApplicationUserService.Get(userEmail, externalId);
+                if (user == null || user.Id < 1 || UserRoleEnum.Admin != user.Role) return new StatusCodeResult(401);
+
+                List<ApplicationUser> installersToSend = new List<ApplicationUser>();
+                List<BMS.Sql.Library.Models.ApplicationUser> installers = ApplicationUserService.GetAllInstallers();
+                foreach (BMS.Sql.Library.Models.ApplicationUser installer in installers)
+                    installersToSend.Add(new ApplicationUser(installer));
+                return installersToSend;
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(500);
+            }
+        }
+
+        public async override Task<IActionResult> AddAndRemoveAccessForInstallers([FromHeader] string userEmail, [FromHeader] string externalId, [FromBody] IEnumerable<IEnumerable<ApplicationUser>> body, int chargeControllerId)
+        {
+            try
+            {
+                BMS.Sql.Library.Models.ApplicationUser? user = ApplicationUserService.Get(userEmail, externalId);
+                if (user == null || user.Id < 1 || UserRoleEnum.Admin != user.Role) return new StatusCodeResult(401);
+                foreach(ApplicationUser installerToRemoveAccess in body.ToList()[0].ToList())
+                {
+                    ApplicationUserService.RemoveAccessFromChargeStation(installerToRemoveAccess.Id, chargeControllerId);
+                }
+                foreach (ApplicationUser installerToAddAccess in body.ToList()[1].ToList())
+                {
+                    ApplicationUserService.AddAccessToChargeStation(installerToAddAccess.Id, chargeControllerId);
+                }
+                return new StatusCodeResult(200);
+            }
+            catch (Exception ex)
             {
                 return new StatusCodeResult(500);
             }

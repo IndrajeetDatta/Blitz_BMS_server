@@ -48,6 +48,32 @@ namespace BMS.Data.Api.Controllers
                 // Process body
                 MqttDataService.ProcessData(body, Request);
 
+                try
+                {
+                    string logAllHeartbeats = Configuration["logAllHeartbeats"];
+                    if (logAllHeartbeats.ToLower() == "true")
+                    {
+                        Log newLog = new Log();
+                        newLog.ErrorMessage = "Automatically saved log";
+                        newLog.JsonData = body != null ? body : "";
+
+                        if (Request.HttpContext.Connection.RemoteIpAddress != null)
+                        {
+                            newLog.IpRequest = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                            if (Request.HttpContext.Connection.RemotePort != null)
+                                newLog.IpRequest += ":" + Request.HttpContext.Connection.RemotePort.ToString();
+                        }
+
+                        newLog.Status = 0;
+                        newLog.CreatedDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+
+                        LogService.Save(newLog);
+                    }
+                }
+                catch
+                {
+                }
+
                 return Ok();
             }
             catch (Exception ex)

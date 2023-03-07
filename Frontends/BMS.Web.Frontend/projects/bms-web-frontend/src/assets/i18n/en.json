@@ -22,12 +22,15 @@
         "reboot": "Reboot",
         "version": "Version",
         "name": "Name",
+        "email": "Email",
+        "has-access": "Has access",
         "charge-point": "Charge Point",
         "general": "General",
         "location": "Location",
         "configuration": "Configuration",
         "show": "Show",
-        "command-submitted": "Command submitted!"
+        "command-submitted": "Command submitted!",
+        "change-submitted": "Change submitted!"
     },
     "portal": {
         "overview": "Overview",
@@ -140,6 +143,14 @@
         "port": "Port",
         "token_required": "Token Required"
     },
+    "logs": {
+        "timestamp": "Timestamp",
+        "name": "Name",
+        "createdOn": "Created at",
+        "downloadLink": "Download file",
+        "export-logs": "Export logs",
+        "get-logs": "Get log file"
+    },
     "charge-station": {
         "details": {
           "configure-station": "Configure Station",
@@ -151,7 +162,8 @@
           "client-name": "Client Name: ",
           "location": "Location: ",
           "phone": "Phone: ",
-          "last-heartbeat": "Last Heartbeat: ",
+          "last-partial-heartbeat": "Partial Heartbeat: ",
+          "last-full-heartbeat": "Full Heartbeat: ",
           "network": "Network: ",
           "installer-name": "Installer Name: ",
           "date-installed": "Date Installed: ",
@@ -167,9 +179,10 @@
           "ocpp-connetion": "OCPP Connection: ",
           "get-configuration": "Get Configuration",
           "reboot": "Reboot",
-          "get-logfiles": "Get Logfiles",
+          "get-logfiles": "Logs",
           "update": "Update",
           "emails": "Emails",
+          "user-access": "User access",
           "charging-station": "Charging Station",
           "cp-name": "CP name",
           "state": "State",
@@ -208,7 +221,10 @@
           "out": "Out",
           "last-maintenance-success-set" : "Last maintenance date set successfully!",
           "software-version": "Software version",
-          "commands-history": "Commands History"
+          "commands-history": "Commands History",
+          "logs": "Logs",
+          "enable-test-mode": "Enable test mode",
+          "disable-test-mode": "Disable test mode"
         }
     },
     "station-configuration":
@@ -266,7 +282,8 @@
         "i2": "I2",
         "i3": "I3",
         "charging-points": "Charging Points",
-        "select-all": "Select All"
+        "select-all": "Select All",
+        "configured-RS485-controller": "Configured RS485 Controller"
     },
     "errors": {
         "generic": "An error ocurred",

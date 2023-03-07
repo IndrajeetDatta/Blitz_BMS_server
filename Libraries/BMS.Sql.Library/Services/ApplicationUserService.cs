@@ -62,6 +62,27 @@ namespace BMS.Sql.Library.Services
             }
         }
 
+        public List<ApplicationUser> GetAllInstallers()
+        {
+            return BMSDbContext.ApplicationUsers.Where(x => x.Role == UserRoleEnum.Installer).ToList();
+        }
+
+        public void RemoveAccessFromChargeStation(int installerId, int chargeStationId)
+        {
+            UserRole installerAccess = BMSDbContext.UserRoles.Where(x => x.ChargeController.Id == chargeStationId && x.User.Id == installerId).FirstOrDefault();
+            BMSDbContext.UserRoles.Remove(installerAccess);
+            BMSDbContext.SaveChanges(true);
+        }
+
+        public void AddAccessToChargeStation(int installerId, int chargeStationId)
+        {
+            UserRole installerAccess = new UserRole();
+            installerAccess.User = BMSDbContext.ApplicationUsers.Where(x => x.Id == installerId).FirstOrDefault(); ;
+            installerAccess.ChargeController = BMSDbContext.ChargeControllers.Where(x => x.Id == chargeStationId).FirstOrDefault();
+            BMSDbContext.UserRoles.Add(installerAccess);
+            BMSDbContext.SaveChanges(true);
+        }
+
         public ApplicationUser? Get(int id)
         {
             return BMSDbContext.ApplicationUsers.SingleOrDefault(x => x.Id == id);
@@ -77,10 +98,15 @@ namespace BMS.Sql.Library.Services
 
         public bool AddChargeController(ChargeController chargeController, ApplicationUser user)
         {
-            UserRole userRole = new UserRole(chargeController, user);
-            BMSDbContext.UserRoles.Add(userRole);
-            BMSDbContext.SaveChanges();
-            return true;
+            UserRole existingEntry = BMSDbContext.UserRoles.Where(x => x.User == user && x.ChargeController == chargeController).SingleOrDefault();
+            if (existingEntry == null)
+            {
+                UserRole controllerAccess = new UserRole(chargeController, user);
+                BMSDbContext.UserRoles.Add(controllerAccess);
+                BMSDbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
         public ApplicationUser Update(ApplicationUser applicationUser)
         {

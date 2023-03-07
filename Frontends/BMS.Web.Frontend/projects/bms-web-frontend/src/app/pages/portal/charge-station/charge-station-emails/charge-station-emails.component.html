@@ -11,7 +11,7 @@
   <div class="container mb-4">
     <div class="card">
         <div class="card-body">
-        <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions">
+        <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
             <thead>
                 <tr >
                     <th class="cell-th">{{'email.id' | translate}}</th>
@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let email of emails">
+                <tr *ngFor="let email of emailData">
                     <td class="cell-td" style="width: 5%;">{{ email.id }}</td>
                     <td class="cell-td" style="width: 14%;">{{ email.ftype || '-'}}</td>
                     <td class="cell-td" style="width: 11%;">{{ email.emailReceiver || '-'}}</td>
@@ -33,5 +33,5 @@
         </table>
         </div>
     </div>
-</div>
+  </div>
 </div>

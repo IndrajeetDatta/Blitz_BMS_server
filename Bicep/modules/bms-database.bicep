@@ -1,44 +1,39 @@
+@allowed([
+  'dev'
+  'prod'
+])
+param environmentType string
 param location string
 param administratorLogin string
+@secure()
 param administratorLoginPassword string
-param serverName string
-param serverEdition string = 'Burstable'
-param skuSizeGB int = 32
-param dbInstanceType string = 'Standard_B1ms'
-
-param haMode string = 'Disabled'
-param availabilityZone string = ''
-
-param virtualNetworkExternalId string = ''
-param subnetName string = ''
-param privateDnsZoneArmResourceId string = ''
 
 resource database 'Microsoft.DBforPostgreSQL/flexibleServers@2021-06-01' = {
-  name: serverName
+  name: 'psqldb-bms-${environmentType}'
   location: location
   sku: {
-    name: dbInstanceType
-    tier: serverEdition
+    name: 'Standard_B1ms'
+    tier: 'Burstable'
   }
   properties: {
     version: '13'
     administratorLogin: administratorLogin
     administratorLoginPassword: administratorLoginPassword
     network: {
-      delegatedSubnetResourceId: (empty(virtualNetworkExternalId) ? json('null') : json('${virtualNetworkExternalId}/subnets/${subnetName}'))
-      privateDnsZoneArmResourceId: (empty(virtualNetworkExternalId) ? json('null') : privateDnsZoneArmResourceId)
+      delegatedSubnetResourceId: json('null')
+      privateDnsZoneArmResourceId: json('null')
     }
     highAvailability: {
-      mode: haMode
+      mode: 'Disabled'
     }
     storage: {
-      storageSizeGB: skuSizeGB
+      storageSizeGB: 32
     }
     backup: {
-      backupRetentionDays: 7
+      backupRetentionDays: 30
       geoRedundantBackup: 'Disabled'
     }
-    availabilityZone: availabilityZone
+    availabilityZone: ''
   }
 }
 
@@ -51,4 +46,5 @@ resource allowAllWindowsAzureIps 'Microsoft.DBforPostgreSQL/flexibleServers/fire
   }
 }
 
-output databaseConnectionString string = 'Server=${database.properties.fullyQualifiedDomainName};Database=bms;Port=5432;User Id=${administratorLogin};Password=${administratorLoginPassword};Ssl Mode=VerifyFull;'
+output connectionString string = 'Server=${database.properties.fullyQualifiedDomainName};Database=bms;Port=5432;User Id=${administratorLogin};Password=${administratorLoginPassword};Ssl Mode=VerifyFull;'
+

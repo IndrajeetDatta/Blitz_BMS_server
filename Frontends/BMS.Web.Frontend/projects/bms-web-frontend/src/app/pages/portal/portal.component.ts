@@ -31,15 +31,24 @@ export class PortalComponent implements OnInit {
 
   masterUidControl: FormControl = new FormControl("");
   isAdmin: boolean = true
+  isInstaller: boolean = false
+  isCustomer: boolean = false
   nickname?: string
   imgUser?: string
+  firstName?: string;
+  lastName: string = ""
+  roles: string[] = []
+
 
   async ngOnInit(): Promise<void> {
     this.isAdmin = await this.authenticationService.isAdmin();
     const user = await this.authenticationService.user()
     this.nickname = user.nickname;
+    this.firstName = user.name;
+    this.roles = user['https://app.blitzpower.com/roles'];
     this.imgUser = user.picture;
-    console.log(this.isAdmin);
+    this.isInstaller = this.roles.filter(x => x === "installer").length > 0;
+    this.isCustomer = !this.isAdmin && !this.isInstaller;
   }
 
   async addChargeController() {

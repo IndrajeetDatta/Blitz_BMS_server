@@ -129,6 +129,9 @@ namespace BMS.Sql.Library.Migrations
                     b.Property<string>("ETH0SubnetMask")
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset?>("FullHeartbeat")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTimeOffset?>("Heartbeat")
                         .HasColumnType("timestamp with time zone");
 
@@ -155,6 +158,9 @@ namespace BMS.Sql.Library.Migrations
 
                     b.Property<bool?>("LoadManagementActive")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("LoadManagementIpAddress")
+                        .HasColumnType("text");
 
                     b.Property<string>("LoadManagementStatus")
                         .HasColumnType("text");
@@ -856,8 +862,9 @@ namespace BMS.Sql.Library.Migrations
                     b.Property<string>("StartYear")
                         .HasColumnType("text");
 
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("integer");
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

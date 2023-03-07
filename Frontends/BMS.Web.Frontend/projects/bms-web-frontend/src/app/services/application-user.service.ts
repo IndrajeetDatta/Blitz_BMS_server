@@ -11,12 +11,10 @@ export class ApplicationUserService {
   userEmail: string
   externalId: string
 
-  constructor(private webApiService : WebApiService, private storageService : StorageService) { 
-    this.userEmail = storageService.getUserEmail()
-    this.externalId = storageService.getExternalId()
+  constructor(private webApiService : WebApiService, private storageService : StorageService) {
   }
 
   async update(request: BMSWebApiClientModule.ApplicationUserUpdateRequest) : Promise<BMSWebApiClientModule.ApplicationUser> {
-    return this.webApiService.getClient().updateUsers(request, this.userEmail, this.externalId);
+    return this.webApiService.getClient().updateUsers(request, this.storageService.getUserEmail(), this.storageService.getExternalId());
   }
 }

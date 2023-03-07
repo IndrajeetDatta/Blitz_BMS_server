@@ -29,7 +29,8 @@ static void AddServices(WebApplicationBuilder builder, string corsPolicyName)
                 builder
                     .WithOrigins(
                         "http://localhost:4200",
-                        "https://azapp-bms-web-frontend-dev.azurewebsites.net"
+                        "https://azapp-bms-web-frontend-dev.azurewebsites.net",
+                        "https://azapp-bms-web-frontend-prod.azurewebsites.net"
                     ).AllowAnyMethod()
                     .AllowAnyHeader();
             }

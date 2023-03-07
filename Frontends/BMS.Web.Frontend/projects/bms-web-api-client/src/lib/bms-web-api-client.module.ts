@@ -65,7 +65,7 @@ export class BMSWebApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return OK
      */
     createUsers(body: ApplicationUser | undefined): Promise<ApplicationUser> {
@@ -107,7 +107,7 @@ export class BMSWebApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @param userEmail for login
      * @param externalId for login
      * @return OK
@@ -199,7 +199,7 @@ export class BMSWebApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @param userEmail for login
      * @param externalId for login
      * @param id Id of "ChargingStation" model from database
@@ -276,6 +276,100 @@ export class BMSWebApiClient {
     }
 
     protected processGetInstallersForChargeStation(response: Response): Promise<ApplicationUser[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ApplicationUser.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ApplicationUser[]>(null as any);
+    }
+
+    /**
+     * @param userEmail (optional) for login
+     * @param externalId (optional) for login
+     * @param body (optional)
+     * @return OK
+     */
+    addAndRemoveAccessForInstallers(userEmail: string | undefined, externalId: string | undefined, body: ApplicationUser[][] | undefined, chargeControllerId: number): Promise<void> {
+        let url_ = this.baseUrl + "/charge-station/installers/{chargeControllerId}";
+        if (chargeControllerId === undefined || chargeControllerId === null)
+            throw new Error("The parameter 'chargeControllerId' must be defined.");
+        url_ = url_.replace("{chargeControllerId}", encodeURIComponent("" + chargeControllerId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "userEmail": userEmail !== undefined && userEmail !== null ? "" + userEmail : "",
+                "externalId": externalId !== undefined && externalId !== null ? "" + externalId : "",
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAddAndRemoveAccessForInstallers(_response);
+        });
+    }
+
+    protected processAddAndRemoveAccessForInstallers(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * Your GET endpoint
+     * @param userEmail for login
+     * @param externalId for login
+     * @return OK
+     */
+    getAllInstallers(userEmail: string, externalId: string): Promise<ApplicationUser[]> {
+        let url_ = this.baseUrl + "/charge-station/installers/";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "userEmail": userEmail !== undefined && userEmail !== null ? "" + userEmail : "",
+                "externalId": externalId !== undefined && externalId !== null ? "" + externalId : "",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAllInstallers(_response);
+        });
+    }
+
+    protected processGetAllInstallers(response: Response): Promise<ApplicationUser[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -441,7 +535,7 @@ export class BMSWebApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @param id chargePoint id
      * @return OK
      */
@@ -582,7 +676,7 @@ export class BMSWebApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @param chargeControllerId chageControllerID
      * @return OK
      */
@@ -731,7 +825,7 @@ export class BMSWebApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @param userEmail for login
      * @param externalId for login
      * @return OK
@@ -766,7 +860,7 @@ export class BMSWebApiClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -832,7 +926,7 @@ export class BMSWebApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param body (optional)
      * @return OK
      */
     authenticationBasic(body: AuthenticationBasicRequest | undefined): Promise<AuthenticationResponse> {
@@ -923,6 +1017,52 @@ export class BMSWebApiClient {
             });
         }
         return Promise.resolve<Email[]>(null as any);
+    }
+
+    /**
+     * Your GET endpoint
+     * @param userEmail (optional) for login
+     * @param externalId (optional) for login
+     * @param id chargePoint id
+     * @return OK
+     */
+    getChargeStationLogFiles(userEmail: string | undefined, externalId: string | undefined, id: number): Promise<Anonymous3> {
+        let url_ = this.baseUrl + "/charge-station/get-log-files/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "userEmail": userEmail !== undefined && userEmail !== null ? "" + userEmail : "",
+                "externalId": externalId !== undefined && externalId !== null ? "" + externalId : "",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetChargeStationLogFiles(_response);
+        });
+    }
+
+    protected processGetChargeStationLogFiles(response: Response): Promise<Anonymous3> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Anonymous3.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Anonymous3>(null as any);
     }
 }
 
@@ -1132,6 +1272,8 @@ export class ChargeController implements IChargeController {
     supervisionMeterCurrentI2?: string;
     supervisionMeterCurrentI3?: string;
     transactions?: Transaction[];
+    fullHeartbeat?: Date | undefined;
+    loadManagementIpAddress?: string;
 
     constructor(data?: IChargeController) {
         if (data) {
@@ -1269,6 +1411,8 @@ export class ChargeController implements IChargeController {
                 for (let item of _data["transactions"])
                     this.transactions!.push(Transaction.fromJS(item));
             }
+            this.fullHeartbeat = _data["fullHeartbeat"] ? new Date(_data["fullHeartbeat"].toString()) : <any>undefined;
+            this.loadManagementIpAddress = _data["loadManagementIpAddress"];
         }
     }
 
@@ -1406,6 +1550,8 @@ export class ChargeController implements IChargeController {
             for (let item of this.transactions)
                 data["transactions"].push(item.toJSON());
         }
+        data["fullHeartbeat"] = this.fullHeartbeat ? this.fullHeartbeat.toISOString() : <any>undefined;
+        data["loadManagementIpAddress"] = this.loadManagementIpAddress;
         return data;
     }
 }
@@ -1512,6 +1658,8 @@ export interface IChargeController {
     supervisionMeterCurrentI2?: string;
     supervisionMeterCurrentI3?: string;
     transactions?: Transaction[];
+    fullHeartbeat?: Date | undefined;
+    loadManagementIpAddress?: string;
 }
 
 export class ChargePoint implements IChargePoint {
@@ -1846,7 +1994,7 @@ export class Rfid implements IRfid {
         data["evConsumptionRateKWhPer100KM"] = this.evConsumptionRateKWhPer100KM;
         data["name"] = this.name;
         data["serialNumber"] = this.serialNumber;
-        data["expiryDate"] = this.expiryDate ? this.expiryDate.toISOString() : <any>undefined;
+        data["expiryDate"] = this.expiryDate ? this.expiryDate.toISOString().split("+")[0].replace('Z', '') : <any>undefined;
         data["type"] = this.type;
         return data;
     }
@@ -2323,6 +2471,7 @@ export class AuthenticationBasicRequest implements IAuthenticationBasicRequest {
     externalId?: string;
     role?: string;
     nickname?: string;
+    firstname?: string;
 
     constructor(data?: IAuthenticationBasicRequest) {
         if (data) {
@@ -2339,6 +2488,7 @@ export class AuthenticationBasicRequest implements IAuthenticationBasicRequest {
             this.externalId = _data["externalId"];
             this.role = _data["role"];
             this.nickname = _data["nickname"];
+            this.firstname = _data["firstname"];
         }
     }
 
@@ -2355,6 +2505,7 @@ export class AuthenticationBasicRequest implements IAuthenticationBasicRequest {
         data["externalId"] = this.externalId;
         data["role"] = this.role;
         data["nickname"] = this.nickname;
+        data["firstname"] = this.firstname;
         return data;
     }
 }
@@ -2364,6 +2515,7 @@ export interface IAuthenticationBasicRequest {
     externalId?: string;
     role?: string;
     nickname?: string;
+    firstname?: string;
 }
 
 export class Transaction implements ITransaction {
@@ -2385,7 +2537,7 @@ export class Transaction implements ITransaction {
     chargedEnergy?: number;
     chargedDistance?: number;
     id?: number;
-    transactionId?: number;
+    transactionId?: string;
     createdDate?: Date | undefined;
 
     constructor(data?: ITransaction) {
@@ -2474,7 +2626,7 @@ export interface ITransaction {
     chargedEnergy?: number;
     chargedDistance?: number;
     id?: number;
-    transactionId?: number;
+    transactionId?: string;
     createdDate?: Date | undefined;
 }
 
@@ -2638,6 +2790,46 @@ export interface IAnonymous2 {
     chargeController?: ChargeController;
 }
 
+export class Anonymous3 implements IAnonymous3 {
+    chargeController?: ChargeController;
+    json?: string;
+
+    constructor(data?: IAnonymous3) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.chargeController = _data["chargeController"] ? ChargeController.fromJS(_data["chargeController"]) : <any>undefined;
+            this.json = _data["json"];
+        }
+    }
+
+    static fromJS(data: any): Anonymous3 {
+        data = typeof data === 'object' ? data : {};
+        let result = new Anonymous3();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["chargeController"] = this.chargeController ? this.chargeController.toJSON() : <any>undefined;
+        data["json"] = this.json;
+        return data;
+    }
+}
+
+export interface IAnonymous3 {
+    chargeController?: ChargeController;
+    json?: string;
+}
+
 export enum CommandType {
     SaveChargingPoint = "SaveChargingPoint",
     EnableDisableChargePoint = "EnableDisableChargePoint",
@@ -2658,6 +2850,7 @@ export enum CommandType {
     DeleteRFID = "DeleteRFID",
     DeleteAllRFIDs = "DeleteAllRFIDs",
     SaveLoadManagement = "SaveLoadManagement",
+    GetLogFiles = "GetLogFiles",
 }
 
 export class ApiException extends Error {

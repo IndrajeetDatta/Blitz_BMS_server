@@ -26,15 +26,15 @@ namespace BMS.Web.Api.Authentication
             if (applicationUser != null)
             {
                 IdentityUser identityUser = await UserManager.FindByIdAsync(applicationUser.IdentityUserId);
-                applicationUser.NickName = applicationUser.NickName;
+                applicationUser.NickName = body.Nickname;
                 applicationUser.Role = ApplicationUserService.ConvertRole(body.Role);
+                applicationUser.FirstName = body.Firstname;
                 ApplicationUserService.Update(applicationUser);
                 return GenerateAuthenticationResponse(applicationUser);
             } else
             {
                 //create a new one
-                Sql.Library.Models.ApplicationUser? user = 
-                    await ApplicationUserService.Create("", "", body.Email, body.Email + "aaaaaa", body.ExternalId, body.Role, body.Nickname);
+                BMS.Sql.Library.Models.ApplicationUser? user = await ApplicationUserService.Create(body.Firstname, "", body.Email, body.Email + "aaaaaa", body.ExternalId, body.Role, body.Nickname);
                 if (user != null)
                     return GenerateAuthenticationResponse(user);
             }

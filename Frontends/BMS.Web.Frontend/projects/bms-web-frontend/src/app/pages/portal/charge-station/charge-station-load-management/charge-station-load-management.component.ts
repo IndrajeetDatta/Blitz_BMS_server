@@ -41,7 +41,8 @@ export class ChargeStationLoadManagementComponent implements OnInit {
   loadCircuitFuse: FormControl
   highLevelMeasuringDevice: FormControl
   eth0IPAddress: FormControl
-  measuringDeviceType: FormControl
+  measuringDeviceTypeForIp: FormControl
+  measuringDeviceTypeForModbus: FormControl
   loadStrategy: FormControl
   current: FormControl
   plannedCurrent: FormControl
@@ -52,19 +53,46 @@ export class ChargeStationLoadManagementComponent implements OnInit {
   selectedLoadStrategy: string
 
   navigationBtns: NavBtnType[];
-  
+
+  initialSelectedDeviceType: string = '';
+  initialSelectedRS485Controller: string = '';
+
   async saveConfiguration(): Promise<void> {
     try {
-      this.configuration.loadManagementActive = this.loadManagementActive.value;
       this.configuration.chargePoints = this.chargingPoints.value;
-      this.configuration.monitoredCps = this.monitoredCPs.value;
 
       this.configuration.loadCircuitFuse = this.loadCircuitFuse.value;
       this.configuration.chargingParkName = this.chargingParkName.value;
-      this.configuration.highLevelMeasuringDeviceModbus = this.selectedHighDeviceType;
       this.configuration.loadStrategy = this.selectedLoadStrategy;
-      this.configuration.eth0IPAddress = this.eth0IPAddress.value;
-      this.configuration.measuringDeviceType = this.selectedDeviceType;
+      this.configuration.loadManagementIpAddress = this.eth0IPAddress.value;
+
+      if (this.selectedHighDeviceType === 'Ip Address') {
+        this.configuration.highLevelMeasuringDeviceModbus = 'ipdevice';
+        this.configuration.highLevelMeasuringDeviceControllerId = '';
+        if (this.selectedDeviceType === "Phoenix Contact EEM377") {
+          this.configuration.measuringDeviceType = 'EEM377';
+        }
+        else {
+          this.configuration.measuringDeviceType = 'MA370';
+        }
+      }
+      else {
+        this.configuration.measuringDeviceType = '';
+        this.configuration.highLevelMeasuringDeviceModbus = '';
+        if (this.selectedHighDeviceType === 'RS 485 Modbus') {
+          if (this.configuration.chargePoints != undefined) {
+            if (this.configuration.chargePoints[0].name === this.selectedDeviceType) {
+              this.configuration.highLevelMeasuringDeviceControllerId = this.configuration.chargePoints[0].chargeControllerUid;
+            }
+            else {
+              this.configuration.highLevelMeasuringDeviceControllerId = this.configuration.chargePoints[1].chargeControllerUid;
+            }
+          }
+        }
+        else {
+          this.configuration.highLevelMeasuringDeviceControllerId = '';
+        }
+      }
 
       const chargeControllerCommand: any = {}
       Object.assign(chargeControllerCommand, this.configuration);
@@ -89,7 +117,7 @@ export class ChargeStationLoadManagementComponent implements OnInit {
       this.selectAllCPs = false
       return;
     }
-  
+
     let flagSelectAllCPs = true;
     this.configuration.chargePoints?.forEach((value, nestedIndex) => {
       if (index !== nestedIndex && !value.enabled) flagSelectAllCPs = false;
@@ -109,18 +137,54 @@ export class ChargeStationLoadManagementComponent implements OnInit {
       this.limiting = new FormControl(this.configuration.loadManagementActive);
       this.loadCircuitFuse = new FormControl(this.configuration.loadCircuitFuse);
       this.chargingParkName = new FormControl(this.configuration.chargingParkName);
-      this.eth0IPAddress = new FormControl(this.configuration.eth0IPAddress);
+      this.eth0IPAddress = new FormControl(this.configuration.loadManagementIpAddress);
       this.current = new FormControl([new FormControl(this.configuration.currentI1), new FormControl(this.configuration.currentI2), new FormControl(this.configuration.currentI3)]);
       this.plannedCurrent = new FormControl([new FormControl(this.configuration.plannedCurrentI1), new FormControl(this.configuration.plannedCurrentI2), new FormControl(this.configuration.plannedCurrentI3)]);
       this.supervisionMeterCurrent = new FormControl([new FormControl(this.configuration.supervisionMeterCurrentI1), new FormControl(this.configuration.supervisionMeterCurrentI2), new FormControl(this.configuration.supervisionMeterCurrentI3)]);
-      
+
       this.loadStrategy = new FormControl("Equal Distribution");
-      this.highLevelMeasuringDevice = new FormControl([new FormControl("None"), this.eth0IPAddress, new FormControl("RS 485 Modbus")]);
-      this.measuringDeviceType = new FormControl([new FormControl("Phoenix Contact EEM377"), new FormControl("Phoenix Contact MA370")]);
+      this.highLevelMeasuringDevice = new FormControl([new FormControl("None"), new FormControl("Ip Address"), new FormControl("RS 485 Modbus")]);
+      this.measuringDeviceTypeForIp = new FormControl([new FormControl("Phoenix Contact EEM377"), new FormControl("Phoenix Contact MA370")]);
+      if (this.configuration.chargePoints != undefined) {
+        if (this.configuration.chargePoints.length > 0) {
+          this.measuringDeviceTypeForModbus = new FormControl([new FormControl(this.configuration.chargePoints[0].name), new FormControl(this.configuration.chargePoints[1].name)]);
+        }
+        else {
+          this.measuringDeviceTypeForModbus = new FormControl([new FormControl(this.configuration.chargePoints[0].name)]);
+        }
+      }
       this.chargingPoints = new FormControl(this.configuration.chargePoints);
 
-      this.selectedHighDeviceType = this.eth0IPAddress.value;
-      this.selectedDeviceType = "Phoenix Contact MA370";
+      if (this.configuration.highLevelMeasuringDeviceModbus === 'ipdevice') {
+        this.selectedHighDeviceType = "Ip Address";
+        if (this.configuration.measuringDeviceType === 'EEM377') {
+          this.selectedDeviceType = "Phoenix Contact EEM377";
+        }
+        else {
+          this.selectedDeviceType = "Phoenix Contact MA370";
+        }
+        this.initialSelectedDeviceType = this.selectedDeviceType
+      }
+      if (this.configuration.highLevelMeasuringDeviceControllerId != '') {
+        if (!this.selectedHighDeviceType)
+          this.selectedHighDeviceType = "RS 485 Modbus";
+        if (this.configuration.chargePoints != undefined) {
+          if (this.configuration.highLevelMeasuringDeviceControllerId === this.configuration.chargePoints[0].chargeControllerUid) {
+            if (!this.selectedDeviceType)
+              this.selectedDeviceType = this.configuration.chargePoints[0].name!;
+            this.initialSelectedRS485Controller = this.configuration.chargePoints[0].name!
+          }
+          else {
+            if (!this.selectedDeviceType)
+              this.selectedDeviceType = this.configuration.chargePoints[1].name!;
+            this.initialSelectedRS485Controller = this.configuration.chargePoints[1].name!
+          }
+        }
+      }
+
+      if (!this.selectedHighDeviceType)
+        this.selectedHighDeviceType = "None";
+
       this.selectedLoadStrategy = this.loadStrategy.value;
 
       this.selectCPsFunction(undefined, undefined);
@@ -132,6 +196,22 @@ export class ChargeStationLoadManagementComponent implements OnInit {
         this.router.navigate(['/portal/charge-station/details'], {queryParams: {id: this.id}});
     } else if (valueEmitted.text === this.translate.instant("charge-station.details.load-management")) {
       window.location.reload();
-    } 
+    }
+  }
+
+  preselectOption(event: any) {
+    if (this.configuration.highLevelMeasuringDeviceModbus === 'ipdevice' && event === 'RS 485 Modbus' && this.configuration.chargePoints != undefined) {
+      this.selectedDeviceType = this.configuration.chargePoints[0].name !== undefined ? this.configuration.chargePoints[0].name :
+                                this.configuration.chargePoints[1].name !== undefined ? this.configuration.chargePoints[1].name : '';
+    }
+    if (this.configuration.highLevelMeasuringDeviceModbus === 'ipdevice' && event === 'Ip Address' && this.configuration.chargePoints != undefined) {
+      this.selectedDeviceType = this.initialSelectedDeviceType
+    }
+    if (this.configuration.highLevelMeasuringDeviceModbus === '' && event === 'Ip Address') {
+      this.selectedDeviceType = this.initialSelectedDeviceType
+    }
+    if (this.configuration.highLevelMeasuringDeviceModbus === '' && event === 'RS 485 Modbus') {
+      this.selectedDeviceType = this.initialSelectedRS485Controller;
+    }
   }
 }

@@ -11,6 +11,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { CommandService } from 'projects/bms-web-frontend/src/app/services/command.service';
 import { AuthenticationService } from 'projects/bms-web-frontend/src/app/services/api/authentication.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UserAccessDialogComponent } from './user-access-dialog/user-access-dialog.component';
 
 @Component({
   selector: 'app-charge-station-details',
@@ -59,6 +61,7 @@ export class ChargeStationDetailsComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     public translate: TranslateService,
+    private installersDialog: MatDialog,
   ) {
     this.route.queryParams
       .subscribe(params => {
@@ -143,6 +146,19 @@ export class ChargeStationDetailsComponent implements OnInit {
     }
   }
 
+  async changeTestMode() {
+    if (this.chargeController.allowTestModeCommands) this.chargeController.allowTestModeCommands = false
+    else this.chargeController.allowTestModeCommands = true
+    
+    try {
+      const response = await this.chargeStationService.updateConfiguration(this.chargeController, this.chargeController.id!);
+
+      this.snackBar.open(this.translate.instant("general.change-submitted"), this.translate.instant("general.ok"), {duration: 3000});
+    } catch (e) {
+      this.snackBar.open(this.translate.instant("general.wrong"), this.translate.instant("general.ok"), {duration: 3000});
+    }
+  }
+
   editChargePoint(id?: number) {
     this.router.navigate(['/portal/charge-station/charge-point-edit'], {queryParams: {id}});
   }
@@ -175,8 +191,16 @@ export class ChargeStationDetailsComponent implements OnInit {
     this.router.navigate(['/portal/charge-station/commands-history'], {queryParams: {masterId, id}});
   }
 
+  getLogs(id?: number) {
+    this.router.navigate(['/portal/charge-station/logs'], {queryParams: {id}});
+  }
+
   getEmails(id?: number) {
     this.router.navigate(['/portal/charge-station/emails'], {queryParams: {id}});
+  }
+
+  showAllInstallers(id?: number) {
+    this.installersDialog.open(UserAccessDialogComponent, {data: this.installers});
   }
 
   getDate(date?: Date, shortFormat?: Boolean) {

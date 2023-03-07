@@ -62,7 +62,8 @@ namespace BMS.Sql.Library.Utils
             ret.Add(nameof(chargeController.ChargingParkName).ToLower(), "load_circuit_name");
             ret.Add(nameof(chargeController.LoadCircuitFuse).ToLower(), "fuse");
             ret.Add(nameof(chargeController.HighLevelMeasuringDeviceModbus).ToLower(), "modbus_id");
-            ret.Add(nameof(chargeController.MeasuringDeviceType).ToLower(), "load_circuit_measure_device_type");
+            ret.Add(nameof(chargeController.MeasuringDeviceType).ToLower(), "measuring_device_type");
+            ret.Add(nameof(chargeController.LoadManagementIpAddress).ToLower(), "ip_address");
             ret.Add(nameof(chargeController.LoadStrategy).ToLower(), "charging_rule");
             ret.Add(nameof(chargeController.ChargePoints).ToLower(), "charging_points");
             return ret;
@@ -134,9 +135,12 @@ namespace BMS.Sql.Library.Utils
                 foreach (JProperty property in json.Properties())
                 {
                     string prop = property.Name.ToLower();
-                    string convertedProp;
+                    string convertedProp = "" ;
                     if ((fieldsToModify == null || fieldsToModify.Contains(prop)) && convertDict.TryGetValue(prop, out convertedProp))
-                        returnJson.Add(convertedProp, property.Value);
+                        if (property.Value == null || String.IsNullOrEmpty(property.Value.ToString()))
+                            returnJson.Add(convertedProp, "");
+                        else returnJson.Add(convertedProp, property.Value);
+                   
                 }
 
                 return returnJson.ToString();

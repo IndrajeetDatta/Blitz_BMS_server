@@ -61,6 +61,7 @@
             }
             SystemTime = chargingStation.SystemTime;
             Heartbeat = chargingStation.Heartbeat;
+            FullHeartbeat = chargingStation.FullHeartbeat;
             NetworkType = chargingStation.NetworkType;
             Eth0DHCP = chargingStation.ETH0DHCP ?? false;
             Eth0IPAddress = chargingStation.ETH0IPAddress;
@@ -142,6 +143,7 @@
             {
                 chargingStation.Transactions.ForEach(transaction => Transactions.Add(new Transaction(transaction)));
             }
+            LoadManagementIpAddress = chargingStation.LoadManagementIpAddress;
         }
     }
 }

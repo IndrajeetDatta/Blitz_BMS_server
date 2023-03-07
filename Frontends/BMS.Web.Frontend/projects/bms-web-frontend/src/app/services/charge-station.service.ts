@@ -77,8 +77,20 @@ export class ChargeStationService {
   async getEmailsList(chargeControllerId: number) : Promise<BMSWebApiClientModule.Email[]> {
     return this.webApiService.getClient().getChargeStationEmails(this.userEmail, this.externalId, chargeControllerId);
   }
-  
+
   async getInstallersForChargeStation(chargeControllerId: number) : Promise<BMSWebApiClientModule.ApplicationUser[]> {
     return this.webApiService.getClient().getInstallersForChargeStation(this.userEmail, this.externalId, chargeControllerId);
+  }
+
+  async getAllInstallers() : Promise<BMSWebApiClientModule.ApplicationUser[]> {
+    return this.webApiService.getClient().getAllInstallers(this.userEmail, this.externalId);
+  }
+
+  async addAndRemoveAccessForInstallers(chargeControllerId: number, removeAccessList: BMSWebApiClientModule.ApplicationUser[], addAccessList: BMSWebApiClientModule.ApplicationUser[]){
+    return this.webApiService.getClient().addAndRemoveAccessForInstallers(this.userEmail, this.externalId, [removeAccessList, addAccessList], chargeControllerId);
+  }
+
+  async getLogFiles(chargePointId: number) : Promise<BMSWebApiClientModule.Anonymous3> {
+    return this.webApiService.getClient().getChargeStationLogFiles(this.userEmail, this.externalId, chargePointId);
   }
 }

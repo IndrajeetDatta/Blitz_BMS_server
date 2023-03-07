@@ -17,5 +17,7 @@ namespace BMS.Data.Api.Models
         public object Transactions { get; set; }
         [JsonProperty("email-preferences")]
         public object Emails { get; set; }
+        [JsonProperty("payload-type")]
+        public string PayloadType { get; set; }
     }
 }

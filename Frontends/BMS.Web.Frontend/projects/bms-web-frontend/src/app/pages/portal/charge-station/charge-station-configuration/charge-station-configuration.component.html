@@ -143,13 +143,13 @@
                     <mat-checkbox [(ngModel)]="configuration.useAccessCredentials" [color]="'primary'"></mat-checkbox>
                 </div>
             </div>
-            <app-cell-table-station-configuration
-                [label]="'station-configuration.username' | translate" 
+            <app-cell-table-station-configuration *ngIf="configuration.useAccessCredentials"
+                [label]="'station-configuration.username' | translate"
                 [value]="modemUsername.value"
                 [textContol]="modemUsername"
                 [edit]="true">
             </app-cell-table-station-configuration>
-            <app-cell-table-station-configuration
+            <app-cell-table-station-configuration *ngIf="configuration.useAccessCredentials"
                 [label]="'station-configuration.user-password' | translate"
                 [value]="modemPassword.value"
                 [textContol]="modemPassword"

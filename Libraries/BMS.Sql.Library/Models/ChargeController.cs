@@ -42,7 +42,7 @@ namespace BMS.Sql.Library.Models
         public DateTimeOffset? LastMaintenance { get; set; }
         public DateTimeOffset? SystemTime { get; set; }
         public DateTimeOffset? Heartbeat { get; set; }
-
+        public DateTimeOffset? FullHeartbeat { get; set; }
         public string? NetworkType { get; set; }
 
         #endregion
@@ -159,10 +159,11 @@ namespace BMS.Sql.Library.Models
         public string? MonitoredCps { get; set; }
         public string? HighLevelMeasuringDeviceModbus { get; set; }
         public string? HighLevelMeasuringDeviceControllerId { get; set; }
+        public string? LoadManagementIpAddress { get; set; }
 
         #endregion
 
-        public string? WebAppVersion {get; set;}
+        public string? WebAppVersion { get; set; }
         public bool? AllowTestModeCommands { get; set; }
     }
 

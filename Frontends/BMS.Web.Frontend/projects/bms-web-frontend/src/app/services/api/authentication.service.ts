@@ -72,9 +72,10 @@ export class AuthenticationService {
       if (user && this.storageService.getUserEmail() !== user.email) {
         if (user.email && user.sub) {
           try {
-            const {email, nickname, sub} = user
+            const {email, nickname, sub, name} = user;
+            const firstname = name;
             const role = this.getRole(user)
-            const appUser = new BMSWebApiClientModule.AuthenticationBasicRequest({email, externalId: sub, nickname, role})
+            const appUser = new BMSWebApiClientModule.AuthenticationBasicRequest({email, externalId: sub, nickname, role, firstname})
             const result = await this.authenticateBasic(appUser);
             this.storageService.setUserEmail(email);
             this.storageService.setExternalId(sub);

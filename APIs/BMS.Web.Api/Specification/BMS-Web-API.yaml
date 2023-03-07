@@ -378,6 +378,61 @@ paths:
         name: chargeControllerId
         in: path
         required: true
+    post:
+      summary: ''
+      operationId: add-and-remove-access-for-installers
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationUser'
+  /charge-station/installers/:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationUser'
+      operationId: get-all-installers
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+          required: true
+      description: ''
+    parameters: []
   '':
     parameters: []
   '/charge-station/configuration/whitelist/{id}':
@@ -998,6 +1053,41 @@ paths:
           in: header
           name: externalId
           description: for login
+  '/charge-station/get-log-files/{id}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chargeController:
+                    $ref: '#/components/schemas/ChargeController'
+                  json:
+                    type: string
+      operationId: get-charge-station-log-files
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: userEmail
+          description: for login
+        - schema:
+            type: string
+          in: header
+          name: externalId
+          description: for login
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+        description: chargePoint id
 components:
   schemas:
     ApplicationUser:
@@ -1272,6 +1362,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Transaction'
+        fullHeartbeat:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        loadManagementIpAddress:
+          type: string
     ChargePoint:
       title: ChargePoint
       x-stoplight:
@@ -1537,6 +1634,7 @@ components:
             - DeleteRFID
             - DeleteAllRFIDs
             - SaveLoadManagement
+            - GetLogFiles
         payload:
           type: string
         chargeControllerId:
@@ -1616,6 +1714,8 @@ components:
           type: string
         nickname:
           type: string
+        firstname:
+          type: string
     Transaction:
       description: ''
       type: object
@@ -1675,7 +1775,7 @@ components:
         id:
           type: integer
         transactionId:
-          type: integer
+          type: string
         createdDate:
           type:
             - string

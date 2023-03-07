@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BMSWebApiClientModule } from 'projects/bms-web-api-client/src/public-api';
 import { NavBtnType } from 'projects/bms-web-frontend/src/app/compoenents/header-navigation/header-navigation/header-navigation.component';
 import { ChargeStationService } from 'projects/bms-web-frontend/src/app/services/charge-station.service';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -27,11 +28,14 @@ export class ChargeStationEmailsComponent implements OnInit {
     );
    }
 
-  chargeController: BMSWebApiClientModule.ChargeController;
+
   dtOptions: DataTables.Settings = {};
   id: number = -1;
   navigationBtns: NavBtnType[];
-  emails: BMSWebApiClientModule.Email[] =[];
+  emailData: BMSWebApiClientModule.Email[] =[];
+  dtTrigger: Subject<any> = new Subject<any>();
+
+  chargeController: BMSWebApiClientModule.ChargeController;
 
   async ngOnInit(): Promise<void> {
     this.dtOptions = {
@@ -40,11 +44,21 @@ export class ChargeStationEmailsComponent implements OnInit {
 
     try {
       this.chargeController = await this.chargeStationService.getChargeController(this.id);
-      this.emails = await this.chargeStationService.getEmailsList(this.id);
+      this.emailData = await this.chargeStationService.getEmailsList(this.id);
+      this.dtTrigger.next(void 0);
       this.navigationBtns = [{text: this.chargeController.serialNumber != undefined? this.chargeController.serialNumber : ''}, {text: 'Emails'}];
     } catch (error) {
       console.log("ERROR fetch emails on emails page")
     }
+  }
+
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(void 0);
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   navBtnClicked(valueEmitted: NavBtnType) {

@@ -1,0 +1,75 @@
+@import '../../../../../../styles.scss';
+$checkboxColor: #00dfa3;
+
+.style-table td{
+  padding-right: 15px;
+  padding-top: 10px;
+}
+
+.modal-container {
+  width: 28vw;
+  height: auto;
+  padding: 20px;
+}
+
+.center-checkbox {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.inputs-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.btn-close {
+  margin-right: 0.5vw;
+}
+
+.footer {
+  margin-top: 20px;
+}
+
+.close-button {
+  border-radius: 1em;
+  background-color: #DCDCDC;
+  color: $black;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-left: 5.5vw;
+}
+
+.save-button {
+  border-radius: 1em;
+  background-color: #DCDCDC;
+  color: $black;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-left: 8vw;
+}
+
+.pagination-container {
+  margin-top: 10px;
+  float: left;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  padding-right: 5px;
+  padding-left: 5px;
+  gap: 100px;
+}
+
+.button-close-container {
+  float: right;
+}
+
+.filter-input {
+  height: 40px;
+}

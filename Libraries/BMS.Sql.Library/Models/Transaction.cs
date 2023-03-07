@@ -11,7 +11,7 @@ namespace BMS.Sql.Library.Models
         public int Id { get; set; }
         public int ChargeControllerId { get; set; }
         public int ChargePointId { get; set; }
-        public int TransactionId { get; set; }
+        public string TransactionId { get; set; }
         public string? ChargePointName { get; set; }
         public string? RfidTag { get; set; }
         public string? RfidName { get; set; }

@@ -20,6 +20,7 @@ import { ChargeStationComponent } from './pages/portal/charge-station/charge-sta
 import { ChargingPointEditComponent } from './pages/portal/charge-station/charging-point-edit/charging-point-edit.component';
 import { ChargeStationCommandHistoryComponent } from './pages/portal/charge-station/charge-station-command-history/charge-station-command-history.component';
 import { ChargeStationEmailsComponent } from './pages/portal/charge-station/charge-station-emails/charge-station-emails.component';
+import { ChargeStationLogsComponent } from './pages/portal/charge-station/charge-station-logs/charge-station-logs.component';
 
 const routes: Routes = [
   {
@@ -88,6 +89,10 @@ const routes: Routes = [
           {
             path: 'emails',
             component: ChargeStationEmailsComponent
+          },
+          {
+            path: 'logs',
+            component: ChargeStationLogsComponent
           }
         ]
       },

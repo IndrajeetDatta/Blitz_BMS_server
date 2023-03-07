@@ -2981,3 +2981,138 @@ BEGIN
 END $EF$;
 COMMIT;
 
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230127134418_make_Installer_nullable') THEN
+    ALTER TABLE "ChargeControllers" DROP CONSTRAINT "FK_ChargeControllers_ApplicationUsers_InstallerId";
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230127134418_make_Installer_nullable') THEN
+    ALTER TABLE "ChargeControllers" ALTER COLUMN "InstallerId" DROP NOT NULL;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230127134418_make_Installer_nullable') THEN
+    ALTER TABLE "ChargeControllers" ADD CONSTRAINT "FK_ChargeControllers_ApplicationUsers_InstallerId" FOREIGN KEY ("InstallerId") REFERENCES "ApplicationUsers" ("Id");
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230127134418_make_Installer_nullable') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230127134418_make_Installer_nullable', '6.0.8');
+    END IF;
+END $EF$;
+COMMIT;
+
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224103855_add payloadType to ChargeController table') THEN
+    ALTER TABLE "ChargeControllers" ADD "PayloadType" text NULL;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224103855_add payloadType to ChargeController table') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230224103855_add payloadType to ChargeController table', '6.0.8');
+    END IF;
+END $EF$;
+COMMIT;
+
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224104834_add partial heartbeat to ChargeController table') THEN
+    ALTER TABLE "ChargeControllers" DROP COLUMN "PayloadType";
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224104834_add partial heartbeat to ChargeController table') THEN
+    ALTER TABLE "ChargeControllers" ADD "PartialHeartbeat" timestamp with time zone NULL;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224104834_add partial heartbeat to ChargeController table') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230224104834_add partial heartbeat to ChargeController table', '6.0.8');
+    END IF;
+END $EF$;
+COMMIT;
+
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224105145_add full heartbeat to ChargeController table') THEN
+    ALTER TABLE "ChargeControllers" RENAME COLUMN "PartialHeartbeat" TO "FullHeartbeat";
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224105145_add full heartbeat to ChargeController table') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230224105145_add full heartbeat to ChargeController table', '6.0.8');
+    END IF;
+END $EF$;
+COMMIT;
+
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224152218_loadManagementIpAddress') THEN
+    ALTER TABLE "ChargeControllers" ADD "LoadManagementIpAddress" text NULL;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230224152218_loadManagementIpAddress') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230224152218_loadManagementIpAddress', '6.0.8');
+    END IF;
+END $EF$;
+COMMIT;
+
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230228084121_Modify_TransactionId_for_Trasnsactions_type_to_string') THEN
+    ALTER TABLE "Transactions" ALTER COLUMN "TransactionId" TYPE text;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230228084121_Modify_TransactionId_for_Trasnsactions_type_to_string') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230228084121_Modify_TransactionId_for_Trasnsactions_type_to_string', '6.0.8');
+    END IF;
+END $EF$;
+COMMIT;
+

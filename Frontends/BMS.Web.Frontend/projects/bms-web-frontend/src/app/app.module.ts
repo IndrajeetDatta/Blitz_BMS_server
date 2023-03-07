@@ -57,7 +57,9 @@ import { CommandService } from './services/command.service';
 //Auth0
 import { AuthModule } from '@auth0/auth0-angular';
 import {environment as env} from '../environments/environment';
-import { ChargeStationEmailsComponent } from './pages/portal/charge-station/charge-station-emails/charge-station-emails.component'
+import { ChargeStationEmailsComponent } from './pages/portal/charge-station/charge-station-emails/charge-station-emails.component';
+import { UserAccessDialogComponent } from './pages/portal/charge-station/charge-station-details/user-access-dialog/user-access-dialog.component'
+import { ChargeStationLogsComponent } from './pages/portal/charge-station/charge-station-logs/charge-station-logs.component'
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { ChargeStationEmailsComponent } from './pages/portal/charge-station/char
     ChargeStationCommandHistoryComponent,
     CommandHistoryDialogComponent,
     TransactionDialogComponent,
-    ChargeStationEmailsComponent
+    ChargeStationEmailsComponent,
+    UserAccessDialogComponent,
+    ChargeStationLogsComponent
   ],
   imports: [
     // Core

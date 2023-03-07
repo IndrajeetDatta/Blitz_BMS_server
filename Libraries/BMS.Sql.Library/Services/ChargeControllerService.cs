@@ -118,6 +118,7 @@ namespace BMS.Sql.Library.Services
                 .Include(x => x.OCPPConfig)
                 .Include(x => x.oCPPStatus)
                 .Include(x => x.UserData)
+                .Include(x => x.Emails)
                 .SingleOrDefault(x => x.SerialNumber == serialNumber);
         }
         public List<ChargeController> GetAll()
@@ -154,8 +155,14 @@ namespace BMS.Sql.Library.Services
             } catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                throw;
             }
             return chargeController;
+        }
+
+        public List<string> GetAllEmailsForChargeController(int chargeControllerId)
+        {
+            return BMSDbContext.Emails.Where(x => x.ChargeControllerId == chargeControllerId).Select(x => x.EmailReceiver).ToList();
         }
 
         public void UpdateNetworkConnectiontoAll(int expireNetworkConnectionInSeconds, ILogger Log)

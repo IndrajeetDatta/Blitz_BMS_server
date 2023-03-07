@@ -1,13 +1,15 @@
+@allowed([
+  'dev'
+  'prod'
+])
+param environmentType string
 param location string
-param appInsightsName string
-param appServicePlanName string
-param appServicePlanSku string
-param appServiceName string
-param databaseConnectionStringValue string
-param databaseConnectionStringName string
+
+param bmsDatabaseConnectionString string
+param bmsStorageConnectionString string
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: appInsightsName
+  name: 'ai-bms-web-api-${environmentType}'
   location: location
   kind: 'web'
   properties: {
@@ -18,15 +20,15 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2020-12-01' = {
-  name: appServicePlanName
+  name: 'apppln-bms-web-api-${environmentType}'
   location: location
   sku: {
-    name: appServicePlanSku
+    name: 'F1'
   }
 }
 
 resource appService 'Microsoft.Web/sites@2020-12-01' = {
-  name: appServiceName
+  name: 'azapp-bms-web-api-${environmentType}'
   location: location
   properties: {
     serverFarmId: appServicePlan.id
@@ -40,11 +42,31 @@ resource appService 'Microsoft.Web/sites@2020-12-01' = {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: 'InstrumentationKey=${appInsights.properties.InstrumentationKey}'
         }
+        {
+          name: 'BlobConnectionString'
+          value: bmsStorageConnectionString
+        }
+        {
+          name: 'BlobContainerPrefix'
+          value: 'log-files-'
+        }
+        {
+          name: 'enableCommandsTestMode'
+          value: 'true'
+        }
+        {
+          name: 'lastCreatedDateCommandsHistoryInDays'
+          value: '7'
+        }
+        {
+          name: 'lastCreatedDateTransactionsInDays'
+          value: '30'
+        }
       ]
       connectionStrings: [
         {
-          name: databaseConnectionStringName
-          connectionString: databaseConnectionStringValue
+          name: 'BMSDatabaseConnectionString'
+          connectionString: bmsDatabaseConnectionString
           type: 'SQLServer'
         }
       ]

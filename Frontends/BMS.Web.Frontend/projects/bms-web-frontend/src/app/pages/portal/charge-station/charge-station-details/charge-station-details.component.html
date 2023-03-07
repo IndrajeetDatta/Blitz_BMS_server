@@ -17,6 +17,8 @@
       <button class="basic-button station-control-button" (click)="getOCCP(chargeController.id)">{{'charge-station.details.ocpp' | translate}}</button>
       <button class="basic-button station-control-button" (click)="getTransactions(chargeController.id)">{{'charge-station.details.transactions' | translate}}</button>
       <button class="basic-button station-control-button" (click)="getCommandHistory(chargeController.serialNumber, chargeController.id)">{{'charge-station.details.commands-history' | translate}}</button>
+
+
     </div>
 
     <div class="station-data-area">
@@ -30,8 +32,10 @@
           <span class="data-value">{{ chargeController.client?.phone || '-' }}</span>
           <b class="data-text">{{'auth.login.email' | translate}}: </b>
           <p class="data-value">{{ chargeController.client?.email || '-' }}</p>
-          <b class="data-text">{{'charge-station.details.last-heartbeat' | translate}}</b>
+          <b class="data-text">{{'charge-station.details.last-partial-heartbeat' | translate}}</b>
           <p class="data-value">{{ getDate(chargeController.heartbeat) || '-' }}</p>
+          <b class="data-text">{{'charge-station.details.last-full-heartbeat' | translate}}</b>
+          <p class="data-value">{{ getDate(chargeController.fullHeartbeat) || '-' }}</p>
           <b class="data-text">{{'charge-station.details.network' | translate}}</b>
           <p class="data-value" style="line-height: 1.2em;">
             {{ chargeController.networkType || 'ETH0'}}
@@ -50,7 +54,7 @@
             class="installers-dropdown"
           >
             <option
-              *ngFor="let installer of installers; index as position" [ngValue]="installer" [selected]="installer.id===chargeController.installer?.id">{{installer.firstName}} {{installer.lastName}}
+              *ngFor="let installer of installers; index as position" [ngValue]="installer" [selected]="installer.id===chargeController.installer?.id">{{installer.firstName + " " + installer.lastName != " " ? installer.firstName + " " + installer.lastName : installer.email}}
             </option>
           </select>
           <select *ngIf="isAdmin && installers.length === 0"
@@ -59,7 +63,7 @@
             class="installers-dropdown"
           >
             <option
-              *ngFor="let noOptions of noOptionsArray; index as position" [ngValue]="noOptions">{{noOptions}}
+              *ngFor="let noOptions of noOptionsArray; index as position" [ngValue]="noOption">{{noOptions}}
             </option>
           </select>
           <b class="data-text">{{'charge-station.details.phone' | translate}}</b>
@@ -116,9 +120,13 @@
           (click)="rebootCommand()">
           {{'charge-station.details.reboot' | translate}}
         </button>
-        <button class="basic-button get-data-button">{{'charge-station.details.get-logfiles' | translate}}</button>
+        <button class="basic-button get-data-button"  (click)="getLogs(chargeController.id)">{{'charge-station.details.get-logfiles' | translate}}</button>
         <button class="basic-button get-data-button">{{'charge-station.details.update' | translate}}</button>
         <button class="basic-button get-data-button"  (click)="getEmails(chargeController.id)">{{'charge-station.details.emails' | translate}}</button>
+        <button *ngIf="isAdmin" class="basic-button get-data-button"  (click)="showAllInstallers(chargeController.id)">{{'charge-station.details.user-access' | translate}}</button>
+        <button *ngIf="isAdmin" class="basic-button get-data-button"  (click)="changeTestMode()">
+          {{!chargeController.allowTestModeCommands ? ('charge-station.details.enable-test-mode' | translate) : ('charge-station.details.disable-test-mode' | translate)}}
+        </button>
       </div>
     </div>
   </div>
