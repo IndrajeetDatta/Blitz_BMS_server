@@ -1,4 +1,4 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 .provisory-title {
   font-size: 72px;
@@ -11,7 +11,7 @@
 
 .header-button {
   margin-top: 30px;
-  margin-left: 10px;
+  margin-left: 40px;
 }
 
 .filter-input {
@@ -23,8 +23,9 @@
 }
 
 .logout-button {
-  width: 80px;
+  width: 100px;
   height: 30px;
+  line-height: 40px;
   font-size: 12px;
   margin-top: 35px;
   color: $basic-white;
@@ -32,7 +33,7 @@
 }
 
 .nickname {
-  padding-top: 5px; 
+  padding-top: 5px;
   font-weight: 600;
   font-size: 1.2em;
 }

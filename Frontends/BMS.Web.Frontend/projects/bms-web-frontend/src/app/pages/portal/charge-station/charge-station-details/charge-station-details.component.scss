@@ -1,4 +1,4 @@
-@import '../../../../../styles.scss';
+@import "../../../../../styles.scss";
 
 .station-button {
   width: 120px;
@@ -11,7 +11,7 @@
 
   color: $basic-white;
   -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
-  box-shadow:         inset -3px -5px 10px $gray-shadow;
+  box-shadow: inset -3px -5px 10px $gray-shadow;
   background-color: $blitz-green;
   border: none;
   border-radius: 15em;
@@ -42,24 +42,24 @@
 
 .station-data-area {
   display: grid;
-  grid-template-areas: 'people-data station-data data-controls';
+  grid-template-areas: "people-data station-data data-controls";
 }
 
 .station-data {
-  grid-area: 'station-data';
+  grid-area: "station-data";
   justify-self: center;
 }
 
 .people-data {
   display: flex;
   flex-direction: column;
-  grid-area: 'people-data';
+  grid-area: "people-data";
 }
 
 .get-data-controls {
   display: flex;
   flex-direction: column;
-  grid-area: 'data-controls';
+  grid-area: "data-controls";
   justify-self: right;
 }
 .get-data-button {
@@ -68,13 +68,13 @@
 }
 
 .data-text {
-  grid-area: 'text';
+  grid-area: "text";
   margin-left: 10px;
   width: 150px;
 }
 
 .data-value {
-  grid-area: 'value';
+  grid-area: "value";
   width: 190px;
 }
 
@@ -88,24 +88,28 @@
   margin-top: -4px;
 }
 
-.station-data p{
+.station-data p {
   color: $header-background;
 }
 
 .station-data {
-  border: 1px solid $header-background;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 20px;
+  margin: 20px;
+  // border: 1px solid red;
   background-color: transparent;
   display: grid;
-  grid-template-areas: 'text value';
-  margin-right: 100px;
-  padding: 10px 0px;
+  grid-template-areas: "text value";
 }
 
 .station-map {
   margin-bottom: 15px;
 }
 
-agm-map{
+agm-map {
   height: 150px;
 }
 
@@ -234,10 +238,10 @@ agm-map{
 
 .reboot-btn {
   margin: auto;
-  background-color: white;
-  -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
-  box-shadow:         inset -3px -5px 10px $gray-shadow;
-  border: 1.5px solid $black;
+  background-color: #e1e5e9;
+  // -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
+  // box-shadow: inset -3px -5px 10px $gray-shadow;
+  border: 1.5px solid $gray-shadow;
   width: 25px;
   height: 25px;
   border-radius: 100%;
@@ -246,16 +250,16 @@ agm-map{
 
 .reboot-btn-disabled {
   margin: auto;
-  background-color: black;
-  -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
-  box-shadow:         inset -3px -5px 10px $gray-shadow;
-  border: 1.5px solid $black;
+  background-color: #e1e5e9;
+  // -webkit-box-shadow: inset -3px -5px 10px $gray-shadow;
+  // box-shadow: inset -3px -5px 10px $gray-shadow;
+  border: 1.5px solid $gray-shadow;
   width: 25px;
   height: 25px;
   border-radius: 100%;
 }
 
-.datepicker-last-maintenance{
+.datepicker-last-maintenance {
   width: 130px;
 }
 
@@ -263,8 +267,10 @@ agm-map{
   height: 4vh;
   width: 10vw;
   background-color: $basic-white;
-  border: 1px solid $blitz-green;
-  color: $blitz-green;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  // border: 1px solid $blitz-green;
+
+  // color: $blitz-green;
   border-radius: 10px;
   top: 50px;
   float: right;

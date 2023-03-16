@@ -21,6 +21,8 @@ import { ChargingPointEditComponent } from './pages/portal/charge-station/chargi
 import { ChargeStationCommandHistoryComponent } from './pages/portal/charge-station/charge-station-command-history/charge-station-command-history.component';
 import { ChargeStationEmailsComponent } from './pages/portal/charge-station/charge-station-emails/charge-station-emails.component';
 import { ChargeStationLogsComponent } from './pages/portal/charge-station/charge-station-logs/charge-station-logs.component';
+import { PortSharingComponent } from './pages/portal/port-sharing/port-sharing.component';
+import { OcppServerVariableComponent } from './pages/portal/ocpp-server-variable/ocpp-server-variable.component';
 
 const routes: Routes = [
   {
@@ -34,8 +36,8 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent,
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'portal',
@@ -84,17 +86,17 @@ const routes: Routes = [
           },
           {
             path: 'charge-point-edit',
-            component: ChargingPointEditComponent
+            component: ChargingPointEditComponent,
           },
           {
             path: 'emails',
-            component: ChargeStationEmailsComponent
+            component: ChargeStationEmailsComponent,
           },
           {
             path: 'logs',
-            component: ChargeStationLogsComponent
-          }
-        ]
+            component: ChargeStationLogsComponent,
+          },
+        ],
       },
       {
         path: 'account',
@@ -104,12 +106,20 @@ const routes: Routes = [
         path: 'users-management',
         component: UsersManagementComponent,
       },
-    ]
-  }
+      {
+        path: 'port-sharing',
+        component: PortSharingComponent,
+      },
+      {
+        path: 'ocpp-server-variable',
+        component: OcppServerVariableComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

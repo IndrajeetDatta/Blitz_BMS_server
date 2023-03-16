@@ -1,35 +1,56 @@
 <div *ngIf="chargeController" class="charge-station-page">
-    <app-header-navigation
-        (navBtnClicked)="navBtnClicked($event)"
-        [chargeController]="chargeController"
-        [navigationBtns]="navigationBtns">
-    </app-header-navigation>
-    <div class="command-logs-header">
-        <h4 >{{'charge-station.details.logs' | translate}}</h4>
-        <button class="basic-button station-control-button black-color large-button" (click)="getLogFilesCommand()">{{'logs.get-logs' | translate}}</button>
+  <app-header-navigation
+    (navBtnClicked)="navBtnClicked($event)"
+    [chargeController]="chargeController"
+    [navigationBtns]="navigationBtns"
+  >
+  </app-header-navigation>
+  <div class="command-logs-header">
+    <h4>{{ "charge-station.details.logs" | translate }}</h4>
+    <button
+      class="basic-button black-color large-button"
+      (click)="getLogFilesCommand()"
+    >
+      {{ "logs.get-logs" | translate }}
+    </button>
+  </div>
+  <div class="container mb-4">
+    <div class="card">
+      <div class="card-body">
+        <table
+          class="table table-bordered table-striped table-hover"
+          datatable
+          [dtOptions]="dtOptions"
+        >
+          <thead>
+            <tr>
+              <th class="cell-th">{{ "logs.createdOn" | translate }}</th>
+              <th class="cell-th">{{ "logs.name" | translate }}</th>
+              <th class="cell-th">{{ "logs.downloadLink" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let logFile of logFilesData">
+              <td class="cell-td" style="width: 20%">
+                {{ getDate(logFile.createOn) }}
+              </td>
+              <td class="cell-td" style="width: 10%">{{ logFile.name }}</td>
+              <td
+                class="cell-td"
+                style="
+                  width: 25%;
+                  color: blue;
+                  text-decoration: underline;
+                  cursor: pointer;
+                "
+                (click)="downloadFile(logFile.downloadLink)"
+              >
+                {{ logFile.downloadLink }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="container mb-4">
-        <div class="card">
-            <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions">
-                <thead>
-                    <tr >
-                        <th class="cell-th">{{'logs.createdOn' | translate}}</th>
-                        <th class="cell-th">{{'logs.name' | translate}}</th>
-                        <th class="cell-th">{{'logs.downloadLink' | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let logFile of logFilesData">
-                        <td class="cell-td" style="width: 20%;">{{ getDate(logFile.createOn) }}</td>
-                        <td class="cell-td" style="width: 10%;">{{ logFile.name }}</td>
-                        <td class="cell-td" style="width: 25%; color: blue; text-decoration: underline; cursor: pointer;" (click)="downloadFile(logFile.downloadLink)">
-                            {{ logFile.downloadLink }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

@@ -1,9 +1,15 @@
-<div style="width: 100%;">
+<div style="width: 100%">
   <div class="pagination-controlls">
     <div class="data-filter">
       <span class="basic-text filter-text">Filter Charge Points:</span>
       &nbsp;
-      <input class="filter-input" placeholder="Filter value" type="text" [(ngModel)]="filteredValue" (ngModelChange)="FilterTableData($event)">
+      <input
+        class="filter-input"
+        placeholder="Filter value"
+        type="text"
+        [(ngModel)]="filteredValue"
+        (ngModelChange)="FilterTableData($event)"
+      />
     </div>
     <select
       [(ngModel)]="pageSize"
@@ -11,10 +17,13 @@
       class="page-items-number"
     >
       <option
-        *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">{{pageSizeOption}} {{'overview.items' | translate}}
+        *ngFor="let pageSizeOption of pageSizes; index as position"
+        [ngValue]="pageSizeOption"
+      >
+        {{ pageSizeOption }} {{ "overview.items" | translate }}
       </option>
     </select>
-    <p class="basic-text">{{'overview.page' | translate}}</p>
+    <p class="basic-text">{{ "overview.page" | translate }}</p>
     <ngb-pagination
       [collectionSize]="collectionSize"
       [(page)]="page"
@@ -23,7 +32,7 @@
     >
     </ngb-pagination>
   </div>
-  <table class="charging-stations-overview">
+  <table class="charging-stations-overview table">
     <thead>
       <tr>
         <th
@@ -32,9 +41,15 @@
           (click)="sortTable('chargeControllerUid')"
         >
           <div class="test normal-col-table">
-            {{'overview.master-uid' | translate}}
-            <div class="arrow arrow-up" *ngIf="directionSorting.chargeControllerUid === 'asc'"></div>
-            <div class="arrow arrow-down" *ngIf="directionSorting.chargeControllerUid === 'desc'"></div>
+            {{ "overview.master-uid" | translate }}
+            <div
+              class="arrow arrow-up"
+              *ngIf="directionSorting.chargeControllerUid === 'asc'"
+            ></div>
+            <div
+              class="arrow arrow-down"
+              *ngIf="directionSorting.chargeControllerUid === 'desc'"
+            ></div>
           </div>
         </th>
         <th
@@ -43,35 +58,45 @@
           (click)="sortTable('serialNumber')"
         >
           <div class="test big-col-table">
-            {{'overview.serial-number' | translate}}
-            <div class="arrow arrow-up" *ngIf="directionSorting.serialNumber === 'asc'"></div>
-            <div class="arrow arrow-down" *ngIf="directionSorting.serialNumber === 'desc'"></div>
+            {{ "overview.serial-number" | translate }}
+            <div
+              class="arrow arrow-up"
+              *ngIf="directionSorting.serialNumber === 'asc'"
+            ></div>
+            <div
+              class="arrow arrow-down"
+              *ngIf="directionSorting.serialNumber === 'desc'"
+            ></div>
           </div>
         </th>
-        <th class="table-header non-sortable small-col-table" scope="col">{{'overview.connection' | translate}}</th>
+        <th class="table-header non-sortable small-col-table" scope="col">
+          {{ "overview.connection" | translate }}
+        </th>
         <th class="table-header non-sortable" scope="col">
           <div class="test normal-col-table">
-            {{'overview.client' | translate}}
+            {{ "overview.client" | translate }}
           </div>
         </th>
-        <th
-          class="table-header"
-          scope="col"
-          (click)="sortTable('location')"
-        >
+        <th class="table-header" scope="col" (click)="sortTable('location')">
           <div class="test normal-col-table">
-            {{'overview.address' | translate}}
-            <div class="arrow arrow-up" *ngIf="directionSorting.location === 'asc'"></div>
-            <div class="arrow arrow-down" *ngIf="directionSorting.location === 'desc'"></div>
+            {{ "overview.address" | translate }}
+            <div
+              class="arrow arrow-up"
+              *ngIf="directionSorting.location === 'asc'"
+            ></div>
+            <div
+              class="arrow arrow-down"
+              *ngIf="directionSorting.location === 'desc'"
+            ></div>
           </div>
         </th>
         <th class="table-header non-sortable normal-col-table" scope="col">
           <div class="test">
-            {{'overview.installer' | translate}}
+            {{ "overview.installer" | translate }}
           </div>
         </th>
-        <th class="table-header non-sortable small-col-table" scope="col" >
-          {{'overview.status' | translate}}
+        <th class="table-header non-sortable small-col-table" scope="col">
+          {{ "overview.status" | translate }}
         </th>
         <th
           class="table-header"
@@ -79,35 +104,43 @@
           (click)="sortTable('releaseChargingMode')"
         >
           <div class="test">
-            {{'overview.release-charging-mode' | translate}}
-            <div class="arrow arrow-up" *ngIf="directionSorting.releaseChargingMode === 'asc'"></div>
-            <div class="arrow arrow-down" *ngIf="directionSorting.releaseChargingMode === 'desc'"></div>
+            {{ "overview.release-charging-mode" | translate }}
+            <div
+              class="arrow arrow-up"
+              *ngIf="directionSorting.releaseChargingMode === 'asc'"
+            ></div>
+            <div
+              class="arrow arrow-down"
+              *ngIf="directionSorting.releaseChargingMode === 'desc'"
+            ></div>
           </div>
         </th>
-        <th
-          class="table-header"
-          scope="col"
-          (click)="sortTable('heartbeat')"
-        >
+        <th class="table-header" scope="col" (click)="sortTable('heartbeat')">
           <div class="test">
-            {{'overview.heartbeat' | translate}}
-            <div class="arrow arrow-up" *ngIf="directionSorting.heartbeat === 'asc'"></div>
-            <div class="arrow arrow-down" *ngIf="directionSorting.heartbeat === 'desc'"></div>
+            {{ "overview.heartbeat" | translate }}
+            <div
+              class="arrow arrow-up"
+              *ngIf="directionSorting.heartbeat === 'asc'"
+            ></div>
+            <div
+              class="arrow arrow-down"
+              *ngIf="directionSorting.heartbeat === 'desc'"
+            ></div>
           </div>
         </th>
         <th class="table-header non-sortable small-col-table" scope="col">
           <div class="test">
-            {{'overview.software-version' | translate}}
+            {{ "overview.software-version" | translate }}
           </div>
         </th>
         <th class="table-header non-sortable small-col-table" scope="col">
           <div class="test">
-            {{'overview.web-app-version' | translate}}
+            {{ "overview.web-app-version" | translate }}
           </div>
         </th>
         <th class="table-header non-sortable small-col-table" scope="col">
           <div class="test">
-            {{'overview.transactions' | translate}}
+            {{ "overview.transactions" | translate }}
           </div>
         </th>
       </tr>
@@ -117,7 +150,7 @@
         <td class="staion">
           <a
             [routerLink]="'../details'"
-            [queryParams]="{ id: station.chargeController?.id}"
+            [queryParams]="{ id: station.chargeController?.id }"
             [state]="{ station }"
             class="serial-number"
             ><u>{{ station.chargeController?.serialNumber }}</u></a
@@ -127,7 +160,9 @@
           <span>{{ station.serialNumber }}</span>
         </td>
         <td class="staion">
-          <div *ngIf="station.chargeController!.networkConnection; else elseBlock">
+          <div
+            *ngIf="station.chargeController!.networkConnection; else elseBlock"
+          >
             <i class="bi bi-check2 icon-green"></i>
           </div>
           <ng-template #elseBlock
@@ -135,32 +170,55 @@
           ></ng-template>
         </td>
         <td class="staion">
-          {{ station.chargeController!.client!.name || '-'}}
+          {{ station.chargeController!.client!.name || "-" }}
         </td>
-        <td class="staion">{{ station.chargeController?.client?.location || '-' }}</td>
-        <td class="staion">{{ station.chargeController!.installer?.firstName || '-'}}</td>
+        <td class="staion">
+          {{ station.chargeController?.client?.location || "-" }}
+        </td>
+        <td class="staion">
+          {{ station.chargeController!.installer?.firstName || "-" }}
+        </td>
         <td class="staion">
           <div class="status-read">
             <p>
-              <i *ngFor="let status of station.states; let position=index"  [class]="getStatusIconClass(status)" [title]="getTitleForStatus(station, position)" style="cursor: pointer"></i>
+              <i
+                *ngFor="let status of station.states; let position = index"
+                [class]="getStatusIconClass(status)"
+                [title]="getTitleForStatus(station, position)"
+                style="cursor: pointer"
+              ></i>
             </p>
           </div>
         </td>
         <td class="staion two-columns-grid">
-          <p class="letter-icon" *ngFor="let release of station.releaseChargingModes; let position=index" [title]="getTitleForReleaseMode(station, position)" style="cursor: pointer" >
-            {{getFirstLetterOfReleaseMode(release)}}
+          <p
+            class="letter-icon"
+            *ngFor="
+              let release of station.releaseChargingModes;
+              let position = index
+            "
+            [title]="getTitleForReleaseMode(station, position)"
+            style="cursor: pointer"
+          >
+            {{ getFirstLetterOfReleaseMode(release) }}
           </p>
         </td>
-        <td class="staion">{{ getDate(station.chargeController!.heartbeat) }}</td>
+        <td class="staion">
+          {{ getDate(station.chargeController!.heartbeat) }}
+        </td>
         <td class="staion">{{ station.chargeController!.osReleaseVersion }}</td>
         <td class="staion">{{ station.chargeController!.webAppVersion }}</td>
         <td class="staion">
           <a
-            *ngIf="station.chargeController!.transactions?.length === 0; else elseBlockTransactions"
+            *ngIf="
+              station.chargeController!.transactions?.length === 0;
+              else elseBlockTransactions
+            "
             [routerLink]="'../user-data'"
-            [queryParams]="{ id: station.chargeController?.id}"
+            [queryParams]="{ id: station.chargeController?.id }"
             [state]="{ station }"
-            class="red-serial-number">
+            class="red-serial-number"
+          >
             <u>
               {{ station.chargeController!.transactions?.length }}
             </u>
@@ -168,9 +226,10 @@
           <ng-template #elseBlockTransactions>
             <a
               [routerLink]="'../user-data'"
-              [queryParams]="{ id: station.chargeController?.id}"
+              [queryParams]="{ id: station.chargeController?.id }"
               [state]="{ station }"
-              class="serial-number">
+              class="serial-number"
+            >
               <u>
                 {{ station.chargeController!.transactions?.length }}
               </u>
@@ -186,11 +245,14 @@
       (ngModelChange)="refreshStationData(true)"
       class="page-items-number"
     >
-    <option
-      *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">{{pageSizeOption}} {{'overview.items' | translate}}
-    </option>
+      <option
+        *ngFor="let pageSizeOption of pageSizes; index as position"
+        [ngValue]="pageSizeOption"
+      >
+        {{ pageSizeOption }} {{ "overview.items" | translate }}
+      </option>
     </select>
-    <p class="basic-text">{{'overview.page' | translate}}</p>
+    <p class="basic-text">{{ "overview.page" | translate }}</p>
     <ngb-pagination
       [collectionSize]="collectionSize"
       [(page)]="page"

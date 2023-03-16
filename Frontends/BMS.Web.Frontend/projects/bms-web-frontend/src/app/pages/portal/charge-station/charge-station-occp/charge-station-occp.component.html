@@ -1,260 +1,340 @@
-<div *ngIf="chargeController && chargeController.id" class="charge-station-page">
-    <app-header-navigation 
-      (navBtnClicked)="navBtnClicked($event)"
-      [chargeController]="chargeController"
-      [navigationBtns]="navigationBtns">
-    </app-header-navigation>
-    
-    <div class="save-btn-wrapper">
-        <button
-          class="basic-button header-button" 
-          [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.OcppConfig.toString())" 
-          (click)="saveConfiguration()"
-          mat-raised-button
-          [matTooltip]="commandService.tooltipMessage(commandType.OcppConfig.toString())"
+<div
+  *ngIf="chargeController && chargeController.id"
+  class="charge-station-page"
+>
+  <app-header-navigation
+    (navBtnClicked)="navBtnClicked($event)"
+    [chargeController]="chargeController"
+    [navigationBtns]="navigationBtns"
+  >
+  </app-header-navigation>
+
+  <div class="save-btn-wrapper">
+    <button
+      class="basic-button header-button"
+      [disabled]="
+        commandService.disableCommandButtons ||
+        commandService.isDisabledCommand(commandType.OcppConfig.toString())
+      "
+      (click)="saveConfiguration()"
+      mat-raised-button
+      [matTooltip]="
+        commandService.tooltipMessage(commandType.OcppConfig.toString())
+      "
+    >
+      {{ "general.save" | translate }}
+    </button>
+  </div>
+  <div class="status-wrapper">
+    <h4>OCPP {{ "general.status" | translate }}</h4>
+    <div
+      class="connection-status"
+      *ngIf="chargeController.ocppConnection; else elseBlock"
+    >
+      <i class="bi bi-check2 icon-green"></i>
+    </div>
+    <ng-template #elseBlock>
+      <div class="connection-status">
+        <i class="bi bi-check2 icon-red"></i>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- OCPP Table -->
+  <div style="width: 85%; padding-top: 10px">
+    <div class="pagination-controlls">
+      <select
+        [(ngModel)]="pageSize"
+        (ngModelChange)="refreshStationData()"
+        class="page-items-number"
+      >
+        <option
+          *ngFor="let pageSizeOption of pageSizes; index as position"
+          [ngValue]="pageSizeOption"
         >
-          {{'general.save' | translate}}
-        </button>
+          {{ pageSizeOption }} {{ "overview.items" | translate }}
+        </option>
+      </select>
+      <p class="basic-text">{{ "overview.page" | translate }}</p>
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshStationData()"
+      >
+      </ngb-pagination>
     </div>
-    <div class="status-wrapper">
-        <h4>OCPP {{'general.status' | translate}}</h4>
-        <div class="connection-status" *ngIf="chargeController.ocppConnection; else elseBlock">
-          <i class="bi bi-check2 icon-green"></i>
-        </div>
-        <ng-template #elseBlock>
-          <div class="connection-status">
-            <i class="bi bi-check2 icon-red"></i>
-          </div>
-        </ng-template>
+    <table class="charging-stations-overview table">
+      <thead>
+        <tr>
+          <th class="table-header" scope="col" (click)="sortTable('id')">
+            <div class="test">
+              {{ "general.id" | translate }}
+              <div
+                class="arrow arrow-up"
+                *ngIf="directionSorting.id === 'asc'"
+              ></div>
+              <div
+                class="arrow arrow-down"
+                *ngIf="directionSorting.id === 'desc'"
+              ></div>
+            </div>
+          </th>
+          <th class="table-header" scope="col" (click)="sortTable('status')">
+            <div class="test">
+              {{ "general.status" | translate }}
+              <div
+                class="arrow arrow-up"
+                *ngIf="directionSorting.status === 'asc'"
+              ></div>
+              <div
+                class="arrow arrow-down"
+                *ngIf="directionSorting.status === 'desc'"
+              ></div>
+            </div>
+          </th>
+          <th
+            class="table-header"
+            scope="col"
+            (click)="sortTable('occpStatus')"
+          >
+            <div class="test">
+              OCPP {{ "general.status" | translate }}
+              <div
+                class="arrow arrow-up"
+                *ngIf="directionSorting.occpStatus === 'asc'"
+              ></div>
+              <div
+                class="arrow arrow-down"
+                *ngIf="directionSorting.occpStatus === 'desc'"
+              ></div>
+            </div>
+          </th>
+          <th
+            class="table-header"
+            scope="col"
+            (click)="sortTable('occpStatusSentDate')"
+          >
+            <div class="test">
+              {{ "occp.occp-status-sent" | translate }}
+              <div
+                class="arrow arrow-up"
+                *ngIf="directionSorting.occpStatusSentDate === 'asc'"
+              ></div>
+              <div
+                class="arrow arrow-down"
+                *ngIf="directionSorting.occpStatusSentDate === 'desc'"
+              ></div>
+            </div>
+          </th>
+          <th class="table-header non-sortable" scope="col">
+            <div class="test">
+              {{ "occp.operative" | translate }}
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let occpStatus of ocppStatusData; index as position">
+          <td class="cell-td">{{ occpStatus.id || "-" }}</td>
+          <td class="cell-td">{{ occpStatus.status || "-" }}</td>
+          <td class="cell-td">{{ occpStatus.occpStatus || "-" }}</td>
+          <td class="cell-td">
+            {{ occpStatus.occpStatusSentDate!.toUTCString() || "-" }}
+          </td>
+          <td class="cell-td">
+            <div class="connection-status">
+              <i class="bi bi-check2 icon-red"></i>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination-controlls down-controlls" style="margin-top: 75px">
+      <select
+        [(ngModel)]="pageSize"
+        (ngModelChange)="refreshStationData()"
+        class="page-items-number"
+      >
+        <option
+          *ngFor="let pageSizeOption of pageSizes; index as position"
+          [ngValue]="pageSizeOption"
+        >
+          {{ pageSizeOption }} {{ "overview.items" | translate }}
+        </option>
+      </select>
+      <p class="basic-text">{{ "overview.page" | translate }}</p>
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshStationData()"
+      >
+      </ngb-pagination>
     </div>
-    
-    <!-- OCPP Table -->
-    <div style="width: 85%; padding-top: 10px;">
-        <div class="pagination-controlls">
-          <select
-            [(ngModel)]="pageSize"
-            (ngModelChange)="refreshStationData()"
-            class="page-items-number"
-          >
-            <option
-              *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">{{pageSizeOption}} {{'overview.items' | translate}}
-            </option>
-          </select>
-          <p class="basic-text">{{'overview.page' | translate}}</p>
-          <ngb-pagination
-            [collectionSize]="collectionSize"
-            [(page)]="page"
-            [pageSize]="pageSize"
-            (pageChange)="refreshStationData()"
-          >
-          </ngb-pagination>
+  </div>
+
+  <!-- Configuration -->
+  <h4 style="margin: 20px 0px">{{ "general.configuration" | translate }}</h4>
+  <div style="display: flex; justify-content: space-evenly">
+    <div style="max-width: 500px">
+      <app-cell-table-station-configuration
+        [label]="'occp.ocpp-protocol-version' | translate"
+        [textContol]="formOCPPVersion"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.network-interface' | translate"
+        [textContol]="formNetworkInterface"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.backend-url' | translate"
+        [textContol]="formBackendURL"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.service-rfid' | translate"
+        [textContol]="formServiceRFID"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.freemode-rfid' | translate"
+        [textContol]="formFreeModeRfid"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.chargestation-model' | translate"
+        [textContol]="formModel"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.chargestation-vendor' | translate"
+        [textContol]="formVendor"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.chargestation-serial-number' | translate"
+        [textContol]="formSerialNumber"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+    </div>
+    <div style="max-width: 500px">
+      <app-cell-table-station-configuration
+        [label]="'occp.charge-box-id' | translate"
+        [textContol]="formChargeBoxId"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.charge-box-serial-number' | translate"
+        [textContol]="formChargeBoxSerialNumber"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.iccid' | translate"
+        [textContol]="formIccid"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.imsi' | translate"
+        [textContol]="formImsi"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.meter-type' | translate"
+        [textContol]="formMeterType"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'occp.meter-serial-number' | translate"
+        [textContol]="formMeterSerialNumber"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <div class="row div-row">
+        <div class="col div-col">{{ "occp.service-restart" | translate }}</div>
+        <div class="col div-col" style="display: flex; justify-content: center">
+          <mat-checkbox
+            [(ngModel)]="ocppConfigData.serviceRestart"
+            [color]="'primary'"
+            class="alignCheckBox"
+          ></mat-checkbox>
         </div>
-        <table class="charging-stations-overview">
+      </div>
+      <div class="row div-row">
+        <div class="col div-col">{{ "occp.free-mode" | translate }}</div>
+        <div class="col div-col" style="display: flex; justify-content: center">
+          <mat-checkbox
+            [(ngModel)]="ocppConfigData.freeMode"
+            [color]="'primary'"
+            class="alignCheckBox"
+          ></mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="ocpp-message-header">
+    <h4>{{ "occp.messages" | translate }}</h4>
+    <button class="basic-button black-color" (click)="exportOcppMessages()">
+      {{ "occp.export-ocpp-messages" | translate }}
+    </button>
+  </div>
+  <div class="container mb-4">
+    <div class="card">
+      <div class="card-body">
+        <table
+          class="table table-bordered table-striped table-hover"
+          datatable
+          [dtOptions]="dtOptions"
+        >
           <thead>
             <tr>
-              <th
-                class="table-header"
-                scope="col"
-                (click)="sortTable('id')"
-              >
-                <div class="test">
-                  {{'general.id' | translate}}
-                  <div class="arrow arrow-up" *ngIf="directionSorting.id === 'asc'"></div>
-                  <div class="arrow arrow-down" *ngIf="directionSorting.id === 'desc'"></div>
-                </div>
+              <th class="cell-th">{{ "occp.timestamp" | translate }}</th>
+              <th class="cell-th">{{ "occp.type" | translate }}</th>
+              <th class="cell-th">{{ "occp.action" | translate }}</th>
+              <th class="cell-th no-sort">
+                {{ "occp.message-data" | translate }}
               </th>
-              <th
-                class="table-header"
-                scope="col"
-                (click)="sortTable('status')"
-              >
-                <div class="test">
-                  {{'general.status' | translate}}
-                  <div class="arrow arrow-up" *ngIf="directionSorting.status === 'asc'"></div>
-                  <div class="arrow arrow-down" *ngIf="directionSorting.status === 'desc'"></div>
-                </div>
-              </th>
-              <th
-                class="table-header"
-                scope="col"
-                (click)="sortTable('occpStatus')"
-              >
-                <div class="test">
-                   OCPP {{'general.status' | translate}}
-                  <div class="arrow arrow-up" *ngIf="directionSorting.occpStatus === 'asc'"></div>
-                  <div class="arrow arrow-down" *ngIf="directionSorting.occpStatus === 'desc'"></div>
-                </div>
-              </th>
-              <th
-                class="table-header"
-                scope="col"
-                (click)="sortTable('occpStatusSentDate')"
-              >
-                <div class="test">
-                  {{'occp.occp-status-sent' | translate}}
-                  <div class="arrow arrow-up" *ngIf="directionSorting.occpStatusSentDate === 'asc'"></div>
-                  <div class="arrow arrow-down" *ngIf="directionSorting.occpStatusSentDate === 'desc'"></div>
-                </div>
-              </th>
-              <th class="table-header non-sortable" scope="col">
-                <div class="test">
-                    {{'occp.operative' | translate}}
-                </div>
-              </th>
+              <th class="cell-th no-sort"></th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let occpStatus of ocppStatusData; index as position">
-              <td class="cell-td">{{ occpStatus.id || '-'}}</td>
-              <td class="cell-td"> {{ occpStatus.status || '-'}}</td>
-              <td class="cell-td"> {{ occpStatus.occpStatus || '-'}}</td>
-              <td class="cell-td"> {{ occpStatus.occpStatusSentDate!.toUTCString() || '-'}}</td>
-              <td class="cell-td"><div class="connection-status"><i class="bi bi-check2 icon-red"></i></div></td>
+            <tr *ngFor="let message of ocppMessageData">
+              <td class="cell-td" style="width: 20%">
+                {{ getDate(message.timestamp) }}
+              </td>
+              <td class="cell-td" style="width: 5%">{{ message.type }}</td>
+              <td class="cell-td" style="width: 15%">{{ message.action }}</td>
+              <td class="cell-td" style="width: 50%">
+                <div class="message-data-text">{{ message.messageData }}</div>
+              </td>
+              <td class="cell-td" style="width: 10%">
+                <button
+                  class="show-message-data-btn"
+                  (click)="showMessage(message)"
+                >
+                  {{ "general.show" | translate }}
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
-        <div class="pagination-controlls down-controlls" style="margin-top: 75px;">
-          <select
-            [(ngModel)]="pageSize"
-            (ngModelChange)="refreshStationData()"
-            class="page-items-number"
-          >
-          <option
-            *ngFor="let pageSizeOption of pageSizes; index as position" [ngValue]="pageSizeOption">{{pageSizeOption}} {{'overview.items' | translate}}
-          </option>
-          </select>
-          <p class="basic-text">{{'overview.page' | translate}}</p>
-          <ngb-pagination
-            [collectionSize]="collectionSize"
-            [(page)]="page"
-            [pageSize]="pageSize"
-            (pageChange)="refreshStationData()"
-          >
-          </ngb-pagination>
-        </div>    
-    </div>
-
-    <!-- Configuration -->
-    <h4 style="margin: 20px 0px;">{{'general.configuration' | translate}}</h4>
-    <div style="display: flex; justify-content: space-evenly">
-      <div style="max-width: 500px;">
-          <app-cell-table-station-configuration
-              [label]="'occp.ocpp-protocol-version' | translate" 
-              [textContol]="formOCPPVersion"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'occp.network-interface' | translate" 
-              [textContol]="formNetworkInterface"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'occp.backend-url' | translate" 
-              [textContol]="formBackendURL"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'occp.service-rfid' | translate" 
-              [textContol]="formServiceRFID"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'occp.freemode-rfid' | translate" 
-              [textContol]="formFreeModeRfid"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'occp.chargestation-model' | translate" 
-              [textContol]="formModel"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'occp.chargestation-vendor' | translate" 
-              [textContol]="formVendor"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'occp.chargestation-serial-number' | translate" 
-              [textContol]="formSerialNumber"
-              [edit]="true">
-          </app-cell-table-station-configuration>
-      </div>
-      <div style="max-width: 500px;">
-        <app-cell-table-station-configuration
-            [label]="'occp.charge-box-id' | translate" 
-            [textContol]="formChargeBoxId"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'occp.charge-box-serial-number' | translate" 
-            [textContol]="formChargeBoxSerialNumber"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'occp.iccid' | translate" 
-            [textContol]="formIccid"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'occp.imsi' | translate" 
-            [textContol]="formImsi"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'occp.meter-type' | translate" 
-            [textContol]="formMeterType"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'occp.meter-serial-number' | translate" 
-            [textContol]="formMeterSerialNumber"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <div class="row div-row">
-          <div class="col div-col">{{'occp.service-restart' | translate}}</div>
-          <div class="col div-col" style="display: flex; justify-content: center;">
-              <mat-checkbox [(ngModel)]="ocppConfigData.serviceRestart" [color]="'primary'" class="alignCheckBox"></mat-checkbox>
-          </div>
-        </div>
-        <div class="row div-row">
-          <div class="col div-col">{{'occp.free-mode' | translate}}</div>
-          <div class="col div-col" style="display: flex; justify-content: center;">
-              <mat-checkbox [(ngModel)]="ocppConfigData.freeMode" [color]="'primary'" class="alignCheckBox"></mat-checkbox>
-          </div>
-        </div>
       </div>
     </div>
-    
-    <!-- Messages -->
-    <div class="ocpp-message-header">
-      <h4 >{{'occp.messages' | translate}}</h4>
-      <button class="basic-button station-control-button black-color" (click)="exportOcppMessages()">{{'occp.export-ocpp-messages' | translate}}</button>
-    </div>
-    <div class="container mb-4">
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions">
-                    <thead>
-                    <tr >
-                        <th class="cell-th">{{'occp.timestamp' | translate}}</th>
-                        <th class="cell-th">{{'occp.type' | translate}}</th>
-                        <th class="cell-th">{{'occp.action' | translate}}</th>
-                        <th class="cell-th no-sort">{{'occp.message-data' | translate}}</th>
-                        <th class="cell-th no-sort"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let message of ocppMessageData">
-                        <td class="cell-td" style="width: 20%;">{{ getDate(message.timestamp) }}</td>
-                        <td class="cell-td" style="width: 5%;">{{ message.type }}</td>
-                        <td class="cell-td" style="width: 15%;">{{ message.action }}</td>
-                        <td class="cell-td" style="width: 50%;"><div class="message-data-text">{{ message.messageData }}</div></td>
-                        <td class="cell-td" style="width: 10%;"><button class="show-message-data-btn" (click)="showMessage(message)">{{ 'general.show' | translate }}</button></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-    
-        </div>
-    </div>
+  </div>
 </div>

@@ -1,7 +1,7 @@
-@import '../../../../../../styles.scss';
+@import "../../../../../../styles.scss";
 $checkboxColor: #00dfa3;
 
-.style-table td{
+.style-table td {
   padding-right: 15px;
   padding-top: 10px;
 }
@@ -22,6 +22,7 @@ $checkboxColor: #00dfa3;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-around;
 }
 
 .btn-close {
@@ -34,7 +35,7 @@ $checkboxColor: #00dfa3;
 
 .close-button {
   border-radius: 1em;
-  background-color: #DCDCDC;
+  background-color: #dcdcdc;
   color: $black;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -45,7 +46,7 @@ $checkboxColor: #00dfa3;
 
 .save-button {
   border-radius: 1em;
-  background-color: #DCDCDC;
+  background-color: #dcdcdc;
   color: $black;
   padding-top: 5px;
   padding-bottom: 5px;
