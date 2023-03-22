@@ -9,332 +9,786 @@
   >
   </app-header-navigation>
 
-  <div class="save-btn-wrapper">
-    <button
-      class="basic-button header-button"
-      [disabled]="
-        commandService.disableCommandButtons ||
-        commandService.isDisabledCommand(commandType.OcppConfig.toString())
-      "
-      (click)="saveConfiguration()"
-      mat-raised-button
-      [matTooltip]="
-        commandService.tooltipMessage(commandType.OcppConfig.toString())
-      "
-    >
-      {{ "general.save" | translate }}
-    </button>
-  </div>
-  <div class="status-wrapper">
-    <h4>OCPP {{ "general.status" | translate }}</h4>
-    <div
-      class="connection-status"
-      *ngIf="chargeController.ocppConnection; else elseBlock"
-    >
-      <i class="bi bi-check2 icon-green"></i>
-    </div>
-    <ng-template #elseBlock>
-      <div class="connection-status">
-        <i class="bi bi-check2 icon-red"></i>
-      </div>
-    </ng-template>
-  </div>
-
-  <!-- OCPP Table -->
-  <div style="width: 85%; padding-top: 10px">
-    <div class="pagination-controlls">
-      <select
-        [(ngModel)]="pageSize"
-        (ngModelChange)="refreshStationData()"
-        class="page-items-number"
-      >
-        <option
-          *ngFor="let pageSizeOption of pageSizes; index as position"
-          [ngValue]="pageSizeOption"
-        >
-          {{ pageSizeOption }} {{ "overview.items" | translate }}
-        </option>
-      </select>
-      <p class="basic-text">{{ "overview.page" | translate }}</p>
-      <ngb-pagination
-        [collectionSize]="collectionSize"
-        [(page)]="page"
-        [pageSize]="pageSize"
-        (pageChange)="refreshStationData()"
-      >
-      </ngb-pagination>
-    </div>
-    <table class="charging-stations-overview table">
-      <thead>
-        <tr>
-          <th class="table-header" scope="col" (click)="sortTable('id')">
-            <div class="test">
-              {{ "general.id" | translate }}
-              <div
-                class="arrow arrow-up"
-                *ngIf="directionSorting.id === 'asc'"
-              ></div>
-              <div
-                class="arrow arrow-down"
-                *ngIf="directionSorting.id === 'desc'"
-              ></div>
-            </div>
-          </th>
-          <th class="table-header" scope="col" (click)="sortTable('status')">
-            <div class="test">
-              {{ "general.status" | translate }}
-              <div
-                class="arrow arrow-up"
-                *ngIf="directionSorting.status === 'asc'"
-              ></div>
-              <div
-                class="arrow arrow-down"
-                *ngIf="directionSorting.status === 'desc'"
-              ></div>
-            </div>
-          </th>
-          <th
-            class="table-header"
-            scope="col"
-            (click)="sortTable('occpStatus')"
+  <mat-tab-group>
+    <mat-tab label="Status">
+      <div class="container">
+        <div class="save-btn-wrapper">
+          <button
+            class="basic-button header-button"
+            [disabled]="
+              commandService.disableCommandButtons ||
+              commandService.isDisabledCommand(
+                commandType.OcppConfig.toString()
+              )
+            "
+            (click)="saveConfiguration()"
+            mat-raised-button
+            [matTooltip]="
+              commandService.tooltipMessage(commandType.OcppConfig.toString())
+            "
           >
-            <div class="test">
-              OCPP {{ "general.status" | translate }}
-              <div
-                class="arrow arrow-up"
-                *ngIf="directionSorting.occpStatus === 'asc'"
-              ></div>
-              <div
-                class="arrow arrow-down"
-                *ngIf="directionSorting.occpStatus === 'desc'"
-              ></div>
-            </div>
-          </th>
-          <th
-            class="table-header"
-            scope="col"
-            (click)="sortTable('occpStatusSentDate')"
+            {{ "general.save" | translate }}
+          </button>
+        </div>
+        <div class="status-wrapper">
+          <h4>OCPP {{ "general.status" | translate }}</h4>
+          <div
+            class="connection-status"
+            *ngIf="chargeController.ocppConnection; else elseBlock"
           >
-            <div class="test">
-              {{ "occp.occp-status-sent" | translate }}
-              <div
-                class="arrow arrow-up"
-                *ngIf="directionSorting.occpStatusSentDate === 'asc'"
-              ></div>
-              <div
-                class="arrow arrow-down"
-                *ngIf="directionSorting.occpStatusSentDate === 'desc'"
-              ></div>
-            </div>
-          </th>
-          <th class="table-header non-sortable" scope="col">
-            <div class="test">
-              {{ "occp.operative" | translate }}
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let occpStatus of ocppStatusData; index as position">
-          <td class="cell-td">{{ occpStatus.id || "-" }}</td>
-          <td class="cell-td">{{ occpStatus.status || "-" }}</td>
-          <td class="cell-td">{{ occpStatus.occpStatus || "-" }}</td>
-          <td class="cell-td">
-            {{ occpStatus.occpStatusSentDate!.toUTCString() || "-" }}
-          </td>
-          <td class="cell-td">
+            <i class="bi bi-check2 icon-green"></i>
+          </div>
+          <ng-template #elseBlock>
             <div class="connection-status">
               <i class="bi bi-check2 icon-red"></i>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="pagination-controlls down-controlls" style="margin-top: 75px">
-      <select
-        [(ngModel)]="pageSize"
-        (ngModelChange)="refreshStationData()"
-        class="page-items-number"
-      >
-        <option
-          *ngFor="let pageSizeOption of pageSizes; index as position"
-          [ngValue]="pageSizeOption"
-        >
-          {{ pageSizeOption }} {{ "overview.items" | translate }}
-        </option>
-      </select>
-      <p class="basic-text">{{ "overview.page" | translate }}</p>
-      <ngb-pagination
-        [collectionSize]="collectionSize"
-        [(page)]="page"
-        [pageSize]="pageSize"
-        (pageChange)="refreshStationData()"
-      >
-      </ngb-pagination>
-    </div>
-  </div>
-
-  <!-- Configuration -->
-  <h4 style="margin: 20px 0px">{{ "general.configuration" | translate }}</h4>
-  <div style="display: flex; justify-content: space-evenly">
-    <div style="max-width: 500px">
-      <app-cell-table-station-configuration
-        [label]="'occp.ocpp-protocol-version' | translate"
-        [textContol]="formOCPPVersion"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.network-interface' | translate"
-        [textContol]="formNetworkInterface"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.backend-url' | translate"
-        [textContol]="formBackendURL"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.service-rfid' | translate"
-        [textContol]="formServiceRFID"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.freemode-rfid' | translate"
-        [textContol]="formFreeModeRfid"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.chargestation-model' | translate"
-        [textContol]="formModel"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.chargestation-vendor' | translate"
-        [textContol]="formVendor"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.chargestation-serial-number' | translate"
-        [textContol]="formSerialNumber"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-    </div>
-    <div style="max-width: 500px">
-      <app-cell-table-station-configuration
-        [label]="'occp.charge-box-id' | translate"
-        [textContol]="formChargeBoxId"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.charge-box-serial-number' | translate"
-        [textContol]="formChargeBoxSerialNumber"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.iccid' | translate"
-        [textContol]="formIccid"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.imsi' | translate"
-        [textContol]="formImsi"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.meter-type' | translate"
-        [textContol]="formMeterType"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <app-cell-table-station-configuration
-        [label]="'occp.meter-serial-number' | translate"
-        [textContol]="formMeterSerialNumber"
-        [edit]="true"
-      >
-      </app-cell-table-station-configuration>
-      <div class="row div-row">
-        <div class="col div-col">{{ "occp.service-restart" | translate }}</div>
-        <div class="col div-col" style="display: flex; justify-content: center">
-          <mat-checkbox
-            [(ngModel)]="ocppConfigData.serviceRestart"
-            [color]="'primary'"
-            class="alignCheckBox"
-          ></mat-checkbox>
+          </ng-template>
         </div>
-      </div>
-      <div class="row div-row">
-        <div class="col div-col">{{ "occp.free-mode" | translate }}</div>
-        <div class="col div-col" style="display: flex; justify-content: center">
-          <mat-checkbox
-            [(ngModel)]="ocppConfigData.freeMode"
-            [color]="'primary'"
-            class="alignCheckBox"
-          ></mat-checkbox>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Messages -->
-  <div class="ocpp-message-header">
-    <h4>{{ "occp.messages" | translate }}</h4>
-    <button class="basic-button black-color" (click)="exportOcppMessages()">
-      {{ "occp.export-ocpp-messages" | translate }}
-    </button>
-  </div>
-  <div class="container mb-4">
-    <div class="card">
-      <div class="card-body">
-        <table
-          class="table table-bordered table-striped table-hover"
-          datatable
-          [dtOptions]="dtOptions"
-        >
-          <thead>
-            <tr>
-              <th class="cell-th">{{ "occp.timestamp" | translate }}</th>
-              <th class="cell-th">{{ "occp.type" | translate }}</th>
-              <th class="cell-th">{{ "occp.action" | translate }}</th>
-              <th class="cell-th no-sort">
-                {{ "occp.message-data" | translate }}
-              </th>
-              <th class="cell-th no-sort"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let message of ocppMessageData">
-              <td class="cell-td" style="width: 20%">
-                {{ getDate(message.timestamp) }}
-              </td>
-              <td class="cell-td" style="width: 5%">{{ message.type }}</td>
-              <td class="cell-td" style="width: 15%">{{ message.action }}</td>
-              <td class="cell-td" style="width: 50%">
-                <div class="message-data-text">{{ message.messageData }}</div>
-              </td>
-              <td class="cell-td" style="width: 10%">
-                <button
-                  class="show-message-data-btn"
-                  (click)="showMessage(message)"
+        <!-- OCPP Table -->
+        <div style="width: 85%; padding-top: 10px">
+          <div class="pagination-controlls">
+            <select
+              [(ngModel)]="pageSize"
+              (ngModelChange)="refreshStationData()"
+              class="page-items-number"
+            >
+              <option
+                *ngFor="let pageSizeOption of pageSizes; index as position"
+                [ngValue]="pageSizeOption"
+              >
+                {{ pageSizeOption }} {{ "overview.items" | translate }}
+              </option>
+            </select>
+            <p class="basic-text">{{ "overview.page" | translate }}</p>
+            <ngb-pagination
+              [collectionSize]="collectionSize"
+              [(page)]="page"
+              [pageSize]="pageSize"
+              (pageChange)="refreshStationData()"
+            >
+            </ngb-pagination>
+          </div>
+          <table class="charging-stations-overview table">
+            <thead>
+              <tr>
+                <th class="table-header" scope="col" (click)="sortTable('id')">
+                  <div class="test">
+                    {{ "general.id" | translate }}
+                    <div
+                      class="arrow arrow-up"
+                      *ngIf="directionSorting.id === 'asc'"
+                    ></div>
+                    <div
+                      class="arrow arrow-down"
+                      *ngIf="directionSorting.id === 'desc'"
+                    ></div>
+                  </div>
+                </th>
+                <th
+                  class="table-header"
+                  scope="col"
+                  (click)="sortTable('status')"
                 >
-                  {{ "general.show" | translate }}
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  <div class="test">
+                    {{ "general.status" | translate }}
+                    <div
+                      class="arrow arrow-up"
+                      *ngIf="directionSorting.status === 'asc'"
+                    ></div>
+                    <div
+                      class="arrow arrow-down"
+                      *ngIf="directionSorting.status === 'desc'"
+                    ></div>
+                  </div>
+                </th>
+                <th
+                  class="table-header"
+                  scope="col"
+                  (click)="sortTable('occpStatus')"
+                >
+                  <div class="test">
+                    OCPP {{ "general.status" | translate }}
+                    <div
+                      class="arrow arrow-up"
+                      *ngIf="directionSorting.occpStatus === 'asc'"
+                    ></div>
+                    <div
+                      class="arrow arrow-down"
+                      *ngIf="directionSorting.occpStatus === 'desc'"
+                    ></div>
+                  </div>
+                </th>
+                <th
+                  class="table-header"
+                  scope="col"
+                  (click)="sortTable('occpStatusSentDate')"
+                >
+                  <div class="test">
+                    {{ "occp.occp-status-sent" | translate }}
+                    <div
+                      class="arrow arrow-up"
+                      *ngIf="directionSorting.occpStatusSentDate === 'asc'"
+                    ></div>
+                    <div
+                      class="arrow arrow-down"
+                      *ngIf="directionSorting.occpStatusSentDate === 'desc'"
+                    ></div>
+                  </div>
+                </th>
+                <th class="table-header non-sortable" scope="col">
+                  <div class="test">
+                    {{ "occp.operative" | translate }}
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let occpStatus of ocppStatusData; index as position">
+                <td class="cell-td">{{ occpStatus.id || "-" }}</td>
+                <td class="cell-td">{{ occpStatus.status || "-" }}</td>
+                <td class="cell-td">{{ occpStatus.occpStatus || "-" }}</td>
+                <td class="cell-td">
+                  {{ occpStatus.occpStatusSentDate!.toUTCString() || "-" }}
+                </td>
+                <td class="cell-td">
+                  <div class="connection-status">
+                    <i class="bi bi-check2 icon-red"></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            class="pagination-controlls down-controlls"
+            style="margin-top: 75px"
+          >
+            <select
+              [(ngModel)]="pageSize"
+              (ngModelChange)="refreshStationData()"
+              class="page-items-number"
+            >
+              <option
+                *ngFor="let pageSizeOption of pageSizes; index as position"
+                [ngValue]="pageSizeOption"
+              >
+                {{ pageSizeOption }} {{ "overview.items" | translate }}
+              </option>
+            </select>
+            <p class="basic-text">{{ "overview.page" | translate }}</p>
+            <ngb-pagination
+              [collectionSize]="collectionSize"
+              [(page)]="page"
+              [pageSize]="pageSize"
+              (pageChange)="refreshStationData()"
+            >
+            </ngb-pagination>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="ocpp-message-header">
+          <h4>{{ "occp.messages" | translate }}</h4>
+          <button
+            class="basic-button black-color"
+            (click)="exportOcppMessages()"
+          >
+            {{ "occp.export-ocpp-messages" | translate }}
+          </button>
+        </div>
+        <div class="container mb-5">
+          <div class="card">
+            <div class="card-body">
+              <table
+                class="table table-bordered table-striped table-hover"
+                datatable
+                [dtOptions]="dtOptions"
+              >
+                <thead>
+                  <tr>
+                    <th class="cell-th">{{ "occp.timestamp" | translate }}</th>
+                    <th class="cell-th">{{ "occp.type" | translate }}</th>
+                    <th class="cell-th">{{ "occp.action" | translate }}</th>
+                    <th class="cell-th no-sort">
+                      {{ "occp.message-data" | translate }}
+                    </th>
+                    <th class="cell-th no-sort"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let message of ocppMessageData">
+                    <td class="cell-td" style="width: 20%">
+                      {{ getDate(message.timestamp) }}
+                    </td>
+                    <td class="cell-td" style="width: 5%">
+                      {{ message.type }}
+                    </td>
+                    <td class="cell-td" style="width: 15%">
+                      {{ message.action }}
+                    </td>
+                    <td class="cell-td" style="width: 50%">
+                      <div class="message-data-text">
+                        {{ message.messageData }}
+                      </div>
+                    </td>
+                    <td class="cell-td" style="width: 10%">
+                      <button
+                        class="show-message-data-btn"
+                        (click)="showMessage(message)"
+                      >
+                        {{ "general.show" | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration -->
+        <h4 style="margin: 20px 0px">
+          {{ "general.configuration" | translate }}
+        </h4>
+        <div class="my-5" style="display: flex; justify-content: space-evenly">
+          <div style="max-width: 500px">
+            <app-cell-table-station-configuration
+              [label]="'occp.ocpp-protocol-version' | translate"
+              [textContol]="formOCPPVersion"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.network-interface' | translate"
+              [textContol]="formNetworkInterface"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.backend-url' | translate"
+              [textContol]="formBackendURL"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.service-rfid' | translate"
+              [textContol]="formServiceRFID"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.freemode-rfid' | translate"
+              [textContol]="formFreeModeRfid"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.chargestation-model' | translate"
+              [textContol]="formModel"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.chargestation-vendor' | translate"
+              [textContol]="formVendor"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.chargestation-serial-number' | translate"
+              [textContol]="formSerialNumber"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+          </div>
+          <div style="max-width: 500px">
+            <app-cell-table-station-configuration
+              [label]="'occp.charge-box-id' | translate"
+              [textContol]="formChargeBoxId"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.charge-box-serial-number' | translate"
+              [textContol]="formChargeBoxSerialNumber"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.iccid' | translate"
+              [textContol]="formIccid"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.imsi' | translate"
+              [textContol]="formImsi"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.meter-type' | translate"
+              [textContol]="formMeterType"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <app-cell-table-station-configuration
+              [label]="'occp.meter-serial-number' | translate"
+              [textContol]="formMeterSerialNumber"
+              [edit]="true"
+            >
+            </app-cell-table-station-configuration>
+            <div class="row div-row">
+              <div class="col div-col">
+                {{ "occp.service-restart" | translate }}
+              </div>
+              <div
+                class="col div-col"
+                style="display: flex; justify-content: center"
+              >
+                <mat-checkbox
+                  [(ngModel)]="ocppConfigData.serviceRestart"
+                  [color]="'primary'"
+                  class="alignCheckBox"
+                ></mat-checkbox>
+              </div>
+            </div>
+            <div class="row div-row">
+              <div class="col div-col">{{ "occp.free-mode" | translate }}</div>
+              <div
+                class="col div-col"
+                style="display: flex; justify-content: center"
+              >
+                <mat-checkbox
+                  [(ngModel)]="ocppConfigData.freeMode"
+                  [color]="'primary'"
+                  class="alignCheckBox"
+                ></mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </mat-tab>
+    <mat-tab label="Server variables">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="header">
+              <h2>OCPP Server Variables</h2>
+              <hr class="hr" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="card m-3 p-3">
+              <p class="form-group">
+                <b>Blink Repeat</b>
+                <input
+                  value="{{ exampleData.BlinkRepeat.value }}"
+                  name="BlinkRepeat"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Charge Profile Max Stack Level</b>
+                <input
+                  value="{{ exampleData.ChargeProfileMaxStackLevel.value }}"
+                  name="ChargeProfileMaxStackLevel"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Charging Schedule Allowed Charging Rate Unit</b>
+                <input
+                  value="{{
+                    exampleData.ChargingScheduleAllowedChargingRateUnit.value
+                  }}"
+                  name="ChargingScheduleAllowedChargingRateUnit"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Charging Schedule Max Period</b>
+                <input
+                  value="{{ exampleData.ChargingScheduleMaxPeriods.value }}"
+                  name="ChargingScheduleMaxPeriod"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Clock Aligned Data Interval</b>
+                <input
+                  value="{{ exampleData.ClockAlignedDataInterval.value }}"
+                  name="ClockAlignedDataInterval"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Connection Timeout</b>
+                <input
+                  value="{{ exampleData.ConnectionTimeOut.value }}"
+                  name="ConnectionTimeout"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Connector Phase Rotation</b>
+                <input
+                  value="{{ exampleData.ConnectorPhaseRotation.value }}"
+                  name="ConnectorPhaseRotation"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Connector Phase Rotation Max Length</b>
+                <input
+                  value="{{
+                    exampleData.ConnectorPhaseRotationMaxLength.value
+                  }}"
+                  name="ConnectorPhaseRotationMaxLength"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Get Configuration Max Keys</b>
+                <input
+                  value="{{ exampleData.GetConfigurationMaxKeys.value }}"
+                  name="GetConfigurationMaxKeys"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Heartbeat Interval</b>
+                <input
+                  value="{{ exampleData.HeartbeatInterval.value }}"
+                  name="HeartbeatInterval"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Light Intensity</b>
+                <input
+                  value="{{ exampleData.LightIntensity.value }}"
+                  name="LightIntensity"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Reset Retries</b>
+                <input
+                  value="{{ exampleData.ResetRetries.value }}"
+                  name="ResetRetries"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Send Local List Max Length</b>
+                <input
+                  value="{{ exampleData.SendLocalListMaxLength.value }}"
+                  name="SendLocalListMaxLength"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Web Socket Ping Interval</b>
+                <input
+                  value="{{ exampleData.WebSocketPingInterval.value }}"
+                  name="WebSocketPingInterval"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Allow Offline Tx For Unknown ID </b>
+                <input
+                  name="AllowOfflineTxForUnknownID"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  [checked]="exampleData.AllowOfflineTxForUnknownId.value"
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Authorization Cache Enabled </b>
+                <input
+                  name="AuthorizationCacheEnabled"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="exampleData.AuthorizationCacheEnabled.value"
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Authorize Remote Tx Requests </b>
+                <input
+                  name="AuthorizeRemoteTxRequests"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="exampleData.AuthorizeRemoteTxRequests.value"
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Local Authorize Offline </b>
+                <input
+                  name="LocalAuthorizeOffline"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="exampleData.LocalAuthorizeOffline.value"
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Local Pre-Authorize </b>
+                <input
+                  name="LocalPreAuthorize"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="exampleData.LocalPreAuthorize.value"
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Unlock Connector On EV Side Disconnect </b>
+                <input
+                  name="UnlockConnectorOnEVSideDisconnect"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="
+                    exampleData.UnlockConnectorOnEVSideDisconnect.value
+                  "
+                  aria-label="..."
+                  disabled
+                />
+              </p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card m-3 p-3">
+              <p class="form-group">
+                <b>Max Charging Profiles Installed</b>
+                <input
+                  value="{{ exampleData.MaxChargingProfilesInstalled.value }}"
+                  name="MaxChargingProfilesInstalled"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Meter Value Sample Interval</b>
+                <input
+                  value="{{ exampleData.MeterValueSampleInterval.value }}"
+                  name="MeterValueSampleInterval"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Meter Values Aligned Data</b>
+                <input
+                  value="{{ exampleData.MeterValuesAlignedData.value }}"
+                  name="MeterValuesAlignedData"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Meter Values Aligned Data Max Length</b>
+                <input
+                  value="{{
+                    exampleData.MeterValuesAlignedDataMaxLength.value
+                  }}"
+                  name="MeterValuesAlignedDataMaxLength"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Meter Values Sampled Data</b>
+                <input
+                  value="{{ exampleData.MeterValuesSampledData.value }}"
+                  name="MeterValuesSampledData"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>MeterValuesSampledDataMaxLength</b>
+                <input
+                  value="{{
+                    exampleData.MeterValuesSampledDataMaxLength.value
+                  }}"
+                  name="MeterValuesSampledDataMaxLength"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Minimum Status Duration</b>
+                <input
+                  value="{{ exampleData.MinimumStatusDuration.value }}"
+                  name="MinimumStatusDuration"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Number Of Connectors</b>
+                <input
+                  value="{{ exampleData.NumberOfConnectors.value }}"
+                  name="NumberOfConnectors"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Stop Txn Aligned Data</b>
+                <input
+                  value="{{ exampleData.StopTxnAlignedData.value }}"
+                  name="StopTxnAlignedData"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Stop Txn Sampled Data</b>
+                <input
+                  value="{{ exampleData.StopTxnSampledData.value }}"
+                  name="StopTxnSampledData"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Supported Feature Profiles</b>
+                <input
+                  value="{{ exampleData.SupportedFeatureProfiles.value }}"
+                  name="SupportedFeatureProfiles"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Transaction Message Attempts</b>
+                <input
+                  value="{{ exampleData.TransactionMessageAttempts.value }}"
+                  name="TransactionMessageAttempts"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>TransactionMessageRetryInterval</b>
+                <input
+                  value="{{
+                    exampleData.TransactionMessageRetryInterval.value
+                  }}"
+                  name="TransactionMessageRetryInterval"
+                  class="form-control-md form-control"
+                  type="text"
+                />
+              </p>
+              <p class="form-group">
+                <b>Connector Switch 3to1 Phase Supported </b>
+                <input
+                  name="ConnectorSwitch3to1PhaseSupported"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="
+                    exampleData.ConnectorSwitch3to1PhaseSupported.value
+                  "
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Local Auth List Enabled </b>
+                <input
+                  name="LocalAuthListEnabled"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="exampleData.LocalAuthListEnabled.value"
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Reserve Connector Zero Supported </b>
+                <input
+                  name="ReserveConnectorZeroSupported"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="exampleData.ReserveConnectorZeroSupported.value"
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>Stop Transaction On EV Side Disconnect </b>
+                <input
+                  name="StopTransactionOnEVSideDisconnect"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="
+                    exampleData.StopTransactionOnEVSideDisconnect.value
+                  "
+                  aria-label="..."
+                />
+              </p>
+              <p class="form-group">
+                <b>StopTransactionOnInvalidId </b>
+                <input
+                  name="StopTransactionOnInvalidId"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="checkboxNoLabel"
+                  value=""
+                  [checked]="exampleData.StopTransactionOnInvalidId.value"
+                  aria-label="..."
+                  disabled
+                />
+              </p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="text-center">
+              <button class="basic-button px-3 mt-4">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

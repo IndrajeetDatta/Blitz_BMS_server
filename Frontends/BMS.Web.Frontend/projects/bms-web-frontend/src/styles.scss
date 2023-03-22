@@ -25,7 +25,7 @@ $black: #000000;
   text-align: center;
   min-width: 170px;
   height: 40px;
-  line-height: 50px;
+  line-height: 40px;
   font-size: 1rem;
   padding: 0px 10px 5px 10px;
   margin-left: 20px;
@@ -40,7 +40,7 @@ $black: #000000;
 .basic-button {
   width: 170px;
   height: 40px;
-  line-height: 50px;
+  line-height: 40px;
   justify-content: center;
   align-items: center;
   background-color: #e1e5e9;
@@ -209,8 +209,8 @@ html {
 
 .container,
 .container-fluid {
-  font-family: "Poppins", "sans-serif" !important;
-  font-weight: 500 !important;
+  // font-family: "Poppins", "sans-serif" !important;
+  // font-weight: 500 !important;
   color: #1d252d;
   margin-top: 30px;
 }
@@ -404,6 +404,7 @@ hr {
   background-color: #00dfa3 !important;
   border: 1px solid #00dfa3 !important;
   border-radius: 30px;
+  opacity: 1 !important;
 }
 .hr-light {
   background-color: #e1e5e9;

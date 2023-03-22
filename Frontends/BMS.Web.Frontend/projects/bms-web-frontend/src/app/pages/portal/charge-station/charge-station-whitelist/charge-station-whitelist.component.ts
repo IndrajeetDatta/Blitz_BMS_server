@@ -8,29 +8,30 @@ import { BMSWebApiClientModule } from 'projects/bms-web-api-client/src/public-ap
 import { NavBtnType } from 'projects/bms-web-frontend/src/app/compoenents/header-navigation/header-navigation/header-navigation.component';
 import { ChargeStationService } from 'projects/bms-web-frontend/src/app/services/charge-station.service';
 import { CommandService } from 'projects/bms-web-frontend/src/app/services/command.service';
-import { directionSort, sortArray } from 'projects/bms-web-frontend/src/app/sort-tables';
+import {
+  directionSort,
+  sortArray,
+} from 'projects/bms-web-frontend/src/app/sort-tables';
 
 @Component({
   selector: 'app-charge-station-whitelist',
   templateUrl: './charge-station-whitelist.component.html',
-  styleUrls: ['./charge-station-whitelist.component.scss']
+  styleUrls: ['./charge-station-whitelist.component.scss'],
 })
 export class ChargeStationWhitelistComponent implements OnInit {
   commandType = BMSWebApiClientModule.CommandType;
 
   constructor(
     public commandService: CommandService,
-    private route: ActivatedRoute, 
-    private chargeStationService: ChargeStationService, 
+    private route: ActivatedRoute,
+    private chargeStationService: ChargeStationService,
     private router: Router,
     private snackBar: MatSnackBar,
     public translate: TranslateService
-    ) {
-    this.route.queryParams
-      .subscribe(params => {
-        this.id = parseInt(params['id'])
-      }
-    );
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      this.id = parseInt(params['id']);
+    });
   }
 
   searchContol: FormControl = new FormControl();
@@ -41,14 +42,15 @@ export class ChargeStationWhitelistComponent implements OnInit {
   pageSizes = [50, 100, 150];
   isInEditMode = false;
 
-  directionSorting: { [key in keyof BMSWebApiClientModule.Rfid]?: directionSort } =
-  {
+  directionSorting: {
+    [key in keyof BMSWebApiClientModule.Rfid]?: directionSort;
+  } = {
     serialNumber: '',
     name: '',
     type: '',
     expiryDate: '',
     evConsumptionRateKWhPer100KM: '',
-  }
+  };
 
   id: number = -1;
   chargeController: BMSWebApiClientModule.ChargeController;
@@ -56,28 +58,41 @@ export class ChargeStationWhitelistComponent implements OnInit {
   whiteListDataMockup: BMSWebApiClientModule.Rfid[] = [];
 
   navigationBtns: NavBtnType[];
-  
+
   async ngOnInit(): Promise<void> {
     this.searchContol.valueChanges.subscribe((val: string | null) => {
-        this.refreshStationData()
-        if (!val) return
+      this.refreshStationData();
+      if (!val) return;
 
-        this.whiteListData = this.whiteListData.filter(whiteListElem =>
-          (whiteListElem.serialNumber && whiteListElem.serialNumber.toLocaleLowerCase().includes(val.toLocaleLowerCase())) ||
-          (whiteListElem.name && whiteListElem.name.toLocaleLowerCase().includes(val.toLocaleLowerCase())))
-      }
-    )
+      this.whiteListData = this.whiteListData.filter(
+        (whiteListElem) =>
+          (whiteListElem.serialNumber &&
+            whiteListElem.serialNumber
+              .toLocaleLowerCase()
+              .includes(val.toLocaleLowerCase())) ||
+          (whiteListElem.name &&
+            whiteListElem.name
+              .toLocaleLowerCase()
+              .includes(val.toLocaleLowerCase()))
+      );
+    });
 
     try {
-      this.chargeController = await this.chargeStationService.getChargeControllerWithWhitelist(this.id);
+      this.chargeController =
+        await this.chargeStationService.getChargeControllerWithWhitelist(
+          this.id
+        );
       this.whiteListData = this.chargeController.whitelistRFIDs || [];
       this.whiteListDataMockup = this.whiteListData;
 
-      this.navigationBtns = [{text: this.chargeController.serialNumber!}, {text: this.translate.instant("whitelist.whitelist")}]
+      this.navigationBtns = [
+        { text: this.chargeController.serialNumber! },
+        { text: this.translate.instant('whitelist.whitelist') },
+      ];
 
-      this.collectionSize = this.whiteListData.length
+      this.collectionSize = this.whiteListData.length;
     } catch (error) {
-      console.log("ERROR fetch chargeController on detials page")
+      console.log('ERROR fetch chargeController on detials page');
     }
   }
 
@@ -91,13 +106,26 @@ export class ChargeStationWhitelistComponent implements OnInit {
 
   async deleteRFID(position: number): Promise<void> {
     try {
-      if (!this.whiteListData[position].serialNumber)
-        throw "No serialNumber";
+      if (!this.whiteListData[position].serialNumber) throw 'No serialNumber';
 
-      await this.commandService.postCommand(this.chargeController.id, undefined, undefined, BMSWebApiClientModule.CommandType.DeleteRFID, this.whiteListData[position].serialNumber)
-      this.snackBar.open(this.translate.instant("general.command-submitted"), this.translate.instant("general.ok"), {duration: 3000});
+      await this.commandService.postCommand(
+        this.chargeController.id,
+        undefined,
+        undefined,
+        BMSWebApiClientModule.CommandType.DeleteRFID,
+        this.whiteListData[position].serialNumber
+      );
+      this.snackBar.open(
+        this.translate.instant('general.command-submitted'),
+        this.translate.instant('general.ok'),
+        { duration: 3000 }
+      );
     } catch (e) {
-      this.snackBar.open(this.translate.instant("general.wrong"), this.translate.instant("general.ok"), {duration: 3000});
+      this.snackBar.open(
+        this.translate.instant('general.wrong'),
+        this.translate.instant('general.ok'),
+        { duration: 3000 }
+      );
     }
   }
 
@@ -105,21 +133,33 @@ export class ChargeStationWhitelistComponent implements OnInit {
     this.isInEditMode = false;
 
     try {
-      if (!this.whiteListData[position].serialNumber)
-        throw "No serialNumber";
+      if (!this.whiteListData[position].serialNumber) throw 'No serialNumber';
 
-      await this.commandService.postCommand(this.chargeController.id, undefined, JSON.stringify(this.whiteListData[position]), BMSWebApiClientModule.CommandType.EditRFID, this.whiteListData[position].serialNumber)
-      this.snackBar.open(this.translate.instant("general.command-submitted"), this.translate.instant("general.ok"), {duration: 3000});
+      await this.commandService.postCommand(
+        this.chargeController.id,
+        undefined,
+        JSON.stringify(this.whiteListData[position]),
+        BMSWebApiClientModule.CommandType.EditRFID,
+        this.whiteListData[position].serialNumber
+      );
+      this.snackBar.open(
+        this.translate.instant('general.command-submitted'),
+        this.translate.instant('general.ok'),
+        { duration: 3000 }
+      );
     } catch (e) {
-      this.snackBar.open(this.translate.instant("general.wrong"), this.translate.instant("general.ok"), {duration: 3000});
+      this.snackBar.open(
+        this.translate.instant('general.wrong'),
+        this.translate.instant('general.ok'),
+        { duration: 3000 }
+      );
     }
-
   }
 
   async importRFIDs(): Promise<void> {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = ".csv"; // Set the file type that can be loaded
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.csv'; // Set the file type that can be loaded
     fileInput.onchange = (e: any) => {
       if (!e || !e.target || !e.target.files) return;
 
@@ -127,24 +167,42 @@ export class ChargeStationWhitelistComponent implements OnInit {
       const reader = new FileReader();
 
       reader.onload = async (event: any) => {
-        const rfids: BMSWebApiClientModule.Rfid[] = []
+        const rfids: BMSWebApiClientModule.Rfid[] = [];
         const contents = event.target.result as string;
-        const lines = contents.split("\n")
+        const lines = contents.split('\n');
         for (let i = 1; i < lines.length; i++) {
-          const cells = lines[i].split(",");
+          const cells = lines[i].split(',');
           if (cells.length < 5) continue;
 
-          const rfid: BMSWebApiClientModule.Rfid = new BMSWebApiClientModule.Rfid(
-            {allowCharging: cells[5].toLowerCase() === 'true' ? true : false, name: cells[0], expiryDate: new Date(cells[3]), type: cells[2], serialNumber: cells[1]}
-          )
+          const rfid: BMSWebApiClientModule.Rfid =
+            new BMSWebApiClientModule.Rfid({
+              allowCharging: cells[5].toLowerCase() === 'true' ? true : false,
+              name: cells[0],
+              expiryDate: new Date(cells[3]),
+              type: cells[2],
+              serialNumber: cells[1],
+            });
           rfids.push(rfid);
         }
-        
+
         try {
-          await this.commandService.postCommand(this.chargeController.id, undefined, JSON.stringify(rfids), BMSWebApiClientModule.CommandType.ImportRFIDs)
-          this.snackBar.open(this.translate.instant("general.command-submitted"), this.translate.instant("general.ok"), {duration: 3000});
+          await this.commandService.postCommand(
+            this.chargeController.id,
+            undefined,
+            JSON.stringify(rfids),
+            BMSWebApiClientModule.CommandType.ImportRFIDs
+          );
+          this.snackBar.open(
+            this.translate.instant('general.command-submitted'),
+            this.translate.instant('general.ok'),
+            { duration: 3000 }
+          );
         } catch (e) {
-          this.snackBar.open(this.translate.instant("general.wrong"), this.translate.instant("general.ok"), {duration: 3000});
+          this.snackBar.open(
+            this.translate.instant('general.wrong'),
+            this.translate.instant('general.ok'),
+            { duration: 3000 }
+          );
         }
       };
       reader.readAsText(file);
@@ -160,15 +218,21 @@ export class ChargeStationWhitelistComponent implements OnInit {
   }
 
   sortTable(columnSorting: keyof BMSWebApiClientModule.Rfid) {
-    if (this.directionSorting[columnSorting] === '') this.directionSorting[columnSorting] = 'asc'
-    else if (this.directionSorting[columnSorting] === 'asc') this.directionSorting[columnSorting] = 'desc'
-    else this.directionSorting[columnSorting] = ''
+    if (this.directionSorting[columnSorting] === '')
+      this.directionSorting[columnSorting] = 'asc';
+    else if (this.directionSorting[columnSorting] === 'asc')
+      this.directionSorting[columnSorting] = 'desc';
+    else this.directionSorting[columnSorting] = '';
 
-    this.whiteListDataMockup = sortArray(this.whiteListDataMockup, this.directionSorting[columnSorting]!, columnSorting);
+    this.whiteListDataMockup = sortArray(
+      this.whiteListDataMockup,
+      this.directionSorting[columnSorting]!,
+      columnSorting
+    );
   }
 
   getDate(date?: Date, shortFormat?: Boolean) {
-    if (!date) return "-"
+    if (!date) return '-';
     return formatDate(date, 'YYYY-MM-dd HH:mm:ss', 'en-US');
   }
 
@@ -176,10 +240,17 @@ export class ChargeStationWhitelistComponent implements OnInit {
     //define the heading for each row of the data
     let csv = 'Name,ID,Type,Expiry Date,EV consumption rate,Allow Charging\n';
     //merge the data with CSV
-    this.whiteListDataMockup.forEach(function(whiteListElem) {
-      const {name, serialNumber, type, expiryDate, evConsumptionRateKWhPer100KM, allowCharging} = whiteListElem
-      csv += `${name},${serialNumber},${type},${expiryDate},${evConsumptionRateKWhPer100KM},${allowCharging},`
-      csv += "\n";
+    this.whiteListDataMockup.forEach(function (whiteListElem) {
+      const {
+        name,
+        serialNumber,
+        type,
+        expiryDate,
+        evConsumptionRateKWhPer100KM,
+        allowCharging,
+      } = whiteListElem;
+      csv += `${name},${serialNumber},${type},${expiryDate},${evConsumptionRateKWhPer100KM},${allowCharging},`;
+      csv += '\n';
     });
 
     const hiddenElement = document.createElement('a');
@@ -191,22 +262,41 @@ export class ChargeStationWhitelistComponent implements OnInit {
     hiddenElement.click();
   }
 
-  async deleteAll() : Promise<void> {
+  async deleteAll(): Promise<void> {
     try {
-      await this.commandService.postCommand(this.chargeController.id, undefined, undefined, BMSWebApiClientModule.CommandType.DeleteAllRFIDs)
-      this.snackBar.open(this.translate.instant("general.command-submitted"), this.translate.instant("general.ok"), {duration: 3000});
+      await this.commandService.postCommand(
+        this.chargeController.id,
+        undefined,
+        undefined,
+        BMSWebApiClientModule.CommandType.DeleteAllRFIDs
+      );
+      this.snackBar.open(
+        this.translate.instant('general.command-submitted'),
+        this.translate.instant('general.ok'),
+        { duration: 3000 }
+      );
     } catch (e) {
-      this.snackBar.open(this.translate.instant("general.wrong"), this.translate.instant("general.ok"), {duration: 3000});
+      this.snackBar.open(
+        this.translate.instant('general.wrong'),
+        this.translate.instant('general.ok'),
+        { duration: 3000 }
+      );
     }
-
   }
 
   navBtnClicked(valueEmitted: NavBtnType) {
-    if (valueEmitted.text === this.chargeController.serialNumber && this.id !== -1) {
-        this.router.navigate(['/portal/charge-station/details'], {queryParams: {id: this.id}});
-    } else if (valueEmitted.text === this.translate.instant("whitelist.whitelist")) {
+    if (
+      valueEmitted.text === this.chargeController.serialNumber &&
+      this.id !== -1
+    ) {
+      this.router.navigate(['/portal/charge-station/details'], {
+        queryParams: { id: this.id },
+      });
+    } else if (
+      valueEmitted.text === this.translate.instant('whitelist.whitelist')
+    ) {
       window.location.reload();
-    } 
+    }
   }
 
   watchLastMaintenance(position: number, valueEmmited: string) {

@@ -1,4 +1,13 @@
-<div class="header-area justify-space-between">
+<div
+  class="header-area justify-space-between px-5"
+  style="
+    background-color: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding-top: 0;
+    margin-bottom: 60px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 15px 0px;
+  "
+>
   <div class="header-area">
     <h1 class="provisory-title">
       <svg
@@ -75,6 +84,12 @@
     <button class="basic-button header-button" (click)="openAccountSettings()">
       {{ "portal.account" | translate }}
     </button>
+    <button
+      class="basic-button header-button"
+      [routerLink]="'/portal/charge-station/port-sharing'"
+    >
+      {{ "portal.port-sharing" | translate }}
+    </button>
   </div>
   <div class="header-area">
     <input
@@ -103,4 +118,5 @@
     </button>
   </div>
 </div>
+
 <router-outlet></router-outlet>

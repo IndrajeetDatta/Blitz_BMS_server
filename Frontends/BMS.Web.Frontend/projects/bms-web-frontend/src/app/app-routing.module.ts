@@ -81,6 +81,14 @@ const routes: Routes = [
             component: ChargeStationUserDataComponent,
           },
           {
+            path: 'port-sharing',
+            component: PortSharingComponent,
+          },
+          {
+            path: 'ocpp-server-variable',
+            component: OcppServerVariableComponent,
+          },
+          {
             path: 'charge-point-configuration',
             component: ChargePointConfigurationComponent,
           },
@@ -105,14 +113,6 @@ const routes: Routes = [
       {
         path: 'users-management',
         component: UsersManagementComponent,
-      },
-      {
-        path: 'port-sharing',
-        component: PortSharingComponent,
-      },
-      {
-        path: 'ocpp-server-variable',
-        component: OcppServerVariableComponent,
       },
     ],
   },

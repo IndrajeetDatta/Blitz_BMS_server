@@ -1,1 +1,415 @@
-<p>ocpp-server-variable works!</p>
+<p>{{ chargeController.id }}</p>
+
+<div class="text-center mt-4">
+  <button class="basic-button header-button mx-5">Status</button>
+  <button class="basic-button header-button mx-5">Server variables</button>
+</div>
+
+<button class="basic-button station-control-button" (click)="getOCCP(3)">
+  {{ "back ocpp" | translate }}
+</button>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="header">
+        <h2>OCPP Server Variables</h2>
+        <hr class="hr" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card m-3 p-3">
+        <p class="form-group">
+          <b>Blink Repeat</b>
+          <input
+            value="{{ exampleData.BlinkRepeat.value }}"
+            name="BlinkRepeat"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Charge Profile Max Stack Level</b>
+          <input
+            value="{{ exampleData.ChargeProfileMaxStackLevel.value }}"
+            name="ChargeProfileMaxStackLevel"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Charging Schedule Allowed Charging Rate Unit</b>
+          <input
+            value="{{
+              exampleData.ChargingScheduleAllowedChargingRateUnit.value
+            }}"
+            name="ChargingScheduleAllowedChargingRateUnit"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Charging Schedule Max Period</b>
+          <input
+            value="{{ exampleData.ChargingScheduleMaxPeriods.value }}"
+            name="ChargingScheduleMaxPeriod"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Clock Aligned Data Interval</b>
+          <input
+            value="{{ exampleData.ClockAlignedDataInterval.value }}"
+            name="ClockAlignedDataInterval"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Connection Timeout</b>
+          <input
+            value="{{ exampleData.ConnectionTimeOut.value }}"
+            name="ConnectionTimeout"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Connector Phase Rotation</b>
+          <input
+            value="{{ exampleData.ConnectorPhaseRotation.value }}"
+            name="ConnectorPhaseRotation"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Connector Phase Rotation Max Length</b>
+          <input
+            value="{{ exampleData.ConnectorPhaseRotationMaxLength.value }}"
+            name="ConnectorPhaseRotationMaxLength"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Get Configuration Max Keys</b>
+          <input
+            value="{{ exampleData.GetConfigurationMaxKeys.value }}"
+            name="GetConfigurationMaxKeys"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Heartbeat Interval</b>
+          <input
+            value="{{ exampleData.HeartbeatInterval.value }}"
+            name="HeartbeatInterval"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Light Intensity</b>
+          <input
+            value="{{ exampleData.LightIntensity.value }}"
+            name="LightIntensity"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Reset Retries</b>
+          <input
+            value="{{ exampleData.ResetRetries.value }}"
+            name="ResetRetries"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Send Local List Max Length</b>
+          <input
+            value="{{ exampleData.SendLocalListMaxLength.value }}"
+            name="SendLocalListMaxLength"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Web Socket Ping Interval</b>
+          <input
+            value="{{ exampleData.WebSocketPingInterval.value }}"
+            name="WebSocketPingInterval"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Allow Offline Tx For Unknown ID </b>
+          <input
+            name="AllowOfflineTxForUnknownID"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            [checked]="exampleData.AllowOfflineTxForUnknownId.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Authorization Cache Enabled </b>
+          <input
+            name="AuthorizationCacheEnabled"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.AuthorizationCacheEnabled.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Authorize Remote Tx Requests </b>
+          <input
+            name="AuthorizeRemoteTxRequests"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.AuthorizeRemoteTxRequests.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Local Authorize Offline </b>
+          <input
+            name="LocalAuthorizeOffline"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.LocalAuthorizeOffline.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Local Pre-Authorize </b>
+          <input
+            name="LocalPreAuthorize"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.LocalPreAuthorize.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Unlock Connector On EV Side Disconnect </b>
+          <input
+            name="UnlockConnectorOnEVSideDisconnect"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.UnlockConnectorOnEVSideDisconnect.value"
+            aria-label="..."
+            disabled
+          />
+        </p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card m-3 p-3">
+        <p class="form-group">
+          <b>Max Charging Profiles Installed</b>
+          <input
+            value="{{ exampleData.MaxChargingProfilesInstalled.value }}"
+            name="MaxChargingProfilesInstalled"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Meter Value Sample Interval</b>
+          <input
+            value="{{ exampleData.MeterValueSampleInterval.value }}"
+            name="MeterValueSampleInterval"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Meter Values Aligned Data</b>
+          <input
+            value="{{ exampleData.MeterValuesAlignedData.value }}"
+            name="MeterValuesAlignedData"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Meter Values Aligned Data Max Length</b>
+          <input
+            value="{{ exampleData.MeterValuesAlignedDataMaxLength.value }}"
+            name="MeterValuesAlignedDataMaxLength"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Meter Values Sampled Data</b>
+          <input
+            value="{{ exampleData.MeterValuesSampledData.value }}"
+            name="MeterValuesSampledData"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>MeterValuesSampledDataMaxLength</b>
+          <input
+            value="{{ exampleData.MeterValuesSampledDataMaxLength.value }}"
+            name="MeterValuesSampledDataMaxLength"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Minimum Status Duration</b>
+          <input
+            value="{{ exampleData.MinimumStatusDuration.value }}"
+            name="MinimumStatusDuration"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Number Of Connectors</b>
+          <input
+            value="{{ exampleData.NumberOfConnectors.value }}"
+            name="NumberOfConnectors"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Stop Txn Aligned Data</b>
+          <input
+            value="{{ exampleData.StopTxnAlignedData.value }}"
+            name="StopTxnAlignedData"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Stop Txn Sampled Data</b>
+          <input
+            value="{{ exampleData.StopTxnSampledData.value }}"
+            name="StopTxnSampledData"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Supported Feature Profiles</b>
+          <input
+            value="{{ exampleData.SupportedFeatureProfiles.value }}"
+            name="SupportedFeatureProfiles"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Transaction Message Attempts</b>
+          <input
+            value="{{ exampleData.TransactionMessageAttempts.value }}"
+            name="TransactionMessageAttempts"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>TransactionMessageRetryInterval</b>
+          <input
+            value="{{ exampleData.TransactionMessageRetryInterval.value }}"
+            name="TransactionMessageRetryInterval"
+            class="form-control-md form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Connector Switch 3to1 Phase Supported </b>
+          <input
+            name="ConnectorSwitch3to1PhaseSupported"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.ConnectorSwitch3to1PhaseSupported.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Local Auth List Enabled </b>
+          <input
+            name="LocalAuthListEnabled"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.LocalAuthListEnabled.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Reserve Connector Zero Supported </b>
+          <input
+            name="ReserveConnectorZeroSupported"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.ReserveConnectorZeroSupported.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>Stop Transaction On EV Side Disconnect </b>
+          <input
+            name="StopTransactionOnEVSideDisconnect"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.StopTransactionOnEVSideDisconnect.value"
+            aria-label="..."
+          />
+        </p>
+        <p class="form-group">
+          <b>StopTransactionOnInvalidId </b>
+          <input
+            name="StopTransactionOnInvalidId"
+            class="form-check-input"
+            type="checkbox"
+            id="checkboxNoLabel"
+            value=""
+            [checked]="exampleData.StopTransactionOnInvalidId.value"
+            aria-label="..."
+            disabled
+          />
+        </p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="text-center">
+        <button class="basic-button px-3 mt-4">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
