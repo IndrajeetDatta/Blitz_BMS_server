@@ -16,14 +16,13 @@ import {
 } from './drop-downs';
 import { CommandService } from 'projects/bms-web-frontend/src/app/services/command.service';
 import { NavBtnType } from 'projects/bms-web-frontend/src/app/compoenents/header-navigation/header-navigation/header-navigation.component';
-// import { right } from '@popperjs/core';
 
 @Component({
-  selector: 'app-charging-point-edit',
-  templateUrl: './charging-point-edit.component.html',
-  styleUrls: ['./charging-point-edit.component.scss'],
+  selector: 'app-charging-point-status',
+  templateUrl: './charging-point-status.component.html',
+  styleUrls: ['./charging-point-status.component.scss'],
 })
-export class ChargingPointEditComponent implements OnInit {
+export class ChargingPointStatusComponent implements OnInit {
   commandType = BMSWebApiClientModule.CommandType;
 
   constructor(
@@ -62,9 +61,10 @@ export class ChargingPointEditComponent implements OnInit {
       this.chargePoint = await this.chargeStationService.getChargePoint(
         this.id
       );
+
       this.navigationBtns = [
         { text: this.chargePoint.chargeController?.serialNumber! },
-        { text: this.translate.instant('overview.cp-configure') },
+        { text: this.translate.instant('overview.cp-status') },
       ];
 
       this.formName = new FormControl(this.chargePoint.name);
@@ -154,11 +154,11 @@ export class ChargingPointEditComponent implements OnInit {
       this.chargePoint.releaseChargingMode =
         this.getSelectedValueDropDown('selectChargingMode');
       // this.chargePoint.rfidReader = this.formRfidReader.value;
+      this.chargePoint.rfidReader =
+        this.getSelectedValueDropDown('selectRfidReader');
       this.chargePoint.rfidReaderType = this.getSelectedValueDropDown(
         'selectRfidReaderType'
       );
-      this.chargePoint.rfidReader =
-        this.getSelectedValueDropDown('selectRfidReader');
       this.chargePoint.rfidTimeoutInSeconds =
         this.formRfidTimeoutInSeconds.value;
       this.chargePoint.ocppConnectorId = this.formOcppConnectorId.value;
@@ -252,7 +252,7 @@ export class ChargingPointEditComponent implements OnInit {
         queryParams: { id: this.chargePoint.chargeController!.id },
       });
     } else if (
-      valueEmitted.text === this.translate.instant('overview.cp-configure')
+      valueEmitted.text === this.translate.instant('overview.cp-status')
     ) {
       window.location.reload();
     }

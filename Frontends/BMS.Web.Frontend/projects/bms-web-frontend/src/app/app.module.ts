@@ -47,6 +47,7 @@ import { NgbdSortableHeader } from './pages/portal/charge-station/overview/sorta
 import { AccountSettingsDialogComponent } from './pages/portal/account-settings-dialog/account-settings-dialog.component';
 import { CellTableStationConfigurationComponent } from './compoenents/station-configuration/cell-table-station-configuration/cell-table-station-configuration.component';
 import { ChargingPointEditComponent } from './pages/portal/charge-station/charging-point-edit/charging-point-edit.component';
+import { ChargingPointStatusComponent } from './pages/portal/charge-station/charging-point-status/charging-point-status.component';
 import { OcppMessageDialogComponent } from './pages/portal/charge-station/charge-station-occp/ocpp-message-dialog/ocpp-message-dialog.component';
 import { HeaderNavigationComponent } from './compoenents/header-navigation/header-navigation/header-navigation.component';
 import { DatePickerComponent } from './compoenents/date-picker/date-picker/date-picker.component';
@@ -63,6 +64,7 @@ import { UserAccessDialogComponent } from './pages/portal/charge-station/charge-
 import { ChargeStationLogsComponent } from './pages/portal/charge-station/charge-station-logs/charge-station-logs.component';
 import { PortSharingComponent } from './pages/portal/port-sharing/port-sharing.component';
 import { OcppServerVariableComponent } from './pages/portal/ocpp-server-variable/ocpp-server-variable.component';
+import { EditClientInfoComponent } from './pages/portal/edit-client-info/edit-client-info.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,7 @@ import { OcppServerVariableComponent } from './pages/portal/ocpp-server-variable
     AccountSettingsDialogComponent,
     CellTableStationConfigurationComponent,
     ChargingPointEditComponent,
+    ChargingPointStatusComponent,
     OcppMessageDialogComponent,
     HeaderNavigationComponent,
     DatePickerComponent,
@@ -97,6 +100,7 @@ import { OcppServerVariableComponent } from './pages/portal/ocpp-server-variable
     ChargeStationLogsComponent,
     PortSharingComponent,
     OcppServerVariableComponent,
+    EditClientInfoComponent,
   ],
   imports: [
     // Core

@@ -1,91 +1,102 @@
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <div class="header">
-        <h2>Port Sharing</h2>
-        <hr class="hr" />
-      </div>
-    </div>
-  </div>
+<div
+  *ngIf="chargeController && chargeController.id"
+  class="charge-station-page"
+>
+  <app-header-navigation
+    (navBtnClicked)="navBtnClicked($event)"
+    [chargeController]="chargeController"
+    [navigationBtns]="navigationBtns"
+  >
+  </app-header-navigation>
 
-  <div class="row">
-    <div class="col">
-      <div class="card m-3 p-3">
+  <div class="mb-4">
+    <div class="row">
+      <div class="col">
         <div class="header">
-          <h4>Incoming TCP/UDP Ports</h4>
-          <hr class="hr-light" />
+          <h4>{{ "charge-station.details.port-sharing" | translate }}</h4>
         </div>
-        <table class="table table-responsive table-hover">
-          <thead class="text-center">
-            <tr>
-              <th>Port</th>
-              <th>Open</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of ports">
-              <td>
-                {{ item.port }}
-              </td>
-              <td>
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="checkboxNoLabel"
-                  value=""
-                  aria-label="..."
-                  [disabled]="readonlyPorts.includes(item.port)"
-                  [readonly]="readonlyPorts.includes(item.port)"
-                  [checked]="incoming.includes(item.port)"
-                />
-              </td>
-              <td>{{ item.description }}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
-    <div class="col">
-      <div class="card m-3 p-3">
-        <div class="header">
-          <h4>Outgoing TCP/UDP Ports</h4>
-          <hr class="hr-light" />
+
+    <div class="row">
+      <div class="col">
+        <div class="card m-3 p-3">
+          <div class="header">
+            <h4>Incoming TCP/UDP Ports</h4>
+            <hr class="hr-light" />
+          </div>
+          <table class="table table-responsive table-hover">
+            <thead class="text-center">
+              <tr>
+                <th>Port</th>
+                <th>Open</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of ports">
+                <td>
+                  {{ item.port }}
+                </td>
+                <td>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="checkboxNoLabel"
+                    value=""
+                    aria-label="..."
+                    [disabled]="readonlyPorts.includes(item.port)"
+                    [readonly]="readonlyPorts.includes(item.port)"
+                    [checked]="incoming.includes(item.port)"
+                  />
+                </td>
+                <td>{{ item.description }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <table class="table table-responsive table-hover">
-          <thead class="text-center">
-            <tr>
-              <th>Port</th>
-              <th>Open</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of ports">
-              <td>
-                {{ item.port }}
-              </td>
-              <td>
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="checkboxNoLabel"
-                  value=""
-                  aria-label="..."
-                  [disabled]="readonlyPorts.includes(item.port)"
-                  [readonly]="readonlyPorts.includes(item.port)"
-                  [checked]="outgoing.includes(item.port)"
-                />
-              </td>
-              <td>{{ item.description }}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
-    </div>
-    <div class="col">
-      <div class="text-center">
-        <button class="basic-button px-3 mt-4">Save</button>
+      <div class="col">
+        <div class="card m-3 p-3">
+          <div class="header">
+            <h4>Outgoing TCP/UDP Ports</h4>
+            <hr class="hr-light" />
+          </div>
+          <table class="table table-responsive table-hover">
+            <thead class="text-center">
+              <tr>
+                <th>Port</th>
+                <th>Open</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of ports">
+                <td>
+                  {{ item.port }}
+                </td>
+                <td>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="checkboxNoLabel"
+                    value=""
+                    aria-label="..."
+                    [disabled]="readonlyPorts.includes(item.port)"
+                    [readonly]="readonlyPorts.includes(item.port)"
+                    [checked]="outgoing.includes(item.port)"
+                  />
+                </td>
+                <td>{{ item.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="text-center">
+          <button class="basic-button px-3 mt-4">Save</button>
+        </div>
       </div>
     </div>
   </div>

@@ -43,8 +43,8 @@ export const ddRfidReaderType: ddType = [
 ];
 
 export const ddRfidReader: ddType = [
-  { fetchValue: 'Test1', displayedValue: '000649 (test1)' },
-  { fetchValue: 'Test2', displayedValue: '003543 (test2)' },
+  { fetchValue: 'Test1', displayedValue: 'Test 1' },
+  { fetchValue: 'Test2', displayedValue: 'Test 2' },
 ];
 
 export const ddHighLvlCommunication: ddType = [

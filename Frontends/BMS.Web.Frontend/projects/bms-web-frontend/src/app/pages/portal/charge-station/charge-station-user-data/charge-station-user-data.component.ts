@@ -51,7 +51,7 @@ export class ChargeStationUserDataComponent implements OnInit {
       this.chargeController =
         await this.chargeStationService.getChargeControllerWithTransaction(
           this.id,
-          false
+          true
         );
 
       this.userData =
@@ -109,7 +109,7 @@ export class ChargeStationUserDataComponent implements OnInit {
 
       this.navigationBtns = [
         { text: this.chargeController.serialNumber! },
-        { text: this.translate.instant('charge-station.details.user-data') },
+        { text: this.translate.instant('charge-station.details.transactions') },
       ];
     } catch (error) {
       console.log('ERROR fetch chargeController on user data page');

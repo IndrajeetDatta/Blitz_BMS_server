@@ -1,0 +1,132 @@
+<div *ngIf="chargePoint && chargePoint.id" style="padding-bottom: 20px">
+  <app-header-navigation
+    (navBtnClicked)="navBtnClicked($event)"
+    [chargeController]="chargePoint.chargeController!"
+    [navigationBtns]="navigationBtns"
+  >
+  </app-header-navigation>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card m-3 p-3">
+          <table class="table table-responsive table-responsive table-hover">
+            <tbody>
+              <tr>
+                <th>Local Bus State</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Charging Duration</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Plug-in Duration</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Charging Current Limit (PWM)</th>
+                <td>test</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card m-3 p-3">
+          <table class="table table-responsive table-responsive table-hover">
+            <h5>Local Bus Information</h5>
+
+            <tbody>
+              <tr>
+                <th>Backplane bus position</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Head Module IP Address</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Head Module MAC Address</th>
+                <td>test</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="card m-3 p-3">
+          <table class="table table-responsive table-responsive table-hover">
+            <h5>Energy Meter Data</h5>
+            <tbody>
+              <tr>
+                <th>Current L1</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Current L2</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Current L3</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Voltage U1</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Voltage U2</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Voltage U3</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Total Energy</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Power Factor</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Frequency</th>
+                <td>test</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card m-3 p-3">
+          <table class="table table-responsive table-responsive table-hover">
+            <h5>Status Charging Point Details</h5>
+
+            <tbody>
+              <tr>
+                <th>Status</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Error Status</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>Current RFID</th>
+                <td>test</td>
+              </tr>
+              <tr>
+                <th>External Temperature (PT1000)</th>
+                <td>test</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

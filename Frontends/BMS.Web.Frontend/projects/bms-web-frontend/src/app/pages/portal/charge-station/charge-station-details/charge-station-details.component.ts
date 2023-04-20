@@ -232,6 +232,12 @@ export class ChargeStationDetailsComponent implements OnInit {
     });
   }
 
+  statusChargePoint(id?: number) {
+    this.router.navigate(['/portal/charge-station/charge-point-status'], {
+      queryParams: { id },
+    });
+  }
+
   getConfiguration(id?: number) {
     this.router.navigate(['/portal/charge-station/configuration'], {
       queryParams: { id },
@@ -282,6 +288,12 @@ export class ChargeStationDetailsComponent implements OnInit {
 
   getOcppServerVariable(id?: number) {
     this.router.navigate(['/portal/charge-station/ocpp-server-variable'], {
+      queryParams: { id },
+    });
+  }
+
+  editClientInfo(id?: number) {
+    this.router.navigate(['/portal/charge-station/edit-client-info'], {
       queryParams: { id },
     });
   }

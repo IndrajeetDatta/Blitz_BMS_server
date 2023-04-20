@@ -18,11 +18,14 @@ import { PortalComponent } from './pages/portal/portal.component';
 import { UsersManagementComponent } from './pages/portal/admin/users-management/users-management.component';
 import { ChargeStationComponent } from './pages/portal/charge-station/charge-station.component';
 import { ChargingPointEditComponent } from './pages/portal/charge-station/charging-point-edit/charging-point-edit.component';
+import { ChargingPointStatusComponent } from './pages/portal/charge-station/charging-point-status/charging-point-status.component';
+
 import { ChargeStationCommandHistoryComponent } from './pages/portal/charge-station/charge-station-command-history/charge-station-command-history.component';
 import { ChargeStationEmailsComponent } from './pages/portal/charge-station/charge-station-emails/charge-station-emails.component';
 import { ChargeStationLogsComponent } from './pages/portal/charge-station/charge-station-logs/charge-station-logs.component';
 import { PortSharingComponent } from './pages/portal/port-sharing/port-sharing.component';
 import { OcppServerVariableComponent } from './pages/portal/ocpp-server-variable/ocpp-server-variable.component';
+import { EditClientInfoComponent } from './pages/portal/edit-client-info/edit-client-info.component';
 
 const routes: Routes = [
   {
@@ -61,8 +64,16 @@ const routes: Routes = [
             component: ChargeStationConfigurationComponent,
           },
           {
+            path: 'edit-client-info',
+            component: EditClientInfoComponent,
+          },
+          {
             path: 'commands-history',
             component: ChargeStationCommandHistoryComponent,
+          },
+          {
+            path: 'port-sharing',
+            component: PortSharingComponent,
           },
           {
             path: 'whitelist',
@@ -95,6 +106,10 @@ const routes: Routes = [
           {
             path: 'charge-point-edit',
             component: ChargingPointEditComponent,
+          },
+          {
+            path: 'charge-point-status',
+            component: ChargingPointStatusComponent,
           },
           {
             path: 'emails',

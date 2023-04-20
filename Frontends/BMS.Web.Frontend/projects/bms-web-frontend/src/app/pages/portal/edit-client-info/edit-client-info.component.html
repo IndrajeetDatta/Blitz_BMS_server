@@ -1,0 +1,47 @@
+<div
+  *ngIf="chargeController && chargeController.id"
+  class="charge-station-page"
+>
+  <app-header-navigation
+    (navBtnClicked)="navBtnClicked($event)"
+    [chargeController]="chargeController"
+    [navigationBtns]="navigationBtns"
+  >
+  </app-header-navigation>
+
+  <div class="container mb-4">
+    <div class="row">
+      <div class="col">
+        <div class="header">
+          <h4>{{ "charge-station.details.edit-client-info" | translate }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="form-group">
+          <b>First name </b>
+          <input [value]="" class="form-control w-50" type="text" />
+        </p>
+        <p class="form-group">
+          <b>Last Name </b>
+          <input [value]="" class="form-control w-50" type="text" />
+        </p>
+        <p class="form-group">
+          <b>Email address</b>
+          <input [value]="" class="form-control w-50" type="text" />
+        </p>
+        <p class="form-group">
+          <b>Address</b>
+          <input [value]="" class="form-control w-50" type="text" />
+        </p>
+      </div>
+      <div class="col">
+        <div class="text-center">
+          <button class="basic-button px-3 mt-4">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

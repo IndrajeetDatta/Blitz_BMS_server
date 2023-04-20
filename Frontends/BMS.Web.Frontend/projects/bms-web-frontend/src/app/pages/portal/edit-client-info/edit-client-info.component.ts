@@ -7,11 +7,11 @@ import { ChargeStationService } from '../../../services/charge-station.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-port-sharing',
-  templateUrl: './port-sharing.component.html',
-  styleUrls: ['./port-sharing.component.scss'],
+  selector: 'app-edit-client-info',
+  templateUrl: './edit-client-info.component.html',
+  styleUrls: ['./edit-client-info.component.scss'],
 })
-export class PortSharingComponent implements OnInit {
+export class EditClientInfoComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -53,7 +53,7 @@ export class PortSharingComponent implements OnInit {
   incoming = [''];
   getData() {
     let token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoibWFudWZhY3R1cmVyIiwiZXhwIjoxNjgxNzI0ODc4LCJyb2xlIjoibWFudWZhY3R1cmVyIiwiaWF0IjoxNjgxNzIxMjc4LCJuYmYiOjE2ODE3MjEyNzh9.x21w1a-S_ArMB4NlvAA_PNtnevcN-MYv77kSM33J2u04C2nNOMsDMvGR-hftFXL8CmopVba6ulfsQErby9fs1aIBFmj7_rIdxPlph4tv_Lf-EEPFRxtT5zv3woknoo7yUOjR_DNnbiM4EvTEYEy6F0xpUqQep380FL4vsRWosl-DsNqi_A_r-DwsFACRD9_My76QBsvLoiw2rW_obIKSAIzXUPgvRs6kXW7RD3fFNJdF2PQBHTFsZWbOclovzMIPtmZ9T6C5u4p4OFQ2J3GSA5sFB2i-Pk0eASXxLHLLk9vYvEs6BxEd2KeThWuKb3xKywacWvXJZLlrzQr_LWLHRA';
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoibWFudWZhY3R1cmVyIiwiZXhwIjoxNjgxODMzMjc2LCJyb2xlIjoibWFudWZhY3R1cmVyIiwiaWF0IjoxNjgxODI5Njc2LCJuYmYiOjE2ODE4Mjk2NzZ9.JaI5tD_su8RdSQUBFnV-t83JB40LDxHqQ2_RHWPUrRuDU2x3UX9S14idloej1uXV2w6Xe267vP46DID-DH7yAP3wzr9WgVjPq-DuWZuQc5fb7IpcRfkluYWVHa0Mg5wqYIRx38raxbU2Olwmsahpxtthypi_zI39PrBoNzPblc3VVK1C-t7PTM8YHNmpgTZ4Mxek29EhXTlLN0u4QdJaCUAbCRJa_ppNUmV5kvXrY2GSmHfY-dkZqfQPwE_57g0urnHjNPpKi_zjChyAyKuPJukVieTj9ye37Em72E5zAuOaRkFw0sPqekIQshnu4poT78ocQ2gCEs34Dq_pz98BKw';
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
@@ -82,7 +82,11 @@ export class PortSharingComponent implements OnInit {
 
       this.navigationBtns = [
         { text: this.chargeController.serialNumber! },
-        { text: this.translate.instant('Port Sharing') },
+        {
+          text: this.translate.instant(
+            'charge-station.details.edit-client-info'
+          ),
+        },
       ];
     } catch (error) {
       console.log('ERROR fetch chargeController on detials page');

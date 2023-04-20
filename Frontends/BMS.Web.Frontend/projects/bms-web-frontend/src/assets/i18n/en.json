@@ -5,7 +5,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "ok": "OK",
-    "edit": "Edit",
+    "edit": "*Edit",
     "delete": "Delete",
     "search": "Search",
     "yes": "YES",
@@ -18,7 +18,7 @@
     "cpu": "CPU",
     "ram": "RAM",
     "disk-usage": "Disk Usage",
-    "status": "Status",
+    "status": "*Status",
     "reboot": "Reboot",
     "version": "Version",
     "name": "Name",
@@ -81,6 +81,7 @@
     "installer": "Installer",
     "status": "Status",
     "cp-configure": "CP Configure",
+    "cp-status": "CP Status",
     "heartbeat": "Heartbeat",
     "software-version": "Software version",
     "web-app-version": "Web App Version",
@@ -88,7 +89,8 @@
     "uid": "Uid",
     "master-uid": "Master uId",
     "release-charging-mode": "Release Mode",
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "export-charging-stations": "*Export Charging Stations"
   },
   "whitelist": {
     "whitelist-rfids": "Whitelist RFIDs",
@@ -155,10 +157,11 @@
   },
   "charge-station": {
     "details": {
+      "edit-client-info": "*Edit client info",
       "configure-station": "Configure Station",
       "load-management": "Load Management",
       "whitelist": "Whitelist",
-      "ocpp": "OCPP",
+      "ocpp": "*OCPP",
       "user-data": "User Data",
       "transactions": "Transactions",
       "client-name": "Client Name: ",
@@ -224,6 +227,7 @@
       "last-maintenance-success-set": "Last maintenance date set successfully!",
       "software-version": "Software version",
       "commands-history": "Commands History",
+      "port-sharing": "*Port Sharing",
       "logs": "Logs",
       "enable-test-mode": "Enable test mode",
       "disable-test-mode": "Disable test mode"

@@ -1,0 +1,36 @@
+@import '../../../../../styles.scss';
+
+.configuration-station-header {
+    display: grid;
+    background-color: $header-background;
+    color: white;
+    padding: 10px;
+    grid-template-areas: 'serial text status';
+}
+
+#check-circle {
+    color: $blitz-green;
+    align-self: center;
+}
+
+.div-row {
+    background-color: lightgray;
+    color: $black;
+  }
+
+.div-col {
+    border: 1px solid white;
+    padding: 10px;
+    color: #585858;
+    display: flex;
+    align-items: center;
+    
+}
+
+.grid-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0px;
+    color: $black;
+}

@@ -1,123 +1,341 @@
-<div *ngIf="chargePoint && chargePoint.id" style="padding-bottom: 20px;">
-    <app-header-navigation
-        (navBtnClicked)="navBtnClicked($event)"
-        [chargeController]="chargePoint.chargeController!"
-        [navigationBtns]="navigationBtns">
-    </app-header-navigation>
+<div *ngIf="chargePoint && chargePoint.id" style="padding-bottom: 20px">
+  <app-header-navigation
+    (navBtnClicked)="navBtnClicked($event)"
+    [chargeController]="chargePoint.chargeController!"
+    [navigationBtns]="navigationBtns"
+  >
+  </app-header-navigation>
 
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0px 20px;">
-        <h4 style="margin: 20px 0px;"> {{ 'general.charge-point' | translate }}: {{chargePoint.name}}</h4>
-        <button 
-            class="basic-button header-button overview_button"
-            [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.SaveChargingPoint.toString(), chargePoint.chargePointUid)"
-            style="margin-left: 10px"
-            (click)="saveConfiguration()"
-            mat-raised-button
-            [matTooltip]="commandService.tooltipMessage(commandType.SaveChargingPoint.toString(), chargePoint.chargePointUid)"
-        >
-            {{'general.save' | translate}}
-        </button>
+  <div class="container">
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0px 20px;
+      "
+    >
+      <h4 style="margin: 20px 0px">
+        {{ "general.charge-point" | translate }}: {{ chargePoint.name }}
+      </h4>
+
+      <button
+        class="basic-button header-button overview_button"
+        [disabled]="
+          commandService.disableCommandButtons ||
+          commandService.isDisabledCommand(
+            commandType.SaveChargingPoint.toString(),
+            chargePoint.chargePointUid
+          )
+        "
+        style="margin-left: 10px"
+        (click)="saveConfiguration()"
+        mat-raised-button
+        [matTooltip]="
+          commandService.tooltipMessage(
+            commandType.SaveChargingPoint.toString(),
+            chargePoint.chargePointUid
+          )
+        "
+      >
+        {{ "general.save" | translate }}
+      </button>
     </div>
-    <div style="max-width: 500px;">
-        <div class="row div-row ">
-            <div class="col div-col"></div>
-            <div class="col div-col grid-title">{{'general.general' | translate}}</div>
+    <!-- New version-->
+    <div class="container" style="max-width: 700px">
+      <div class="card m-3 p-3">
+        <div class="header">
+          <h4>General</h4>
+          <hr class="hr-light" />
         </div>
-         <app-cell-table-station-configuration
-            [label]="'CP ' + ('general.name' | translate)" 
-            [textContol]="formName"
-            [value]="chargePoint.name!"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'general.location' | translate" 
-            [textContol]="formLocation"
+        <p class="form-group">
+          <b>CP Name </b>
+          <input [value]="chargePoint.name!" class="form-control" type="text" />
+        </p>
+        <p class="form-group">
+          <b>Location </b>
+          <input
             [value]="chargePoint.location!"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <div class="row div-row ">
-            <div class="col div-col"></div>
-            <div class="col div-col grid-title">{{'charge-station.details.energy' | translate}}</div>
+            class="form-control"
+            type="text"
+          />
+        </p>
+      </div>
+      <div class="card m-3 p-3">
+        <div class="header">
+          <h4>Energy</h4>
+          <hr class="hr-light" />
         </div>
-        <div class="row div-row ">
-            <div class="col div-col">{{'charge-station.details.type' | translate }}</div>
-            <div class="col div-col">
-                <select style="margin: 0px;" id="selectEnergyType" class="form-select" aria-label="Default select example"></select>
-            </div>
-        </div>
-        <div class="row div-row ">
-            <div class="col div-col">{{'charge-station.details.phase-roration' | translate }}</div>
-            <div class="col div-col">
-                <select id="selectPhaseRotation" class="form-select" aria-label="Default select example"></select>
-            </div>
-        </div>
-        <app-cell-table-station-configuration
-            [label]="'charge-station.details.min-current' | translate" 
-            [textContol]="formCurrentMinimumInAmpers"
+        <h5>Charge Currents</h5>
+
+        <p class="form-group">
+          <b>Charge Current minimum (A) </b>
+          <input
             [value]="chargePoint.chargeCurrentMinimumInAmpers"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'charge-station.details.max-current' | translate" 
-            [textContol]="formCurrentMaximumInAmpers"
+            class="form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Charge Current maximum (A) </b>
+          <input
             [value]="chargePoint.chargeCurrentMaximumInAmpers"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'charge-station.details.fallback-current' | translate" 
-            [textContol]="formFallbackCurrentInAmpers"
+            class="form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Fallback Current (A) </b>
+          <input
             [value]="chargePoint.fallbackCurrentInAmpers"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'charge-station.details.fallback-current-time' | translate" 
-            [textContol]="formFallbackTimeInSeconds"
+            class="form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>Fallback Time (s) </b>
+          <input
             [value]="chargePoint.fallbackTimeInSeconds"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <div class="row div-row ">
-            <div class="col div-col"></div>
-            <div class="col div-col grid-title">{{'charge-station.details.release-charging' | translate}}</div>
+            class="form-control"
+            type="text"
+          />
+        </p>
+
+        <h5>Energy Meter</h5>
+
+        <p class="form-group">
+          <b>Energy Meter Type </b>
+          <select
+            style="margin: 0px"
+            id="selectEnergyType"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </p>
+        <p class="form-group">
+          <b>Connector Phase Rotation </b>
+          <select
+            id="selectPhaseRotation"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </p>
+      </div>
+      <div class="card m-3 p-3">
+        <div class="header">
+          <h4>Release Charging</h4>
+          <hr class="hr-light" />
         </div>
-        <div class="row div-row ">
-            <div class="col div-col">{{'charge-station.details.charging-mode' | translate }}</div>
-            <div class="col div-col">
-                <select id="selectChargingMode" class="form-select" aria-label="Default select example"></select>
-            </div>
-        </div>
-        <app-cell-table-station-configuration
-            [label]="'charge-station.details.rfid-reader' | translate" 
-            [textContol]="formRfidReader"
+        <p class="form-group">
+          <b>Charging Mode </b>
+          <select
+            id="selectChargingMode"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </p>
+        <p class="form-group">
+          <b>RFID Reader </b>
+          <!-- <input
             [value]="chargePoint.rfidReader"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <div class="row div-row ">
-            <div class="col div-col">{{'charge-station.details.rfid-reader-type' | translate }}</div>
-            <div class="col div-col">
-                <select id="selectRfidReaderType" class="form-select" aria-label="Default select example"></select>
-            </div>
-        </div>
-        <app-cell-table-station-configuration
-            [label]="'charge-station.details.rfid-timeout' | translate" 
-            [textContol]="formRfidTimeoutInSeconds"
+            class="form-control"
+            type="text"
+          /> -->
+          <select
+            id="selectRfidReader"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </p>
+        <p class="form-group">
+          <b>RFID Reader type </b>
+          <select
+            id="selectRfidReaderType"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </p>
+        <p class="form-group">
+          <b>RFID Timeout (s) </b>
+          <input
             [value]="chargePoint.rfidTimeoutInSeconds"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'charge-station.details.occp-connector-id' | translate" 
-            [textContol]="formOcppConnectorId"
+            class="form-control"
+            type="text"
+          />
+        </p>
+        <p class="form-group">
+          <b>OCPP Connector ID </b>
+          <input
             [value]="chargePoint.ocppConnectorId"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <div class="row div-row ">
-            <div class="col div-col"></div>
-            <div class="col div-col grid-title">ISO 15118</div>
+            class="form-control"
+            type="text"
+          />
+        </p>
+      </div>
+      <div class="card m-3 p-3">
+        <div class="header">
+          <h4>ISO 15118</h4>
+          <hr class="hr-light" />
         </div>
-        <div class="row div-row ">
-            <div class="col div-col">{{'charge-station.details.high-level-communication' | translate }}</div>
-            <div class="col div-col">
-                <select id="selectHighLevelCommunication" class="form-select" aria-label="Default select example"></select>
-            </div>
-        </div>
+        <p class="form-group">
+          <b>High Level communication </b>
+          <select
+            id="selectHighLevelCommunication"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </p>
+      </div>
     </div>
+
+    <!-- Old version -->
+    <!-- <div style="max-width: 500px">
+      <div class="row div-row">
+        <div class="col div-col"></div>
+        <div class="col div-col grid-title">
+          {{ "general.general" | translate }}
+        </div>
+      </div>
+      <app-cell-table-station-configuration
+        [label]="'CP ' + ('general.name' | translate)"
+        [textContol]="formName"
+        [value]="chargePoint.name!"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'general.location' | translate"
+        [textContol]="formLocation"
+        [value]="chargePoint.location!"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <div class="row div-row">
+        <div class="col div-col"></div>
+        <div class="col div-col grid-title">
+          {{ "charge-station.details.energy" | translate }}
+        </div>
+      </div>
+      <div class="row div-row">
+        <div class="col div-col">
+          {{ "charge-station.details.type" | translate }}
+        </div>
+        <div class="col div-col">
+          <select
+            style="margin: 0px"
+            id="selectEnergyType"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </div>
+      </div>
+      <div class="row div-row">
+        <div class="col div-col">
+          {{ "charge-station.details.phase-roration" | translate }}
+        </div>
+        <div class="col div-col">
+          <select
+            id="selectPhaseRotation"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </div>
+      </div>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.min-current' | translate"
+        [textContol]="formCurrentMinimumInAmpers"
+        [value]="chargePoint.chargeCurrentMinimumInAmpers"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.max-current' | translate"
+        [textContol]="formCurrentMaximumInAmpers"
+        [value]="chargePoint.chargeCurrentMaximumInAmpers"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.fallback-current' | translate"
+        [textContol]="formFallbackCurrentInAmpers"
+        [value]="chargePoint.fallbackCurrentInAmpers"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.fallback-current-time' | translate"
+        [textContol]="formFallbackTimeInSeconds"
+        [value]="chargePoint.fallbackTimeInSeconds"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <div class="row div-row">
+        <div class="col div-col"></div>
+        <div class="col div-col grid-title">
+          {{ "charge-station.details.release-charging" | translate }}
+        </div>
+      </div>
+      <div class="row div-row">
+        <div class="col div-col">
+          {{ "charge-station.details.charging-mode" | translate }}
+        </div>
+        <div class="col div-col">
+          <select
+            id="selectChargingMode"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </div>
+      </div>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.rfid-reader' | translate"
+        [textContol]="formRfidReader"
+        [value]="chargePoint.rfidReader"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <div class="row div-row">
+        <div class="col div-col">
+          {{ "charge-station.details.rfid-reader-type" | translate }}
+        </div>
+        <div class="col div-col">
+          <select
+            id="selectRfidReaderType"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </div>
+      </div>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.rfid-timeout' | translate"
+        [textContol]="formRfidTimeoutInSeconds"
+        [value]="chargePoint.rfidTimeoutInSeconds"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.occp-connector-id' | translate"
+        [textContol]="formOcppConnectorId"
+        [value]="chargePoint.ocppConnectorId"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <div class="row div-row">
+        <div class="col div-col"></div>
+        <div class="col div-col grid-title">ISO 15118</div>
+      </div>
+      <div class="row div-row">
+        <div class="col div-col">
+          {{ "charge-station.details.high-level-communication" | translate }}
+        </div>
+        <div class="col div-col">
+          <select
+            id="selectHighLevelCommunication"
+            class="form-select"
+            aria-label="Default select example"
+          ></select>
+        </div>
+      </div>
+    </div> -->
+  </div>
 </div>

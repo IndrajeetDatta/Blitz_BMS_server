@@ -2,158 +2,276 @@
   <app-header-navigation
     (navBtnClicked)="navBtnClicked($event)"
     [chargeController]="configuration"
-    [navigationBtns]="navigationBtns">
+    [navigationBtns]="navigationBtns"
+  >
   </app-header-navigation>
 
-  <div style="padding: 20px;" class="align-right-side">
-      <button
-        class="basic-button"
-        style="margin-left: 10px"
-        [disabled]="commandService.disableCommandButtons || commandService.isDisabledCommand(commandType.SaveLoadManagement.toString())"
-        (click)="saveConfiguration()"
-        mat-raised-button
-        [matTooltip]="commandService.tooltipMessage(commandType.SaveLoadManagement.toString())"
-      >
-        {{'general.save' | translate}}
-      </button>
+  <div style="padding: 20px" class="align-right-side">
+    <button
+      class="basic-button"
+      style="margin-left: 10px"
+      [disabled]="
+        commandService.disableCommandButtons ||
+        commandService.isDisabledCommand(
+          commandType.SaveLoadManagement.toString()
+        )
+      "
+      (click)="saveConfiguration()"
+      mat-raised-button
+      [matTooltip]="
+        commandService.tooltipMessage(commandType.SaveLoadManagement.toString())
+      "
+    >
+      {{ "general.save" | translate }}
+    </button>
   </div>
 
-  <div class="row gx-5" style="margin-bottom: 50px;">
-      <div class="col">
-          <div class="row div-row grid-title" style="display: block;">
-              {{'load-management.load-management-status' | translate}}
-          </div>
-          <app-cell-table-station-configuration
-              [label]="'charge-station.details.load-management-active' | translate"
-              [textContol]="loadManagementActive"
-              [value]="loadManagementActive.valueOf() ? 'Yes' : 'No'"
-              [edit]="false">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'load-management.limiting' | translate"
-              [textContol]="limiting"
-              [value]="limiting.valueOf() ? 'Inactive' : 'Active'"
-              [edit]="false">
-          </app-cell-table-station-configuration>
-          <app-cell-table-station-configuration
-              [label]="'load-management.monitored-cps' | translate"
-              [textContol]="monitoredCPs"
-              [value]="monitoredCPs.value"
-              [edit]="false">
-          </app-cell-table-station-configuration>
+  <div class="row gx-5" style="margin-bottom: 50px">
+    <div class="col">
+      <div class="row div-row grid-title" style="display: block">
+        {{ "load-management.load-management-status" | translate }}
       </div>
+      <app-cell-table-station-configuration
+        [label]="'charge-station.details.load-management-active' | translate"
+        [textContol]="loadManagementActive"
+        [value]="loadManagementActive.valueOf() ? 'Yes' : 'No'"
+        [edit]="false"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'load-management.limiting' | translate"
+        [textContol]="limiting"
+        [value]="limiting.valueOf() ? 'Inactive' : 'Active'"
+        [edit]="false"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'load-management.monitored-cps' | translate"
+        [textContol]="monitoredCPs"
+        [value]="monitoredCPs.value"
+        [edit]="false"
+      >
+      </app-cell-table-station-configuration>
+    </div>
 
-      <div class="col">
-          <div class="row div-row ">
-              <div class="col div-col grid-title col-padding lg-col"></div>
-              <div class="col div-col grid-title col-padding" >
-                {{'load-management.i1' | translate}}
-              </div>
-              <div class="col div-col grid-title col-padding" >
-                {{'load-management.i2' | translate}}
-              </div>
-              <div class="col div-col grid-title col-padding" >
-                {{'load-management.i3' | translate}}
-              </div>
-          </div>
-          <div class="row div-row">
-              <div class="col div-col lg-col">{{'load-management.current' | translate}}</div>
-              <input disabled="true" *ngFor="let aCurrent of current.value; index as position" class="col regularInput input-design" matInput [(ngModel)]="aCurrent.value">
-          </div>
-          <div class="row div-row">
-              <div class="col div-col lg-col">{{'load-management.planned-current' | translate}}</div>
-              <input disabled="true" *ngFor="let pCurrent of plannedCurrent.value; index as position" class="col regularInput input-design" matInput [(ngModel)]="pCurrent.value">
-          </div>
-          <div class="row div-row">
-            <div class="col div-col lg-col">{{'load-management.supervision-meter-current' | translate}}</div>
-            <input disabled="true" *ngFor="let sCurrent of supervisionMeterCurrent.value; index as position" class="col regularInput input-design" matInput [(ngModel)]="sCurrent.value">
-          </div>
+    <div class="col">
+      <div class="row div-row">
+        <div class="col div-col grid-title col-padding lg-col"></div>
+        <div class="col div-col grid-title col-padding">
+          {{ "load-management.i1" | translate }}
+        </div>
+        <div class="col div-col grid-title col-padding">
+          {{ "load-management.i2" | translate }}
+        </div>
+        <div class="col div-col grid-title col-padding">
+          {{ "load-management.i3" | translate }}
+        </div>
       </div>
+      <div class="row div-row">
+        <div class="col div-col lg-col">
+          {{ "load-management.current" | translate }}
+        </div>
+        <input
+          disabled="true"
+          *ngFor="let aCurrent of current.value; index as position"
+          class="col regularInput input-design"
+          matInput
+          [(ngModel)]="aCurrent.value"
+        />
+      </div>
+      <div class="row div-row">
+        <div class="col div-col lg-col">
+          {{ "load-management.planned-current" | translate }}
+        </div>
+        <input
+          disabled="true"
+          *ngFor="let pCurrent of plannedCurrent.value; index as position"
+          class="col regularInput input-design"
+          matInput
+          [(ngModel)]="pCurrent.value"
+        />
+      </div>
+      <div class="row div-row">
+        <div class="col div-col lg-col">
+          {{ "load-management.supervision-meter-current" | translate }}
+        </div>
+        <input
+          disabled="true"
+          *ngFor="
+            let sCurrent of supervisionMeterCurrent.value;
+            index as position
+          "
+          class="col regularInput input-design"
+          matInput
+          [(ngModel)]="sCurrent.value"
+        />
+      </div>
+    </div>
   </div>
 
   <div class="row gx-5">
     <div class="col">
-        <div class="row div-row grid-title">
-            <span>{{'load-management.load-management-configuration' | translate}}</span>
+      <div class="row div-row grid-title">
+        <span>{{
+          "load-management.load-management-configuration" | translate
+        }}</span>
+      </div>
+      <app-cell-table-station-configuration
+        [label]="'load-management.charging-park-name' | translate"
+        [textContol]="chargingParkName"
+        [value]="chargingParkName.value"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <app-cell-table-station-configuration
+        [label]="'load-management.load-circuit-fuse' | translate"
+        [textContol]="loadCircuitFuse"
+        [value]="loadCircuitFuse.value"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <div class="row div-row">
+        <div class="col div-col" style="padding-top: 12px">
+          {{ "load-management.high-level-measuring-device" | translate }}
         </div>
-        <app-cell-table-station-configuration
-            [label]="'load-management.charging-park-name' | translate"
-            [textContol]="chargingParkName"
-            [value]="chargingParkName.value"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <app-cell-table-station-configuration
-            [label]="'load-management.load-circuit-fuse' | translate"
-            [textContol]="loadCircuitFuse"
-            [value]="loadCircuitFuse.value"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <div class="row div-row">
-          <div class="col div-col" style="padding-top: 12px;">{{'load-management.high-level-measuring-device' | translate}}</div>
-            <div class="col div-col">
-            <mat-select (ngModelChange)="preselectOption($event)" [(ngModel)]="selectedHighDeviceType" style="background-color:white; margin-bottom: -10px; padding-left: 10px; height: 40px; justify-content: center; align-items: center; align-content: center; justify-items: center; padding-top: 10px;" >
-              <mat-option *ngFor="let highLevelDevice of highLevelMeasuringDevice.value" [value]="highLevelDevice.value">
-                {{ highLevelDevice.value }}
-              </mat-option>
-            </mat-select>
-          </div>
+        <div class="col div-col">
+          <mat-select
+            (ngModelChange)="preselectOption($event)"
+            [(ngModel)]="selectedHighDeviceType"
+            style="
+              background-color: white;
+              margin-bottom: -10px;
+              padding-left: 10px;
+              height: 40px;
+              justify-content: center;
+              align-items: center;
+              align-content: center;
+              justify-items: center;
+              padding-top: 10px;
+            "
+          >
+            <mat-option
+              *ngFor="let highLevelDevice of highLevelMeasuringDevice.value"
+              [value]="highLevelDevice.value"
+            >
+              {{ highLevelDevice.value }}
+            </mat-option>
+          </mat-select>
         </div>
-        <app-cell-table-station-configuration *ngIf="selectedHighDeviceType === 'Ip Address'"
-            [label]="'station-configuration.ip-address' | translate"
-            [textContol]="eth0IPAddress"
-            [value]="eth0IPAddress.value"
-            [edit]="true">
-        </app-cell-table-station-configuration>
-        <div class="row div-row" *ngIf="selectedHighDeviceType === 'Ip Address'">
-          <div class="col div-col" style="padding-top: 12px;">{{'load-management.measuring-device-type' | translate}} </div>
-            <div class="col div-col">
-            <mat-select [(ngModel)]="selectedDeviceType" style="background-color:white; height: 40px; padding-left: 10px; padding-top: 10px; margin-bottom: -10px;">
-              <mat-option *ngFor="let deviceType of measuringDeviceTypeForIp.value" [value]="deviceType.value">
-                {{ deviceType.value }}
-              </mat-option>
-            </mat-select>
-          </div>
+      </div>
+      <app-cell-table-station-configuration
+        *ngIf="selectedHighDeviceType === 'Ip Address'"
+        [label]="'station-configuration.ip-address' | translate"
+        [textContol]="eth0IPAddress"
+        [value]="eth0IPAddress.value"
+        [edit]="true"
+      >
+      </app-cell-table-station-configuration>
+      <div class="row div-row" *ngIf="selectedHighDeviceType === 'Ip Address'">
+        <div class="col div-col" style="padding-top: 12px">
+          {{ "load-management.measuring-device-type" | translate }}
         </div>
-        <div class="row div-row" *ngIf="selectedHighDeviceType === 'RS 485 Modbus'">
-          <div class="col div-col" style="padding-top: 12px;">{{'load-management.configured-RS485-controller' | translate}} </div>
-            <div class="col div-col">
-            <mat-select [(ngModel)]="selectedDeviceType" style="background-color:white; height: 40px; padding-left: 10px; padding-top: 10px; margin-bottom: -10px;">
-              <mat-option *ngFor="let deviceType of measuringDeviceTypeForModbus.value" [value]="deviceType.value">
-                {{ deviceType.value }}
-              </mat-option>
-            </mat-select>
-          </div>
+        <div class="col div-col">
+          <mat-select
+            [(ngModel)]="selectedDeviceType"
+            style="
+              background-color: white;
+              height: 40px;
+              padding-left: 10px;
+              padding-top: 10px;
+              margin-bottom: -10px;
+            "
+          >
+            <mat-option
+              *ngFor="let deviceType of measuringDeviceTypeForIp.value"
+              [value]="deviceType.value"
+            >
+              {{ deviceType.value }}
+            </mat-option>
+          </mat-select>
         </div>
-        <div class="row div-row">
-          <div class="col div-col" style="padding-top: 12px;">{{'load-management.load-strategy' | translate}}</div>
-            <div class="col div-col">
-              <mat-select [(ngModel)]="selectedLoadStrategy" style="background-color:white; margin-bottom: -10px; height: 40px; padding-left: 10px; padding-top: 10px;">
-                <mat-option [value]="loadStrategy.value">
-                  {{ loadStrategy.value }}
-                </mat-option>
-              </mat-select>
-            </div>
+      </div>
+      <div
+        class="row div-row"
+        *ngIf="selectedHighDeviceType === 'RS 485 Modbus'"
+      >
+        <div class="col div-col" style="padding-top: 12px">
+          {{ "load-management.configured-RS485-controller" | translate }}
         </div>
+        <div class="col div-col">
+          <mat-select
+            [(ngModel)]="selectedDeviceType"
+            style="
+              background-color: white;
+              height: 40px;
+              padding-left: 10px;
+              padding-top: 10px;
+              margin-bottom: -10px;
+            "
+          >
+            <mat-option
+              *ngFor="let deviceType of measuringDeviceTypeForModbus.value"
+              [value]="deviceType.value"
+            >
+              {{ deviceType.value }}
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div class="row div-row">
+        <div class="col div-col" style="padding-top: 12px">
+          {{ "load-management.load-strategy" | translate }}
+        </div>
+        <div class="col div-col">
+          <mat-select
+            [(ngModel)]="selectedLoadStrategy"
+            style="
+              background-color: white;
+              margin-bottom: -10px;
+              height: 40px;
+              padding-left: 10px;
+              padding-top: 10px;
+            "
+          >
+            <mat-option [value]="loadStrategy.value">
+              {{ loadStrategy.value }}
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
     </div>
 
     <div class="col">
-        <div class="row div-row grid-title" style="display: block;">
-            {{'load-management.charging-points' | translate}}
+      <div class="row div-row grid-title" style="display: block">
+        {{ "load-management.charging-points" | translate }}
+      </div>
+      <div class="row div-row">
+        <div class="col div-col">
+          {{ "load-management.select-all" | translate }}
         </div>
+        <div class="col div-col">
+          <mat-checkbox
+            [(ngModel)]="selectAllCPs"
+            [color]="'primary'"
+            (click)="selectAllCPsFunction()"
+          ></mat-checkbox>
+        </div>
+      </div>
+      <div
+        *ngFor="let chargeStation of chargingPoints.value; index as position"
+      >
         <div class="row div-row">
-          <div class="col div-col">{{'load-management.select-all' | translate}}</div>
+          <div class="col div-col">{{ chargeStation.name }}</div>
           <div class="col div-col">
-              <mat-checkbox  [(ngModel)]="selectAllCPs" [color]="'primary'" (click)="selectAllCPsFunction()"  ></mat-checkbox>
+            <mat-checkbox
+              [(ngModel)]="chargeStation.enabled"
+              [ngModelOptions]="{ standalone: true }"
+              (click)="selectCPsFunction(!chargeStation.enabled, position)"
+              [color]="'primary'"
+            ></mat-checkbox>
           </div>
         </div>
-        <div *ngFor="let chargeStation of chargingPoints.value; index as position">
-          <div class="row div-row">
-            <div class="col div-col">{{chargeStation.name}}</div>
-            <div class="col div-col">
-                <mat-checkbox [(ngModel)]="chargeStation.enabled" [ngModelOptions]="{standalone: true}" (click)="selectCPsFunction(!chargeStation.enabled, position)" [color]="'primary'"></mat-checkbox>
-            </div>
-          </div>
-        </div>
+      </div>
     </div>
   </div>
 </div>

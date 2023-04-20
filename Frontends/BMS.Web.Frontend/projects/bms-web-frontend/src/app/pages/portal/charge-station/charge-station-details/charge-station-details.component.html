@@ -9,7 +9,7 @@
   >
   </app-header-navigation>
 
-  <div class="charge-station-body">
+  <div class="charge-station-body pb-5">
     <div class="station-controls">
       <button
         class="basic-button station-control-button"
@@ -48,6 +48,12 @@
         "
       >
         {{ "charge-station.details.commands-history" | translate }}
+      </button>
+      <button
+        class="basic-button station-control-button"
+        (click)="getPortSharing(chargeController.id)"
+      >
+        {{ "charge-station.details.port-sharing" | translate }}
       </button>
       <!-- <button
         class="basic-button station-control-button"
@@ -117,7 +123,7 @@
           </p>
         </div>
 
-        <div class="station-data">
+        <div class="station-data pb-4">
           <b class="data-text">{{
             "charge-station.details.installer-name" | translate
           }}</b>
@@ -271,9 +277,16 @@
       </div>
 
       <div class="get-data-controls">
+        <button
+          class="basic-button get-data-button"
+          (click)="editClientInfo(chargeController.id)"
+        >
+          {{ "charge-station.details.edit-client-info" | translate }}
+        </button>
         <button class="basic-button get-data-button">
           {{ "charge-station.details.get-configuration" | translate }}
         </button>
+
         <button
           mat-raised-button
           [matTooltip]="commandService.tooltipMessage()"
@@ -488,6 +501,12 @@
             </button>
           </td>
           <td class="staion">
+            <button
+              class="basic-button mx-2"
+              (click)="statusChargePoint(station.id)"
+            >
+              {{ "general.status" | translate }}
+            </button>
             <button class="basic-button" (click)="editChargePoint(station.id)">
               {{ "general.edit" | translate }}
             </button>
