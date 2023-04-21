@@ -90,7 +90,7 @@
     "master-uid": "Master uId",
     "release-charging-mode": "Release Mode",
     "transactions": "Transactions",
-    "export-charging-stations": "*Export Charging Stations"
+    "export-charging-stations": "*Export"
   },
   "whitelist": {
     "whitelist-rfids": "Whitelist RFIDs",

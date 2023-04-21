@@ -83,16 +83,19 @@ export class OverviewComponent implements OnInit {
   async exportChargingStations() {
     //define the heading for each row of the data
     let csv =
-      'Master uId, Serial number, Release mode, Transactions, Client name, Installer name\n';
+      'Master uId,Serial number,Release mode,Transactions,Client name,Installer name\n';
     //merge the data with CSV
     const chargeController =
       await this.chargeStationService.getAllChargingStationOverview();
-    chargeController.forEach(function (transactionToCSV) {
-      let { chargeController, serialNumber } = transactionToCSV;
-      csv += `${chargeController?.serialNumber},${serialNumber},${
+    chargeController.forEach(function (chargePoint) {
+      let { chargeController, serialNumber, releaseChargingMode } = chargePoint;
+      csv += `${
+        chargeController?.serialNumber
+      },${serialNumber},${releaseChargingMode},${
         chargeController!.transactions?.length
-      },${chargeController!.client!.name},
-      ${chargeController!.installer?.firstName}`;
+      },${chargeController!.client!.name},${
+        chargeController!.installer?.firstName
+      }`;
       csv += '\n';
     });
 

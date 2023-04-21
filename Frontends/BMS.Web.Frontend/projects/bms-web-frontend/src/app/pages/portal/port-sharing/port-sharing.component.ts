@@ -48,31 +48,18 @@ export class PortSharingComponent implements OnInit {
     incoming: '',
     outgoing: '',
   };
-  outgoingData: any = [];
   outgoing = [''];
   incoming = [''];
-  getData() {
-    let token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoibWFudWZhY3R1cmVyIiwiZXhwIjoxNjgxNzI0ODc4LCJyb2xlIjoibWFudWZhY3R1cmVyIiwiaWF0IjoxNjgxNzIxMjc4LCJuYmYiOjE2ODE3MjEyNzh9.x21w1a-S_ArMB4NlvAA_PNtnevcN-MYv77kSM33J2u04C2nNOMsDMvGR-hftFXL8CmopVba6ulfsQErby9fs1aIBFmj7_rIdxPlph4tv_Lf-EEPFRxtT5zv3woknoo7yUOjR_DNnbiM4EvTEYEy6F0xpUqQep380FL4vsRWosl-DsNqi_A_r-DwsFACRD9_My76QBsvLoiw2rW_obIKSAIzXUPgvRs6kXW7RD3fFNJdF2PQBHTFsZWbOclovzMIPtmZ9T6C5u4p4OFQ2J3GSA5sFB2i-Pk0eASXxLHLLk9vYvEs6BxEd2KeThWuKb3xKywacWvXJZLlrzQr_LWLHRA';
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    this.http
-      .get('http://192.168.0.189:5000/api/v1.0/web/firewall', httpOptions)
-      .subscribe((data: any) => {
-        this.incoming = data.incoming.split(',');
-        this.outgoing = data.outgoing.split(',');
-      });
-  }
 
   readonlyPorts = ['80', '5000', '3000'];
 
   async ngOnInit(): Promise<void> {
-    this.getData();
+    this.incomingData = {
+      incoming: '22,80,502,1603,1883,5000,2106,5555,5353,9502,3000',
+      outgoing: '',
+    };
+    this.incoming = this.incomingData.incoming.split(',');
+    this.outgoing = this.incomingData.outgoing.split(',');
 
     try {
       this.chargeController =
