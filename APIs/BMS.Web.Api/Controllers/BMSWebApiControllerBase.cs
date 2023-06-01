@@ -298,6 +298,9 @@ namespace BMS.Web.Api.Controllers
         [Newtonsoft.Json.JsonProperty("eth0IPAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Eth0IPAddress { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("macAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MacAddress { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("eth0SubnetMask", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Eth0SubnetMask { get; set; }
 
@@ -565,6 +568,24 @@ namespace BMS.Web.Api.Controllers
         [Newtonsoft.Json.JsonProperty("loadManagementIpAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LoadManagementIpAddress { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("voltageU1", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string voltageU1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("voltageU2", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string voltageU2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("voltageU3", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string voltageU3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("totalEnergy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string totalEnergy { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("powerFactor", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string powerFactor { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("frequency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string frequency { get; set; }
+        
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
 
         [Newtonsoft.Json.JsonExtensionData]
@@ -656,6 +677,63 @@ namespace BMS.Web.Api.Controllers
 
         [Newtonsoft.Json.JsonProperty("externalRelease", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool ExternalRelease { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("CurrentI1", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CurrentI1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("CurrentI2", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CurrentI2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("CurrentI3", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CurrentI3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("VoltageU1", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VoltageU1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("VoltageU2", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VoltageU2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("VoltageU3", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VoltageU3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("totalEnergy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string totalEnergy { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("powerFactor", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string powerFactor { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("frequency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string frequency { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("LocalBusState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LocalBusState { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("ChargingDuration", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ChargingDuration { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("PluginDuration", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string PluginDuration { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("ChargingCurrentLimit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ChargingCurrentLimit { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("BusPosition", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string BusPosition { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("IpAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string IpAddress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("MacAdress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MacAdress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string status { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("errorStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string errorStatus { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("externalTemperature", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string externalTemperature { get; set; }
 
         [Newtonsoft.Json.JsonProperty("names", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.List<string> Names { get; set; }

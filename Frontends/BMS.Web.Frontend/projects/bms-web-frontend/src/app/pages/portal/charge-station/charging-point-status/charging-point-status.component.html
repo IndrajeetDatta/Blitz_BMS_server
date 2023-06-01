@@ -5,6 +5,7 @@
     [navigationBtns]="navigationBtns"
   >
   </app-header-navigation>
+
   <div class="container">
     <div class="row">
       <div class="col">
@@ -13,19 +14,20 @@
             <tbody>
               <tr>
                 <th>Local Bus State</th>
-                <td>test</td>
+                <td>{{ chargePoint?.localBusState || "-" }}</td>
               </tr>
               <tr>
                 <th>Charging Duration</th>
-                <td>test</td>
+                <td>{{ chargePoint?.chargingDuration || "-" }}</td>
               </tr>
+
               <tr>
                 <th>Plug-in Duration</th>
-                <td>test</td>
+                <td>{{ chargePoint?.pluginDuration || "-" }}</td>
               </tr>
               <tr>
                 <th>Charging Current Limit (PWM)</th>
-                <td>test</td>
+                <td>{{ chargePoint?.chargingCurrentLimit || "-" }}</td>
               </tr>
             </tbody>
           </table>
@@ -33,21 +35,24 @@
       </div>
       <div class="col">
         <div class="card m-3 p-3">
+          <h5>Local Bus Information</h5>
           <table class="table table-responsive table-responsive table-hover">
-            <h5>Local Bus Information</h5>
-
             <tbody>
               <tr>
                 <th>Backplane bus position</th>
-                <td>test</td>
+                <td>{{ chargePoint?.busPosition || "-" }}</td>
               </tr>
               <tr>
                 <th>Head Module IP Address</th>
-                <td>test</td>
+                <td>
+                  {{ chargePoint?.chargeController?.eth0IPAddress || "-" }}
+                </td>
               </tr>
               <tr>
                 <th>Head Module MAC Address</th>
-                <td>test</td>
+                <td>
+                  {{ chargePoint?.chargeController?.macAddress || "-" }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -58,44 +63,44 @@
     <div class="row">
       <div class="col">
         <div class="card m-3 p-3">
+          <h5>Energy Meter Data</h5>
           <table class="table table-responsive table-responsive table-hover">
-            <h5>Energy Meter Data</h5>
             <tbody>
               <tr>
                 <th>Current L1</th>
-                <td>test</td>
+                <td>{{ chargePoint?.currentI1 || "-" }}</td>
               </tr>
               <tr>
                 <th>Current L2</th>
-                <td>test</td>
+                <td>{{ chargePoint?.currentI2 || "-" }}</td>
               </tr>
               <tr>
                 <th>Current L3</th>
-                <td>test</td>
+                <td>{{ chargePoint?.currentI3 || "-" }}</td>
               </tr>
               <tr>
                 <th>Voltage U1</th>
-                <td>test</td>
+                <td>{{ chargePoint?.voltageU1 || "-" }}</td>
               </tr>
               <tr>
                 <th>Voltage U2</th>
-                <td>test</td>
+                <td>{{ chargePoint?.voltageU2 || "-" }}</td>
               </tr>
               <tr>
                 <th>Voltage U3</th>
-                <td>test</td>
+                <td>{{ chargePoint?.voltageU3 || "-" }}</td>
               </tr>
               <tr>
                 <th>Total Energy</th>
-                <td>test</td>
+                <td>{{ chargePoint?.totalEnergy || "-" }}</td>
               </tr>
               <tr>
                 <th>Power Factor</th>
-                <td>test</td>
+                <td>{{ chargePoint?.powerFactor || "-" }}</td>
               </tr>
               <tr>
                 <th>Frequency</th>
-                <td>test</td>
+                <td>{{ chargePoint?.frequency || "-" }}</td>
               </tr>
             </tbody>
           </table>
@@ -103,25 +108,24 @@
       </div>
       <div class="col">
         <div class="card m-3 p-3">
+          <h5>Status Charging Point Details</h5>
           <table class="table table-responsive table-responsive table-hover">
-            <h5>Status Charging Point Details</h5>
-
             <tbody>
               <tr>
                 <th>Status</th>
-                <td>test</td>
+                <td>{{ chargePoint?.status || "-" }}</td>
               </tr>
               <tr>
                 <th>Error Status</th>
-                <td>test</td>
+                <td>{{ chargePoint?.errorStatus || "-" }}</td>
               </tr>
               <tr>
                 <th>Current RFID</th>
-                <td>test</td>
+                <td>{{ chargePoint.rfidReader }}</td>
               </tr>
               <tr>
                 <th>External Temperature (PT1000)</th>
-                <td>test</td>
+                <td>{{ chargePoint?.externalTemperature || "-" }}</td>
               </tr>
             </tbody>
           </table>

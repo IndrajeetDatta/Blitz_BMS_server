@@ -65,6 +65,7 @@
             NetworkType = chargingStation.NetworkType;
             Eth0DHCP = chargingStation.ETH0DHCP ?? false;
             Eth0IPAddress = chargingStation.ETH0IPAddress;
+            MacAddress = chargingStation.MacAddress;
             Eth0SubnetMask = chargingStation.ETH0SubnetMask;
             Eth0Gateway = chargingStation.ETH0Gateway;
             Eth0NoGateway = chargingStation.ETH0NoGateway ?? false;

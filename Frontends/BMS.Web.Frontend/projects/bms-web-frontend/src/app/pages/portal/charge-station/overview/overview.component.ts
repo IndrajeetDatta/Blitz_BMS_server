@@ -108,6 +108,33 @@ export class OverviewComponent implements OnInit {
     hiddenElement.click();
   }
 
+  async exportTransactions() {
+    //define the heading for each row of the data
+    let csv = 'Master uId,Transactions,Transaction values\n';
+    //merge the data with CSV
+    const chargeController =
+      await this.chargeStationService.getAllChargingStationOverview();
+    chargeController.forEach(function (chargePoint) {
+      let { chargeController } = chargePoint;
+      if (chargeController!.transactions?.length) {
+        csv += `${chargeController?.serialNumber},${
+          chargeController!.transactions?.length
+        },${JSON.stringify(chargeController!.transactions)}`;
+
+        //${JSON.stringify(chargeController!.transactions)}
+        csv += '\n';
+      }
+    });
+
+    const hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    hiddenElement.target = '_blank';
+
+    //provide the name for the CSV file to be downloaded
+    hiddenElement.download = `Transactions.csv`;
+    hiddenElement.click();
+  }
+
   FilterTableData(inputValue: string) {
     this.refreshStationData(true);
   }

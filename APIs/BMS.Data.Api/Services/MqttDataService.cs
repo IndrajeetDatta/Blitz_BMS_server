@@ -143,10 +143,11 @@ namespace BMS.Data.Api.Utilities
                 newController.NetworkType = AssignValue(newMaster, $"{id}.modem.status._v_.network_type", typeof(string), newController.NetworkType);
                 newController.ETH0DHCP = AssignValue(newMaster, $"{id}.network.config.dhcp", typeof(bool), newController.ETH0DHCP);
                 newController.ETH0IPAddress = AssignValue(newMaster, $"{id}.network.config.addresses", typeof(string), newController.ETH0IPAddress);
+                newController.MacAddress = AssignValue(newMaster, $"{id}.network.status._v_.eth0.mac", typeof(string), newController.MacAddress);
                 newController.ETH0SubnetMask = AssignValue(newMaster, $"{id}.network.config.netmask", typeof(string), newController.ETH0SubnetMask);
                 newController.ETH0Gateway = AssignValue(newMaster, $"{id}.network.config.gateway", typeof(string), newController.ETH0Gateway);
                 newController.ETH0NoGateway = AssignValue(newMaster, $"{id}.network.config.nogateway", typeof(bool), newController.ETH0NoGateway);
-                newController.ModemServiceActive = AssignValue(newMaster, $"{id}.network.config.enabled", typeof(bool), newController.ModemServiceActive);
+                newController.ModemServiceActive = AssignValue(newMaster, $"{id}.modem.config.enabled", typeof(bool), newController.ModemServiceActive);
                 newController.ModemPreferOverETH0 = AssignValue(newMaster, $"{id}.modem.config.prefermodem", typeof(bool), newController.ModemPreferOverETH0);
                 newController.ModemDefaultRoute = AssignValue(newMaster, $"{id}.modem.config.defaultroute", typeof(bool), newController.ModemDefaultRoute);
                 newController.ModemSignalRSSI = AssignValue(newMaster, $"{id}.modem.status._v_.signal_rssi", typeof(int), newController.ModemSignalRSSI);
@@ -188,8 +189,8 @@ namespace BMS.Data.Api.Utilities
                 long volatileAvailableBytes = AssignValue(newMaster, $"{id}.system.status._v_.file_system_disk_space_usage./var/volatile.available", typeof(long), -1);
                 long volatileUsedBytes = AssignValue(newMaster, $"{id}.system.status._v_.file_system_disk_space_usage./var/volatile.used", typeof(long), -1);
                 if (volatileUsedBytes != -1 && volatileAvailableBytes!= -1) newController.VarVolatileTotalBytes = volatileAvailableBytes + volatileUsedBytes;
-                newController.SystemMonitorVersion = AssignValue(newMaster, $"{id}.applications.ms.info.version._v_", typeof(string), newController.SystemMonitorVersion);
-                newController.SystemMonitorStatus = AssignValue(newMaster, $"{id}.applications.ms.alive", typeof(string), newController.SystemMonitorStatus);
+                newController.SystemMonitorVersion = AssignValue(newMaster, $"{id}.applications.sm.info.version._v_", typeof(string), newController.SystemMonitorVersion);
+                newController.SystemMonitorStatus = AssignValue(newMaster, $"{id}.applications.sm.alive", typeof(string), newController.SystemMonitorStatus);
                 newController.ControllerAgentVersion = AssignValue(newMaster, $"{id}.applications.ca.info.version._v_", typeof(string), newController.ControllerAgentVersion);
                 newController.ControllerAgent_Status = AssignValue(newMaster, $"{id}.applications.ca.alive", typeof(string), newController.ControllerAgent_Status);
                 newController.OCPP16_Version = AssignValue(newMaster, $"{id}.applications.ocpp16.info.version._v_", typeof(string), newController.OCPP16_Version);
@@ -234,7 +235,7 @@ namespace BMS.Data.Api.Utilities
                 newController.LoadStrategy = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.agent.load_circuit_measure_device._v_.load_circuits.charging_rule", typeof(string), newController.LoadStrategy);
                 newController.CurrentI1 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current._v_.i1", typeof(string), newController.CurrentI1);
                 newController.CurrentI2 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current._v_.i2", typeof(string), newController.CurrentI2);
-                newController.CurrentI3 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current._v_.i3", typeof(string), newController.CurrentI3);
+                newController.CurrentI3 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current._v_.i3", typeof(string), newController.CurrentI3);   
                 newController.PlannedCurrentI1 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current_planned._v_.i1", typeof(string), newController.PlannedCurrentI1);
                 newController.PlannedCurrentI2 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current_planned._v_.i2", typeof(string), newController.PlannedCurrentI2);
                 newController.PlannedCurrentI3 = AssignValue(newMaster, $"{id}.applications.loadmanagement.data.load_circuit.dispatched_current_planned._v_.i3", typeof(string), newController.PlannedCurrentI3);
@@ -385,6 +386,23 @@ namespace BMS.Data.Api.Utilities
                 newChargePoint.RFIDReaderType = AssignValue(chargingPoint, "rfid_reader_type._v_", typeof(string), newChargePoint.RFIDReaderType);
                 newChargePoint.HighLevelCommunication = AssignValue(chargingPoint, "evse_hlc_policy._v_", typeof(string), newChargePoint.HighLevelCommunication);
                 newChargePoint.ExternalRelease = AssignValue(jObjectChargePoint, "control.external_release._v_", typeof(bool), newChargePoint.ExternalRelease);
+                newChargePoint.LocalBusState = AssignValue(jObjectChargePoint, "status._v_", typeof(string), newChargePoint.LocalBusState);
+                newChargePoint.ChargingDuration = AssignValue(jObjectChargePoint, "data.charge_time_sec._v_", typeof(string), newChargePoint.ChargingDuration);
+                newChargePoint.PluginDuration = AssignValue(jObjectChargePoint, "data.connected_time_sec._v_", typeof(string), newChargePoint.PluginDuration);
+                newChargePoint.ChargingCurrentLimit = AssignValue(jObjectChargePoint, "data.pwm_duty_cycle_ampere._v_", typeof(string), newChargePoint.ChargingCurrentLimit);
+                newChargePoint.BusPosition = AssignValue(jObjectChargePoint, "info._v_.position", typeof(string), newChargePoint.BusPosition);
+                newChargePoint.status = AssignValue(jObjectChargePoint, "data.iec_61851_state._v_", typeof(string), newChargePoint.status);
+                newChargePoint.errorStatus = AssignValue(jObjectChargePoint, "data.error_status_enum._v_", typeof(string), newChargePoint.errorStatus);
+                newChargePoint.externalTemperature = AssignValue(chargingPoint, "temperature_sensor_type._v_", typeof(string), newChargePoint.externalTemperature);
+                newChargePoint.CurrentI1 = AssignValue(jObjectChargePoint, "data.energy._v_.i1.value", typeof(string), newChargePoint.CurrentI1);
+                newChargePoint.CurrentI2 = AssignValue(jObjectChargePoint, "data.energy._v_.i2.value", typeof(string), newChargePoint.CurrentI2);
+                newChargePoint.CurrentI3 = AssignValue(jObjectChargePoint, "data.energy._v_.i3.value", typeof(string), newChargePoint.CurrentI3);
+                newChargePoint.VoltageU1 = AssignValue(jObjectChargePoint, "data.energy._v_.u1.value", typeof(string), newChargePoint.VoltageU1);
+                newChargePoint.VoltageU2 = AssignValue(jObjectChargePoint, "data.energy._v_.u2.value", typeof(string), newChargePoint.VoltageU2);
+                newChargePoint.VoltageU3 = AssignValue(jObjectChargePoint, "data.energy._v_.u3.value", typeof(string), newChargePoint.VoltageU3);
+                newChargePoint.totalEnergy = AssignValue(jObjectChargePoint, "data.energy._v_.energy_real_power.value", typeof(string), newChargePoint.totalEnergy);
+                newChargePoint.powerFactor = AssignValue(jObjectChargePoint, "data.energy._v_.power_factor.value", typeof(string), newChargePoint.powerFactor);
+                newChargePoint.frequency = AssignValue(jObjectChargePoint, "data.energy._v_.frequency.value", typeof(string), newChargePoint.frequency);
                 break;
             }
 

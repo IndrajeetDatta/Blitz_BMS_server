@@ -33,6 +33,23 @@
             RfidReaderType = chargePoint.RFIDReaderType;
             HighLevelCommunication = chargePoint.HighLevelCommunication;
             ExternalRelease = chargePoint.ExternalRelease ?? false;
+            LocalBusState = chargePoint.LocalBusState;
+            ChargingDuration = chargePoint.ChargingDuration;
+            PluginDuration = chargePoint.PluginDuration;
+            ChargingCurrentLimit = chargePoint.ChargingCurrentLimit;
+            BusPosition = chargePoint.BusPosition;
+            status = chargePoint.status;
+            errorStatus = chargePoint.errorStatus;
+            externalTemperature = chargePoint.externalTemperature;
+            CurrentI1 = chargePoint.CurrentI1;
+            CurrentI2 = chargePoint.CurrentI2;
+            CurrentI3 = chargePoint.CurrentI3;
+            VoltageU1 = chargePoint.VoltageU1;
+            VoltageU2 = chargePoint.VoltageU2;
+            VoltageU3 = chargePoint.VoltageU3;
+            totalEnergy = chargePoint.totalEnergy;
+            powerFactor = chargePoint.powerFactor;
+            frequency = chargePoint.frequency;
         }
     }
 }

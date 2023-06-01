@@ -273,7 +273,7 @@ namespace BMS.Web.Api.Controllers
                 return new StatusCodeResult(500);
             }
         }
-        
+
         public async override Task<ActionResult<ChargePoint>> GetChargeStationChargePoint([FromHeader] string userEmail, [FromHeader] string externalId, int id)
         {
             try

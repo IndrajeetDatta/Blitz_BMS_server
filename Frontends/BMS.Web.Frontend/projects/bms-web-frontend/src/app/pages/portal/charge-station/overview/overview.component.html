@@ -5,6 +5,14 @@
     <div class="text-center p">
       <button
         class="basic-button mx-2 black-color large-button"
+        (click)="exportTransactions()"
+      >
+        {{ "overview.export-transactions" | translate }}
+      </button>
+    </div>
+    <div class="text-center p mt-2">
+      <button
+        class="basic-button mx-2 black-color large-button"
         (click)="exportChargingStations()"
       >
         {{ "overview.export-charging-stations" | translate }}

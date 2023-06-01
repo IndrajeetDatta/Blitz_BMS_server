@@ -8,7 +8,8 @@ export const environment = {
   USERDATA_KEY: 'udk',
 
   production: false,
-  bmsWebApiBaseUrl: 'https://azapp-bms-web-api-dev.azurewebsites.net/api',
+  //bmsWebApiBaseUrl: 'https://azapp-bms-web-api-prod.azurewebsites.net/api',
+  bmsWebApiBaseUrl: 'https://localhost:7180/api',
   auth0: {
     domain: auth0_config.domain,
     clientId: auth0_config.clientId,

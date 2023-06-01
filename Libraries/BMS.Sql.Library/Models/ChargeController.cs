@@ -52,6 +52,7 @@ namespace BMS.Sql.Library.Models
         public bool? ETH0DHCP { get; set; }
 
         public string? ETH0IPAddress { get; set; }
+        public string? MacAddress { get; set; }
         public string? ETH0SubnetMask { get; set; }
         public string? ETH0Gateway { get; set; }
         public bool? ETH0NoGateway { get; set; }

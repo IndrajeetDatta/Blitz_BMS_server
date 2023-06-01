@@ -37,6 +37,23 @@
         public string? HighLevelCommunication { get; set; }
         public string? SlaveSerialNumber { get; set; }
         public bool? ExternalRelease { get; set; }
+        public string? CurrentI1 { get; set; }
+        public string? CurrentI2 { get; set; }
+        public string? CurrentI3 { get; set; }
+        public string? VoltageU1 { get; set; }
+        public string? VoltageU2 { get; set; }
+        public string? VoltageU3 { get; set; }
+        public string? totalEnergy { get; set; }
+        public string? powerFactor { get; set; }
+        public string? frequency { get; set; }
+        public string? LocalBusState { get; set; }
+        public string? ChargingDuration { get; set; }
+        public string? PluginDuration { get; set; }
+        public string? ChargingCurrentLimit { get; set; }
+        public string? BusPosition { get; set; }
+        public string? status { get; set; }
+        public string? errorStatus { get; set; }
+        public string? externalTemperature { get; set; }
     }
 
     public enum ChargePointState { A1, C2, E, B1 }

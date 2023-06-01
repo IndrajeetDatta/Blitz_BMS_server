@@ -65,5 +65,10 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "ng-packagr": "^14.0.0",
     "typescript": "~4.7.2"
+  },
+  "config": {
+    "allowedNonPeerDependencies": [
+      "@ngx-translate/http-loader"
+    ]
   }
 }
